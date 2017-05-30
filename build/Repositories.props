@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <Repository Include="Antiforgery" Commit="" />
-    <Repository Include="AzureIntegration" Commit="" />
-    <Repository Include="BasicMiddleware" Commit="" />
+    <Repository Include="AzureIntegration" Commit="" Branch="pakrym/react-loggin-di"/>
+    <Repository Include="BasicMiddleware" Commit="" Branch="pakrym/react-to-logging" />
     <Repository Include="BrowserLink" Commit="" />
     <Repository Include="Caching" Commit="" />
     <Repository Include="Common" Commit="" />
@@ -19,11 +19,11 @@
     <Repository Include="DependencyInjection" Commit="" />
     <Repository Include="Diagnostics" Commit="" />
     <Repository Include="DotNetTools" Commit="" />
-    <Repository Include="EntityFramework" Commit="" />
+    <Repository Include="EntityFramework" Commit=""/>
     <Repository Include="Entropy" Commit="" />
     <Repository Include="EventNotification" Commit="" />
     <Repository Include="FileSystem" Commit="" />
-    <Repository Include="Hosting" Commit="" />
+    <Repository Include="Hosting" Commit="" Branch="pakrym/react-to-logging"/>
     <Repository Include="HtmlAbstractions" Commit="" />
     <Repository Include="HttpAbstractions" Commit="" />
     <Repository Include="HttpSysServer" Commit="" />
@@ -31,9 +31,9 @@
     <Repository Include="IISIntegration" Commit="" />
     <Repository Include="JavaScriptServices" Commit="" />
     <Repository Include="JsonPatch" Commit="" />
-    <Repository Include="KestrelHttpServer" Commit="" />
+    <Repository Include="KestrelHttpServer" Commit="" Branch="pakrym/react-to-logging" />
     <Repository Include="Localization" Commit="" />
-    <Repository Include="Logging" Commit="" />
+    <Repository Include="Logging" Commit="" Branch="pakrym/logging-spike"/>
     <Repository Include="MetaPackages" Commit="" />
     <Repository Include="Microsoft.Data.Sqlite" Commit="" />
     <Repository Include="MusicStore" Commit="" />
