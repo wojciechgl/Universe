@@ -33,7 +33,7 @@
     <Repository Include="JsonPatch" Commit="" />
     <Repository Include="KestrelHttpServer" Commit="" />
     <Repository Include="Localization" Commit="" />
-    <Repository Include="Logging" Commit="" />
+    <Repository Include="Logging" Commit="" Branch="pakrym/def-level"/>
     <Repository Include="MetaPackages" Commit="" />
     <Repository Include="Microsoft.Data.Sqlite" Commit="" />
     <Repository Include="MusicStore" Commit="" />
