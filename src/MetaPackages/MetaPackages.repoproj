@@ -1,0 +1,15 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ref\External\External.proj" />
+    <ProjectReference Include="..\Configuration\Configuration.repoproj" />
+    <ProjectReference Include="..\Diagnostics\Diagnostics.repoproj" />
+    <ProjectReference Include="..\IISIntegration\IISIntegration.repoproj" />
+    <ProjectReference Include="..\KestrelHttpServer\KestrelHttpServer.repoproj" />
+    <ProjectReference Include="..\Logging\Logging.repoproj" />
+    <ProjectReference Include="..\Routing\Routing.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

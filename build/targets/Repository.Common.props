@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <CompileFromSource>true</CompileFromSource>
+    <BuildInParallel>true</BuildInParallel>
+    <Configuration>Debug</Configuration>
+    <Platform>AnyCPU</Platform>
+    <BuildNumber>t000</BuildNumber>
+    <UniverseRepositoryRoot>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..\..\))</UniverseRepositoryRoot>
+    <UniverseArtifactsDir>$(UniverseRepositoryRoot)artifacts\</UniverseArtifactsDir>
+    <UniverseBuildDir>$(UniverseArtifactsDir)build\</UniverseBuildDir>
+
+    <RepositoryRoot>$(MSBuildProjectDirectory)\src\</RepositoryRoot>
+
+    <BuildArgs Condition="'$(OS)'!='Windows_NT'">$(RepositoryRoot)build.sh</BuildArgs>
+    <BuildArgs Condition="'$(OS)'=='Windows_NT'">$(RepositoryRoot)build.cmd</BuildArgs>
+    <BuildArgs>$(BuildArgs) /clp:NoSummary</BuildArgs>
+    <BuildArgs>$(BuildArgs) /p:GenerateFullPaths=true</BuildArgs>
+    <BuildArgs Condition="'$(RestorePackagesPath)' != ''">$(BuildArgs) /p:RestorePackagesPath=$(RestorePackagesPath)</BuildArgs>
+  </PropertyGroup>
+</Project>

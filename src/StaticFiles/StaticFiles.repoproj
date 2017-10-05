@@ -1,0 +1,14 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ref\External\External.proj" />
+    <ProjectReference Include="..\FileSystem\FileSystem.repoproj" />
+    <ProjectReference Include="..\HtmlAbstractions\HtmlAbstractions.repoproj" />
+    <ProjectReference Include="..\IISIntegration\IISIntegration.repoproj" />
+    <ProjectReference Include="..\KestrelHttpServer\KestrelHttpServer.repoproj" />
+    <ProjectReference Include="..\HttpSysServer\HttpSysServer.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

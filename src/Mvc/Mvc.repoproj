@@ -1,0 +1,17 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ref\External\External.proj" />
+    <ProjectReference Include="..\Security\Security.repoproj" />
+    <ProjectReference Include="..\ResponseCaching\ResponseCaching.repoproj" />
+    <ProjectReference Include="..\CORS\CORS.repoproj" />
+    <ProjectReference Include="..\Localization\Localization.repoproj" />
+    <ProjectReference Include="..\JsonPatch\JsonPatch.repoproj" />
+    <ProjectReference Include="..\Razor\Razor.repoproj" />
+    <ProjectReference Include="..\Antiforgery\Antiforgery.repoproj" />
+    <ProjectReference Include="..\Session\Session.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

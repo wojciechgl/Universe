@@ -1,0 +1,53 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuntimeStore\RuntimeStore.proj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+
+  <PropertyGroup>
+    <ResolveReferencesDependsOn>
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveRuntimeStoreManifestFiles;
+    </ResolveReferencesDependsOn>
+    <CoreBuildDependsOn>
+      GetTargetPath;
+    </CoreBuildDependsOn>
+    <CoreBuildDependsOn Condition=" '$(DesignTimeBuild)' != 'true' ">
+      Compile;
+    </CoreBuildDependsOn>
+    <GetTargetPathDependsOn>
+      ResolveArtifacts;
+    </GetTargetPathDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ResolveArtifacts">
+    <ItemGroup>
+      <Artifact Include="$(OutputPath)microsoft.aspnetcore.all.$(Version).nupkg">
+        <Type>NuGetPackage</Type>
+        <PackageId>Microsoft.AspNetCore.All</PackageId>
+        <Version>$(Version)</Version>
+      </Artifact>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ResolveRuntimeStoreManifestFiles">
+    <RemoveDuplicates Inputs="@(_ResolvedProjectReferencePaths)">
+      <Output TaskParameter="Filtered" ItemName="DependencyArtifact" />
+    </RemoveDuplicates>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="ResolveReferences">
+    <!-- TODO (nate): resolve DependencyArtifact into PackageFiles and PackageDependencies -->
+    <!-- <PackNuSpec NuspecFile="$(MSBuildThisFileDirectory)Microsoft.AspNetCore.All.nuspec"
+      Files="@(PackageFiles)"
+      Dependencies="@(PackageDependencies)"
+      Properties="version=$(Version)"
+      DestinationFolder="$(OutputPath)" /> -->
+  </Target>
+
+</Project>

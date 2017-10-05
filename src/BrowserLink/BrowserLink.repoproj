@@ -1,0 +1,11 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ref\External\External.proj" />
+    <ProjectReference Include="..\Hosting\Hosting.repoproj" />
+    <ProjectReference Include="..\FileSystem\FileSystem.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

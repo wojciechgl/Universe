@@ -1,0 +1,17 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <PropertyGroup>
+    <CompileFromSource>false</CompileFromSource>
+    <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+    <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+    <Test>true</Test>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ref\External\External.proj" />
+    <ProjectReference Include="..\Testing\Testing.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

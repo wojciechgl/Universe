@@ -1,47 +1,22 @@
-<Project>
-  <Import Project="RepositoryBuild.targets" />
-  <Import Project="RuntimeStore.targets" />
+<Project InitialTargets="GenerateKoreBuildPropsFile">
   <Import Project="push.targets" />
 
   <PropertyGroup>
-    <_CloneRepositoryRoot>$(RepositoryRoot).r\</_CloneRepositoryRoot>
-    <ClearRepositoryCloneRoot Condition="'$(SkipClone)' == 'true'">false</ClearRepositoryCloneRoot>
     <_DependencyBuildDirectory>$(RepositoryRoot).deps\build\</_DependencyBuildDirectory>
-    <_DependencyPackagesDirectory>$(_DependencyBuildDirectory)</_DependencyPackagesDirectory>
 
-    <_RepositoryListFileName>Repositories.props</_RepositoryListFileName>
-    <_DefaultRepositoryList>$(MSBuildThisFileDirectory)$(_RepositoryListFileName)</_DefaultRepositoryList>
-    <_DependencyRepositoryList>$(_DependencyBuildDirectory)$(_RepositoryListFileName)</_DependencyRepositoryList>
-    <_RepositoryListToImport Condition="Exists('$(_DependencyRepositoryList)')">$(_DependencyRepositoryList)</_RepositoryListToImport>
-    <_RepositoryListToImport Condition="!Exists('$(_DependencyRepositoryList)')">$(_DefaultRepositoryList)</_RepositoryListToImport>
-
-    <_RepositoryBuildTargets Condition="'$(_RepositoryBuildTargets)'=='' AND '$(CompileOnly)'=='true'">/t:Package /t:VerifyPackages</_RepositoryBuildTargets>
-    <_RepositoryBuildTargets Condition="'$(_RepositoryBuildTargets)'==''">/t:Verify</_RepositoryBuildTargets>
-    <!-- For external packages that come from feeds will mirrored to aspnetcore feeds. -->
-    <IntermediateMirrorPackageDir>$(IntermediateDir)mirror\</IntermediateMirrorPackageDir>
-    <!-- For external packages that come from feeds we don't mirror. -->
-    <IntermediateExternalPackageDir>$(IntermediateDir)ext\</IntermediateExternalPackageDir>
-    <GeneratedPackageVersionPropsPath>$(IntermediateDir)dependencies.props</GeneratedPackageVersionPropsPath>
-    <GeneratedRestoreSourcesPropsPath>$(IntermediateDir)sources.props</GeneratedRestoreSourcesPropsPath>
-    <TcVcsIdPrefix>Patch20_</TcVcsIdPrefix>
-
-    <CleanDependsOn>$(CleanDependsOn);CleanArtifacts;CleanUniverseArtifacts</CleanDependsOn>
-    <RestoreDependsOn>$(RestoreDependsOn);RestoreExternalDependencies</RestoreDependsOn>
-    <CompileDependsOn>$(CompileDependsOn);CloneRepositories;BuildRepositories</CompileDependsOn>
-    <PackageDependsOn>$(PackageDependsOn);BuildAllMetapackage;SplitPackages</PackageDependsOn>
+    <CleanDependsOn>$(CleanDependsOn);CleanArtifacts</CleanDependsOn>
+    <RestoreDependsOn></RestoreDependsOn>
+    <CompileDependsOn></CompileDependsOn>
+    <PackageDependsOn>$(PackageDependsOn);SplitPackages</PackageDependsOn>
     <VerifyDependsOn>$(VerifyDependsOn);VerifyCoherentVersions</VerifyDependsOn>
   </PropertyGroup>
 
-  <Import Project="$(_RepositoryListToImport)" />
-
-  <Target Name="RestoreExternalDependencies">
-    <RepoTasks.DownloadNuGetPackages
-      Packages="@(ExternalDependency->WithMetadataValue('Mirror', 'false'))"
-      DestinationFolder="$(IntermediateExternalPackageDir)" />
-
-    <RepoTasks.DownloadNuGetPackages
-      Packages="@(ExternalDependency->WithMetadataValue('Mirror', 'true'))"
-      DestinationFolder="$(IntermediateMirrorPackageDir)" />
+  <Target Name="GenerateKoreBuildPropsFile">
+    <ItemGroup>
+      <_KoreBuildPropsFile Include="%3CProject>%3CPropertyGroup>%3CBuildNumber>$(BuildNumber)%3C/BuildNumber>%3CKoreBuildProjectFullPath>$(MSBuildProjectFullPath)%3C/KoreBuildProjectFullPath>%3C/PropertyGroup>%3C/Project>" />
+    </ItemGroup>
+    <MakeDir Directories="$(IntermediateDir)" />
+    <WriteLinesToFile File="$(IntermediateDir)korebuild.g.props" Lines="@(_KoreBuildPropsFile)" Overwrite="true" />
   </Target>
 
   <Target Name="GeneratePropsFiles" DependsOnTargets="ResolveRepoInfo">
@@ -66,94 +41,7 @@
       OutputPath="$(GeneratedRestoreSourcesPropsPath)" />
   </Target>
 
-  <Target Name="CleanUniverseArtifacts">
-    <RemoveDir Directories="$(_CloneRepositoryRoot)" Condition="Exists('$(_CloneRepositoryRoot)') AND '$(ClearRepositoryCloneRoot)' != 'false'" />
-    <RemoveDir Directories="$(RepositoryRoot)obj" Condition="Exists('$(RepositoryRoot)obj')" />
-  </Target>
-
-  <Target Name="_PrepareRepositories">
-    <ItemGroup Condition="'$(KOREBUILD_REPOSITORY_INCLUDE)'!=''">
-      <_RepositoriesToInclude Include="$(KOREBUILD_REPOSITORY_INCLUDE)" />
-      <Repository
-        Remove="@(Repository)"
-        Condition="'@(Repository)'!='@(_RepositoriesToInclude)' AND '%(Identity)'!=''" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(KOREBUILD_REPOSITORY_EXCLUDE)'!=''">
-      <RepositoriesToExclude Include="$(KOREBUILD_REPOSITORY_EXCLUDE)" />
-      <Repository Remove="@(RepositoriesToExclude)" />
-    </ItemGroup>
-
-    <Error Text="KOREBUILD_REPOSITORY_EXCLUDE AND KOREBUILD_REPOSITORY_INCLUDE are specified."
-      Condition="'$(KOREBUILD_REPOSITORY_INCLUDE)' != '' AND '$(KOREBUILD_REPOSITORY_EXCLUDE)' != ''" />
-
-    <ItemGroup>
-      <Repository Update="%(Identity)" RepositoryPath="$(_CloneRepositoryRoot)%(Identity)" />
-    </ItemGroup>
-  </Target>
-
-  <Target Name="CloneRepositories" DependsOnTargets="_PrepareRepositories" Condition="'$(SkipClone)' != 'true'">
-    <ItemGroup>
-      <_CloneRepositories Include="@(Repository)" />
-      <_CloneRepositories Remove="%(Repository.Identity)" Condition="$([System.Environment]::GetEnvironmentVariable('BUILD_VCS_NUMBER_$(TcVcsIdPrefix)%(Repository.Identity)')) != ''" />
-      <_CloneRepositories Include="@(ShippedRepository)" />
-      <_CloneRepository Include="$(MSBuildProjectFullPath)">
-        <AdditionalProperties>
-          CloneRepository=%(_CloneRepositories.Identity);
-          CloneUrl=%(_CloneRepositories.CloneUrl);
-          CloneBranch=%(_CloneRepositories.Branch);
-          CloneRepositoryCommit=%(_CloneRepositories.Commit);
-          UseGateBranch=$(UseGateBranch)
-        </AdditionalProperties>
-      </_CloneRepository>
-    </ItemGroup>
-
-    <Message Text="Using the repository list information from '$(_RepositoryListToImport)' to clone ..." Importance="High" />
-
-    <MakeDir Directories="$(_CloneRepositoryRoot)" />
-
-    <MSBuild Projects="@(_CloneRepository)"
-      Targets="_CloneRepository"
-      BuildInParallel="$(BuildInParallel)" />
-
-  </Target>
-
-  <Target Name="_CloneRepository">
-    <PropertyGroup>
-      <ShallowClone Condition="'$(ShallowClone)'=='' OR '$(CloneRepositoryCommit)'!=''">false</ShallowClone>
-      <_CloneArguments>git clone --quiet $(CloneUrl) $(CloneRepository)</_CloneArguments>
-      <_CloneArguments Condition="'$(ShallowClone)'=='true'">$(_CloneArguments) --depth 1</_CloneArguments>
-    </PropertyGroup>
-
-    <Message Text="Cloning $(CloneRepository) ..." Importance="High" />
-    <Exec
-      Command="$(_CloneArguments) --branch $(CloneBranch)-gate"
-      Condition="'$(UseGateBranch)'=='true'"
-      IgnoreExitCode="true"
-      IgnoreStandardErrorWarningFormat="true"
-      WorkingDirectory="$(_CloneRepositoryRoot)">
-      <Output TaskParameter="ExitCode" PropertyName="GateBranchExitCode" />
-    </Exec>
-
-    <Warning Text="Using $(CloneBranch)-gate for $(CloneRepository)"
-      Condition="'$(GateBranchExitCode)'=='0'" />
-
-    <Exec
-      Command="$(_CloneArguments) --branch $(CloneBranch)"
-      Condition="'$(GateBranchExitCode)'!='0'"
-      WorkingDirectory="$(_CloneRepositoryRoot)" />
-
-    <Message Text="Resetting $(CloneRepository) commit to $(CloneRepositoryCommit) ..." Importance="High" Condition="'$(CloneRepositoryCommit)'!=''"/>
-    <Exec
-      Command="git reset --quiet --hard $(CloneRepositoryCommit)"
-      WorkingDirectory="$(_CloneRepositoryRoot)$(CloneRepository)"
-      Condition="'$(CloneRepositoryCommit)'!=''" />
-  </Target>
-
-  <Target Name="BuildRepositories"
-     DependsOnTargets="_PrepareRepositories;_CreateRepositoriesListWithCommits;GeneratePropsFiles;ComputeGraph;_BuildRepositories" />
-
-  <Target Name="ResolveRepoInfo" DependsOnTargets="_PrepareRepositories">
+  <Target Name="ResolveRepoInfo">
     <MSBuild Projects="$(MSBuildProjectFullPath)"
              Targets="GetArtifactInfo"
              Properties="RepositoryRoot=$(_CloneRepositoryRoot)%(Repository.Identity)\;Configuration=$(Configuration);BuildNumber=$(BuildNumber)"
@@ -200,9 +88,13 @@
       Artifacts="@(ArtifactInfo)"
       Dependencies="@(ExternalDependency)"
       StartGraphAt="$(BuildGraphOf)"
+<<<<<<< HEAD
       Properties="Configuration=$(Configuration);BuildNumber=$(BuildNumber);DotNetPackageVersionPropsPath=$(GeneratedPackageVersionPropsPath);DotNetRestoreSourcePropsPath=$(GeneratedRestoreSourcesPropsPath)">
       <Output TaskParameter="RepositoryBuildOrder" ItemName="RepositoryBuildOrder" />
     </RepoTasks.AnalyzeBuildGraph>
+=======
+      Properties="Configuration=$(Configuration);BuildNumber=$(BuildNumber);DotNetPackageVersionPropsPath=$(GeneratedPackageVersionPropsPath);DotNetRestoreSourcePropsPath=$(GeneratedRestoreSourcesPropsPath)" />
+>>>>>>> WIP implementation of the project reference build
   </Target>
 
   <Target Name="SplitPackages">
@@ -228,58 +120,5 @@
     <RepoTasks.VerifyCoherentVersions
       PackageFiles="@(ShippingPackageFiles)"
       ExternalDependencies="@(ExternalDependency);@(ShippedExternalDependency)" />
-  </Target>
-
-  <Target Name="_CreateRepositoriesListWithCommits" DependsOnTargets="_GetRepositoryCommits">
-    <PropertyGroup>
-      <RepositoryFileWithCommit>$(BuildDir)$(_RepositoryListFileName)</RepositoryFileWithCommit>
-    </PropertyGroup>
-    <Copy
-      SourceFiles="$(_DefaultRepositoryList)"
-      DestinationFiles="$(RepositoryFileWithCommit)" />
-
-    <XmlPoke
-      XmlInputPath="$(RepositoryFileWithCommit)"
-      Query="//Repository[@Include='%(Repository.Identity)']/@Commit"
-      Value="%(Repository.Commit)" />
-
-    <XmlPoke
-      XmlInputPath="$(RepositoryFileWithCommit)"
-      Query="//Repository[@Include='%(Repository.Identity)']/@CloneUrl"
-      Value="%(Repository.CloneUrl)" />
-  </Target>
-
-  <!-- Based on the solution here: http://stackoverflow.com/a/11331566 -->
-  <Target Name="_GetRepositoryCommits" Outputs="%(Repository.Identity)">
-    <PropertyGroup>
-      <!--
-        Attempt to read environment variables set up by the CI's VCS Root if available.
-        * BUILD_VCS_URL_<RepositoryName> gives us the clone URL for a repository
-        * BUILD_VCS_NUMBER_<RepositoryName> gives us the commit hash for a repository.
-      -->
-      <_RepositoryName>$([System.String]::new('%(Repository.Identity)').Replace('.', '_'))</_RepositoryName>
-      <_CloneUrl>$([System.Environment]::GetEnvironmentVariable("BUILD_VCS_URL_$(TcVcsIdPrefix)$(_RepositoryName)"))</_CloneUrl>
-      <_CommitHash>$([System.Environment]::GetEnvironmentVariable("BUILD_VCS_NUMBER_$(TcVcsIdPrefix)$(_RepositoryName)"))</_CommitHash>
-    </PropertyGroup>
-
-    <Warning Text="%(Repository.Identity) has not been cloned."
-      Condition="!Exists('%(Repository.RepositoryPath)')" />
-
-    <GetGitCommitInfo
-      WorkingDirectory="%(Repository.RepositoryPath)"
-      Condition="'$(_CommitHash)'=='' AND Exists('%(Repository.RepositoryPath)')">
-
-      <Output TaskParameter="CommitHash" PropertyName="_CommitHash" />
-    </GetGitCommitInfo>
-
-    <ItemGroup>
-      <Repository Update="%(Identity)" Commit="$(_CommitHash)" />
-      <Repository Update="%(Identity)" CloneUrl="$(_CloneUrl)" Condition="'$(_CloneUrl)'!=''" />
-    </ItemGroup>
-
-    <PropertyGroup>
-      <_CommitHash></_CommitHash>
-      <_CloneUrl></_CloneUrl>
-    </PropertyGroup>
   </Target>
 </Project>

@@ -1,0 +1,168 @@
+[submodule "src/Antiforgery/src"]
+	path = src/Antiforgery/src
+	url = https://github.com/aspnet/Antiforgery.git
+	branch = rel/2.0.1
+[submodule "src/AzureIntegration/src"]
+	path = src/AzureIntegration/src
+	url = https://github.com/aspnet/AzureIntegration.git
+	branch = rel/2.0.1
+[submodule "src/BasicMiddleware/src"]
+	path = src/BasicMiddleware/src
+	url = https://github.com/aspnet/BasicMiddleware.git
+	branch = rel/2.0.1
+[submodule "src/BrowserLink/src"]
+	path = src/BrowserLink/src
+	url = https://github.com/aspnet/BrowserLink.git
+	branch = rel/2.0.1
+[submodule "src/Caching/src"]
+	path = src/Caching/src
+	url = https://github.com/aspnet/Caching.git
+	branch = patch/2.0.1
+[submodule "src/Common/src"]
+	path = src/Common/src
+	url = https://github.com/aspnet/Common.git
+	branch = patch/2.0.1
+[submodule "src/Configuration/src"]
+	path = src/Configuration/src
+	url = https://github.com/aspnet/Configuration.git
+	branch = patch/2.0.1
+[submodule "src/CORS/src"]
+	path = src/CORS/src
+	url = https://github.com/aspnet/CORS.git
+	branch = rel/2.0.1
+[submodule "src/EventNotification/src"]
+	path = src/EventNotification/src
+	url = https://github.com/aspnet/EventNotification.git
+	branch = patch/2.0.1
+[submodule "src/DataProtection/src"]
+	path = src/DataProtection/src
+	url = https://github.com/aspnet/DataProtection.git
+	branch = rel/2.0.1
+[submodule "src/DependencyInjection/src"]
+	path = src/DependencyInjection/src
+	url = https://github.com/aspnet/DependencyInjection.git
+	branch = patch/2.0.1
+[submodule "src/Diagnostics/src"]
+	path = src/Diagnostics/src
+	url = https://github.com/aspnet/Diagnostics.git
+	branch = rel/2.0.1
+[submodule "src/DotNetTools/src"]
+	path = src/DotNetTools/src
+	url = https://github.com/aspnet/DotNetTools.git
+	branch = patch/2.0.1
+[submodule "src/EntityFrameworkCore/src"]
+	path = src/EntityFrameworkCore/src
+	url = https://github.com/aspnet/EntityFrameworkCore.git
+	branch = rel/2.0.1
+[submodule "src/FileSystem/src"]
+	path = src/FileSystem/src
+	url = https://github.com/aspnet/FileSystem.git
+	branch = patch/2.0.1
+[submodule "src/Hosting/src"]
+	path = src/Hosting/src
+	url = https://github.com/aspnet/Hosting.git
+	branch = rel/2.0.1
+[submodule "src/HtmlAbstractions/src"]
+	path = src/HtmlAbstractions/src
+	url = https://github.com/aspnet/HtmlAbstractions.git
+	branch = patch/2.0.1
+[submodule "src/HttpAbstractions/src"]
+	path = src/HttpAbstractions/src
+	url = https://github.com/aspnet/HttpAbstractions.git
+	branch = rel/2.0.1
+[submodule "src/HttpSysServer/src"]
+	path = src/HttpSysServer/src
+	url = https://github.com/aspnet/HttpSysServer.git
+	branch = rel/2.0.1
+[submodule "src/Identity/src"]
+	path = src/Identity/src
+	url = https://github.com/aspnet/Identity.git
+	branch = rel/2.0.1
+[submodule "src/IISIntegration/src"]
+	path = src/IISIntegration/src
+	url = https://github.com/aspnet/IISIntegration.git
+	branch = rel/2.0.1
+[submodule "src/JavaScriptServices/src"]
+	path = src/JavaScriptServices/src
+	url = https://github.com/aspnet/JavaScriptServices.git
+	branch = rel/2.0.1
+[submodule "src/JsonPatch/src"]
+	path = src/JsonPatch/src
+	url = https://github.com/aspnet/JsonPatch.git
+	branch = patch/2.0.1
+[submodule "src/KestrelHttpServer/src"]
+	path = src/KestrelHttpServer/src
+	url = https://github.com/aspnet/KestrelHttpServer.git
+	branch = rel/2.0.1
+[submodule "src/Localization/src"]
+	path = src/Localization/src
+	url = https://github.com/aspnet/Localization.git
+	branch = rel/2.0.1
+[submodule "src/Logging/src"]
+	path = src/Logging/src
+	url = https://github.com/aspnet/Logging.git
+	branch = patch/2.0.1
+[submodule "src/MetaPackages/src"]
+	path = src/MetaPackages/src
+	url = https://github.com/aspnet/MetaPackages.git
+	branch = rel/2.0.1
+[submodule "src/Microsoft.Data.Sqlite/src"]
+	path = src/Microsoft.Data.Sqlite/src
+	url = https://github.com/aspnet/Microsoft.Data.Sqlite.git
+	branch = patch/2.0.1
+[submodule "src/Mvc/src"]
+	path = src/Mvc/src
+	url = https://github.com/aspnet/Mvc.git
+	branch = rel/2.0.1
+[submodule "src/MvcPrecompilation/src"]
+	path = src/MvcPrecompilation/src
+	url = https://github.com/aspnet/MvcPrecompilation.git
+	branch = rel/2.0.1
+[submodule "src/Options/src"]
+	path = src/Options/src
+	url = https://github.com/aspnet/Options.git
+	branch = patch/2.0.1
+[submodule "src/Proxy/src"]
+	path = src/Proxy/src
+	url = https://github.com/aspnet/Proxy.git
+	branch = rel/2.0.1
+[submodule "src/Razor/src"]
+	path = src/Razor/src
+	url = https://github.com/aspnet/Razor.git
+	branch = rel/2.0.1
+[submodule "src/ResponseCaching/src"]
+	path = src/ResponseCaching/src
+	url = https://github.com/aspnet/ResponseCaching.git
+	branch = rel/2.0.1
+[submodule "src/Routing/src"]
+	path = src/Routing/src
+	url = https://github.com/aspnet/Routing.git
+	branch = rel/2.0.1
+[submodule "src/Scaffolding/src"]
+	path = src/Scaffolding/src
+	url = https://github.com/aspnet/Scaffolding.git
+	branch = rel/2.0.1
+[submodule "src/Security/src"]
+	path = src/Security/src
+	url = https://github.com/aspnet/Security.git
+	branch = rel/2.0.1
+[submodule "src/Session/src"]
+	path = src/Session/src
+	url = https://github.com/aspnet/Session.git
+	branch = rel/2.0.1
+[submodule "src/StaticFiles/src"]
+	path = src/StaticFiles/src
+	url = https://github.com/aspnet/StaticFiles.git
+	branch = rel/2.0.1
+[submodule "src/Testing/src"]
+	path = src/Testing/src
+	url = https://github.com/aspnet/Testing.git
+	branch = patch/2.0.1
+[submodule "src/WebSockets/src"]
+	path = src/WebSockets/src
+	url = https://github.com/aspnet/WebSockets.git
+	branch = rel/2.0.1
+[submodule "test/ServerTests/src"]
+	path = test/ServerTests/src
+	url = https://github.com/aspnet/ServerTests.git
+	branch = rel/2.0.1

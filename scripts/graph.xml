@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sources>
+  <GitRepo Name="Antiforgery" Source="https://github.com/aspnet/Antiforgery.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="DataProtection" />
+    <DependsOn GitRepo="HttpAbstractions" />
+    <DependsOn GitRepo="Common" />
+    <DependsOn GitRepo="Testing" />
+    <DependsOn GitRepo="HtmlAbstractions" />
+  </GitRepo>
+  <GitRepo Name="AzureIntegration" Source="https://github.com/aspnet/AzureIntegration.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Mvc" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="BasicMiddleware" Source="https://github.com/aspnet/BasicMiddleware.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="BrowserLink" Source="https://github.com/aspnet/BrowserLink.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Hosting" />
+    <DependsOn GitRepo="FileSystem" />
+  </GitRepo>
+  <GitRepo Name="Caching" Source="https://github.com/aspnet/Caching.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Options" />
+  </GitRepo>
+  <GitRepo Name="Common" Source="https://github.com/aspnet/Common.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+  </GitRepo>
+  <GitRepo Name="Configuration" Source="https://github.com/aspnet/Configuration.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="FileSystem" />
+  </GitRepo>
+  <GitRepo Name="CORS" Source="https://github.com/aspnet/CORS.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="KestrelHttpServer" />
+    <DependsOn GitRepo="IISIntegration" />
+  </GitRepo>
+  <GitRepo Name="DataProtection" Source="https://github.com/aspnet/DataProtection.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Hosting" />
+  </GitRepo>
+  <GitRepo Name="DependencyInjection" Source="https://github.com/aspnet/DependencyInjection.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="Diagnostics" Source="https://github.com/aspnet/Diagnostics.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="EntityFrameworkCore" />
+    <DependsOn GitRepo="StaticFiles" />
+  </GitRepo>
+  <GitRepo Name="DotNetTools" Source="https://github.com/aspnet/DotNetTools.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Configuration" />
+  </GitRepo>
+  <GitRepo Name="EntityFrameworkCore" Source="https://github.com/aspnet/EntityFrameworkCore.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Microsoft.Data.Sqlite" />
+    <DependsOn GitRepo="Caching" />
+    <DependsOn GitRepo="Logging" />
+  </GitRepo>
+  <GitRepo Name="EventNotification" Source="https://github.com/aspnet/EventNotification.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="FileSystem" Source="https://github.com/aspnet/FileSystem.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Common" />
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="Hosting" Source="https://github.com/aspnet/Hosting.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="HttpAbstractions" />
+    <DependsOn GitRepo="Configuration" />
+    <DependsOn GitRepo="EventNotification" />
+  </GitRepo>
+  <GitRepo Name="HtmlAbstractions" Source="https://github.com/aspnet/HtmlAbstractions.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Options" />
+  </GitRepo>
+  <GitRepo Name="HttpAbstractions" Source="https://github.com/aspnet/HttpAbstractions.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Logging" />
+    <DependsOn GitRepo="FileSystem" />
+  </GitRepo>
+  <GitRepo Name="HttpSysServer" Source="https://github.com/aspnet/HttpSysServer.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Hosting" />
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="Identity" Source="https://github.com/aspnet/Identity.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Mvc" />
+    <DependsOn GitRepo="DataProtection" />
+    <DependsOn GitRepo="BasicMiddleware" />
+    <DependsOn GitRepo="Testing" />
+    <DependsOn GitRepo="DotNetTools" />
+  </GitRepo>
+  <GitRepo Name="IISIntegration" Source="https://github.com/aspnet/IISIntegration.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="BasicMiddleware" />
+    <DependsOn GitRepo="Common" />
+  </GitRepo>
+  <GitRepo Name="JavaScriptServices" Source="https://github.com/aspnet/JavaScriptServices.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Mvc" />
+  </GitRepo>
+  <GitRepo Name="JsonPatch" Source="https://github.com/aspnet/JsonPatch.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Common" />
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="KestrelHttpServer" Source="https://github.com/aspnet/KestrelHttpServer.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Hosting" />
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="Localization" Source="https://github.com/aspnet/Localization.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Routing" />
+  </GitRepo>
+  <GitRepo Name="Logging" Source="https://github.com/aspnet/Logging.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Options" />
+  </GitRepo>
+  <GitRepo Name="MetaPackages" Source="https://github.com/aspnet/MetaPackages.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Configuration" />
+    <DependsOn GitRepo="Diagnostics" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+    <DependsOn GitRepo="Logging" />
+    <DependsOn GitRepo="Routing" />
+  </GitRepo>
+  <GitRepo Name="Microsoft.Data.Sqlite" Source="https://github.com/aspnet/Microsoft.Data.Sqlite.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+  </GitRepo>
+  <GitRepo Name="Mvc" Source="https://github.com/aspnet/Mvc.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Security" />
+    <DependsOn GitRepo="ResponseCaching" />
+    <DependsOn GitRepo="CORS" />
+    <DependsOn GitRepo="Localization" />
+    <DependsOn GitRepo="JsonPatch" />
+    <DependsOn GitRepo="Razor" />
+    <DependsOn GitRepo="Antiforgery" />
+    <DependsOn GitRepo="Session" />
+  </GitRepo>
+  <GitRepo Name="MvcPrecompilation" Source="https://github.com/aspnet/MvcPrecompilation.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Mvc" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="Options" Source="https://github.com/aspnet/Options.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+    <DependsOn GitRepo="Configuration" />
+    <DependsOn GitRepo="DependencyInjection" />
+  </GitRepo>
+  <GitRepo Name="Proxy" Source="https://github.com/aspnet/Proxy.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="WebSockets" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="Razor" Source="https://github.com/aspnet/Razor.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Common" />
+    <DependsOn GitRepo="HtmlAbstractions" />
+    <DependsOn GitRepo="Testing" />
+  </GitRepo>
+  <GitRepo Name="ResponseCaching" Source="https://github.com/aspnet/ResponseCaching.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Caching" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="Routing" Source="https://github.com/aspnet/Routing.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+    <DependsOn GitRepo="HtmlAbstractions" />
+  </GitRepo>
+  <GitRepo Name="Scaffolding" Source="https://github.com/aspnet/Scaffolding.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="EntityFrameworkCore" />
+    <DependsOn GitRepo="Mvc" />
+    <DependsOn GitRepo="StaticFiles" />
+  </GitRepo>
+  <GitRepo Name="Security" Source="https://github.com/aspnet/Security.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="DataProtection" />
+    <DependsOn GitRepo="HtmlAbstractions" />
+    <DependsOn GitRepo="Caching" />
+    <DependsOn GitRepo="Diagnostics" />
+  </GitRepo>
+  <GitRepo Name="ServerTests" Source="https://github.com/aspnet/ServerTests.git" Branch="rel/2.0.1" TestOnly="true">
+    <DependsOn GitRepo="HttpSysServer" />
+    <DependsOn GitRepo="IISIntegration" />
+  </GitRepo>
+  <GitRepo Name="Session" Source="https://github.com/aspnet/Session.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="DataProtection" />
+    <DependsOn GitRepo="HttpAbstractions" />
+    <DependsOn GitRepo="Caching" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+  </GitRepo>
+  <GitRepo Name="StaticFiles" Source="https://github.com/aspnet/StaticFiles.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="FileSystem" />
+    <DependsOn GitRepo="HtmlAbstractions" />
+    <DependsOn GitRepo="IISIntegration" />
+    <DependsOn GitRepo="KestrelHttpServer" />
+    <DependsOn GitRepo="HttpSysServer" />
+  </GitRepo>
+  <GitRepo Name="Testing" Source="https://github.com/aspnet/Testing.git" Branch="patch/2.0.1">
+    <BuildSettings>
+      <NuGetArtifactSource>https://api.nuget.org/v3/index.json</NuGetArtifactSource>
+      <FallbackNuGetArtifactSource>https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json</FallbackNuGetArtifactSource>
+      <CompileFromSource>false</CompileFromSource>
+      <Test>true</Test>
+    </BuildSettings>
+  </GitRepo>
+  <GitRepo Name="WebSockets" Source="https://github.com/aspnet/WebSockets.git" Branch="rel/2.0.1">
+    <DependsOn GitRepo="Diagnostics" />
+    <DependsOn GitRepo="HttpSysServer" />
+    <DependsOn GitRepo="Configuration" />
+  </GitRepo>
+</Sources>

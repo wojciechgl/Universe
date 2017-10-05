@@ -1,0 +1,7 @@
+<Project>
+  <ImportGroup Condition="'$(MSBuildProjectExtension)' != '.csproj'">
+    <Import Project="build\dependencies.props" />
+    <Import Project="$(MSBuildThisFileDirectory)build\targets\Universe.Common.targets" />
+    <Import Project="$(MSBuildThisFileDirectory)build\targets\Repository.Common.targets" Condition="'$(MSBuildProjectExtension)' == '.repoproj'" />
+  </ImportGroup>
+</Project>

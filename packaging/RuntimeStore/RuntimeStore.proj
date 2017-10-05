@@ -1,0 +1,52 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\*\*.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+
+  <PropertyGroup>
+    <ResolveReferencesDependsOn>
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolvePackagesFromProjectReference;
+    </ResolveReferencesDependsOn>
+    <CoreBuildDependsOn>
+      GetTargetPath;
+    </CoreBuildDependsOn>
+    <CoreBuildDependsOn Condition=" '$(DesignTimeBuild)' != 'true' ">
+      Compile;
+    </CoreBuildDependsOn>
+    <GetTargetPathDependsOn>
+      ResolveArtifacts;
+    </GetTargetPathDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ResolveArtifacts">
+    <ItemGroup>
+      <Artifact Include="$(OutputPath)manifest.xml">
+        <Type>XmlFile</Type>
+      </Artifact>
+      <Artifact Include="$(OutputPath)aspnetcore-store-$(Version).zip" Condition=" ! $([MSBuild]::IsOSUnixLike()) ">
+        <Type>ZipArchive</Type>
+      </Artifact>
+      <Artifact Include="$(OutputPath)aspnetcore-store-$(Version).tar.gz" Condition=" $([MSBuild]::IsOSUnixLike()) ">
+        <Type>TarballArchive</Type>
+      </Artifact>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ResolvePackagesFromProjectReference">
+    <RemoveDuplicates Inputs="@(_ResolvedProjectReferencePaths)">
+      <Output TaskParameter="Filtered" ItemName="DependencyArtifact" />
+    </RemoveDuplicates>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="ResolveReferences">
+    <!-- TODO (nate): resolve DependencyArtifact into the info passed into the runtime store generation -->
+  </Target>
+
+</Project>
