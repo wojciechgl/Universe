@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="common.props" />
 
   <PropertyGroup>
     <_DependencyBuildDirectory>$(RepositoryRoot).deps\build\</_DependencyBuildDirectory>
