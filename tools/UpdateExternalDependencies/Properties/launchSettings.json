@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UpdateExternalDependencies": {
+      "commandName": "Project",
+      "commandLineArgs": "update https://dotnet.myget.org/F/aspnetcore-ci-dev/api/v3/index.json  D:/dd/Universe/build/dependencies.props"
+    }
+  }
+}

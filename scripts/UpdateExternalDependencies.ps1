@@ -30,39 +30,101 @@ Set-StrictMode -Version 2
 
 Import-Module "$PSScriptRoot/common.psm1" -Scope Local -Force
 
+$depsFile = "build/dependencies.props"
+
 # Gets a list of the ExternalDependencies we should look for from the given file.
-function _get_dependencies(
+function _get_dependenciesProp(
     [Parameter(Mandatory = $true)]
     [string]$dependencyFile
 ) {
-    $dependencies = New-Object System.Collections.ArrayList
+    $depProp = @{}
+    $depProp.Dependencies = New-Object System.Collections.ArrayList
+    $depProp.Variables = New-Object System.Collections.Hashtable
 
-    foreach($line in Get-Content $dependencyFile)
-    {
-        if($linst.startswith("<ExternalDependency"))
-        {
+    [xml]$depsXml = Get-Content $dependencyFile
 
+    foreach ($propGroup in $depsXml.Project.PropertyGroup) {
+        foreach ($element in $propGroup.ChildNodes) {
+            $depProp.Variables[$element.Name] = $element.InnerText
         }
     }
+
+    foreach ($itemGroup in $depsXml.Project.ItemGroup) {
+        foreach ($extDep in $itemGroup.ExternalDependency) {
+            $dependency = @{}
+
+            $dependency.Package = $extDep.Include
+            $dependency.Version = $extDep.Version
+            if ($extDep.HasAttribute("Mirror")) {
+                $dependency.Mirror = $extDep.Mirror
+            }
+            if ($extDep.HasAttribute("Private")) {
+                $dependency.Private = $extDep.Private
+            }
+
+            $source = $extDep.Source
+
+            if ($source.startswith("`$(")) {
+                $trimmed = $source.TrimStart('$', '(')
+                $trimmed = $trimmed.TrimEnd(')')
+                $dependency.Source = $depProp.Variables[$trimmed]
+            }
+
+            [void]$depProp.Dependencies.Add($dependency)
+        }
+    }
+
+    return $depProp
 }
 
-function Get-NugetSource(
+function Get-LatestNugetVersions(
+    [Parameter(Mandatory = $true)]
+    [string]$sourceLocation,
+    [Parameter(Mandatory = $true)]
+    [System.Collections.Hashtable]$dependencies
+) {
+    $nugetSource = Invoke-WebRequest -Uri $sourceLocation | ConvertFrom-Json
+
+    $root = $nugetSource| ForEach-Object { $nugetSource.Resources } | Where-Object { $_.'@type' -eq "PackageBaseAddress/3.0.0" } | ForEach-Object { $_.'@id' }
+
+    if ($root -eq $null) {
+        throw "Source '$nugetSource' doesn't support PackageBaseAddress/3.0.0"
+    }
+
+    $latest = New-Object System.Collections.Hashtable
+
+    foreach ($dep in $dependencies) {
+        try {
+            $response = Invoke-WebRequest -Uri ($root + $dep.ToLowerInvariant() + "/index.json")
+
+            $versions = @(ConvertFrom-Json -InputObject $response `
+                | ForEach-Object {$_.versions} `
+                | Sort-Object)
+
+            if ($versions.Count -eq 0) {
+                Write-Warning "$sourceLocation has no versions of $dep."
+            }
+            else {
+                Write-Host "Choosing version: $($versions[-1])"
+                $latest.Add($dep, $versions[-1])
+            }
+        }
+        catch {
+            Write-Warning "$sourceLocation doesn't have $dep"
+        }
+    }
+
+    return $latest
+}
+
+function Get-LatestVersions(
     [Parameter(Mandatory = $true)]
     [string]$sourceLocation
 ) {
-    _get_dependencies
+    $depsProps = _get_dependenciesProp $depsFile
 
-    Find-Package ""
-
-    throw (New-Object System.NotImplementedException)
-}
-
-function Get-Source(
-    [Parameter(Mandatory = $true)]
-    [string]$sourceLocation
-) {
-    if ($sourceLocation.endswith("index.json")) {
-        return Get-NugetSource $sourceLocation
+    if ($sourceLocation.endswith("v3/index.json")) {
+        return Get-LatestNugetVersions $sourceLocation $depsProps
     }
     else {
         throw (New-Object System.NotImplementedException)
@@ -71,19 +133,22 @@ function Get-Source(
 
 function Update-DependencyFile(
     [Parameter(Mandatory = $true)]
-    [HashTable]$dependencies
+    [Object]$dependencies
 ) {
+    foreach ($dep in $dependencies) {
+        Write-Host "$dep"
+    }
+
     throw (New-Object System.NotImplementedException)
 }
 
 $RepoRoot = Resolve-Path "$PSScriptRoot\.."
-$depsFile = "build/dependencies.props"
 
 Push-Location $RepoRoot | Out-Null
 try {
-    $dependencies = Get-Source $DependencySource
+    $dependencies = Get-LatestVersions $DependencySource
 
-    Update-DependencyFile $dependencies $depsFile
+    Update-DependencyFile $dependencies
 
     & .\run.ps1 default-build
 
