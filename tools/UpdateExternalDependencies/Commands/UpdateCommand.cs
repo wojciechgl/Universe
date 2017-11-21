@@ -5,40 +5,50 @@ using Microsoft.Extensions.CommandLineUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using UpdateExternalDependencies.UpdateProviders;
 
 namespace UpdateExternalDependencies.Commands
 {
     internal class UpdateCommand : CommandBase
     {
-        private string DependenciesProps {
+        private string DependenciesPropsFile {
             get
             {
-                return DependenciesPropsFile.Value;
+                return DependenciesPropsFileArgument.Value;
+            }
+        }
+
+        private string Source {
+            get
+            {
+                return SourceArgument.Value;
             }
         }
 
         private CommandArgument SourceArgument { get; set; }
 
-        private CommandArgument DependenciesPropsFile { get; set; }
+        private CommandArgument DependenciesPropsFileArgument { get; set; }
 
-        private IList<IUpdateProvider> UpdateProviders = new List<IUpdateProvider>
+        private static readonly IList<IUpdateProvider> UpdateProviders = new List<IUpdateProvider>
         {
-            new NugetUpdateProvider()
+            new NugetUpdateProvider(),
+            new LastKnownGoodFileUpdateProvider()
         };
 
         public override void Configure(CommandLineApplication application)
         {
             SourceArgument = application.Argument("source", "The source of truth");
-            DependenciesPropsFile = application.Argument("depsProps", "The dependency file");
+            DependenciesPropsFileArgument = application.Argument("depsProps", "The dependency file");
 
             base.Configure(application);
         }
 
         protected override int Execute()
         {
-            var latest = GetLatestDeps(DependenciesProps);
+            var latest = GetLatestDeps();
 
             UpdateDependencyFile(latest);
 
@@ -54,64 +64,91 @@ namespace UpdateExternalDependencies.Commands
             }
         }
 
-        private static DependenciesProps GetLatestDeps(string dependenciesProps)
+        private DependenciesProps GetLatestDeps()
         {
-            var dependencies = GetDependenciesProps(dependenciesProps);
+            var dependencies = GetDependenciesProps(DependenciesPropsFile);
+
+            DependenciesProps output = null;
 
             foreach (var provider in UpdateProviders)
             {
-                
+                if (provider.CanHandleSource(Source))
+                {
+                    output = provider.GetExternalDependencies(dependencies, Source);
+                    break;
+                }
             }
 
-            throw new NotImplementedException();
+            if (output == null)
+            {
+                throw new NotImplementedException($"No UpdateProvider could handle source '{Source}'");
+            }
+
+            return output;
         }
 
         private void UpdateDependencyFile(DependenciesProps dependenciesProps)
         {
-            throw new NotImplementedException();
+            var doc = new XmlDocument();
+            doc.Load(DependenciesPropsFile);
+
+            var rootNode = doc.SelectSingleNode("//Project");
+
+            // We don't mess with things which have a VariableName set
+            foreach (var externalDep in dependenciesProps.ExternalDependencies.Where(d => d.VariableName == null))
+            {
+                string version;
+                if (externalDep.Version.StartsWith("$("))
+                {
+                    var variableName = externalDep.Version.TrimStart('$','(').TrimEnd(')');
+                    var xmlElement = dependenciesProps.Variables.First(x => x.Name == variableName);
+
+                    version = xmlElement.InnerText;
+                }
+                else
+                {
+                    version = externalDep.Version;
+                }
+
+                var xmlNodes = rootNode.SelectNodes($"//ItemGroup/ExternalDependency[@Include='{externalDep.Include}']");
+
+                if (xmlNodes.Count == 0)
+                {
+                    throw new NotImplementedException("Nothing to update.");
+                }
+                else if(xmlNodes.Count > 0)
+                {
+                    foreach (XmlElement xmlNode in xmlNodes)
+                    {
+                        var variableName = xmlNode.SelectNodes("//VariableName");
+                        if (variableName.Count == 0)
+                        {
+                            ((XmlElement)(xmlNodes[0])).SetAttribute("Version", version);
+                        }
+                    }
+                }
+            }
+
+            doc.Save(DependenciesPropsFile);
         }
-    }
 
-    [XmlRoot("Project")]
-    public class DependenciesProps
-    {
-        [XmlElement("ItemGroup")]
-        public List<ItemGroup> ItemGroups { get; set; }
-
-        [XmlElement("PropertyGroup")]
-        public List<PropertyGroup> PropertyGroups { get; set; }
-    }
-
-    public class PropertyGroup
-    {
-        [XmlElement]
-        public List<XmlElement> Variables { get; set; }
-    }
-
-    public class ItemGroup
-    {
-        [XmlElement("ExternalDependency")]
-        public List<ExternalDependency> ExternalDependencies { get; set; }
-    }
-
-    public class ExternalDependency
-    {
-        [XmlAttribute("Include")]
-        public string Include { get; set; }
-
-        [XmlAttribute("Version")]
-        public string Version { get; set; }
-
-        [XmlAttribute("Source")]
-        public string Source { get; set; }
-
-        [XmlAttribute("Private")]
-        public bool Private { get; set; }
-
-        [XmlAttribute("Mirror")]
-        public bool Mirror { get; set; }
-
-        [XmlElement("VariableName")]
-        public string VariableName { get; set; }
+        private void UpdateExternalDependency(ExternalDependency dep, XmlNode rootNode)
+        {
+            foreach (XmlElement itemGroup in rootNode.SelectNodes("/ItemGroup"))
+            {
+                foreach (XmlElement externalDependencyElem in itemGroup.SelectNodes("/ExternalDependency"))
+                {
+                    var include = externalDependencyElem.GetAttribute("Include");
+                    if (include == dep.Include)
+                    {
+                        var variableName = externalDependencyElem.GetAttribute("VariableName");
+                        if (dep.VariableName == null || dep.VariableName == variableName)
+                        {
+                            externalDependencyElem.SetAttribute("Version", dep.Version);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

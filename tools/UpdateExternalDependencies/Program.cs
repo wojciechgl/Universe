@@ -20,7 +20,7 @@ namespace UpdateExternalDependencies
             }
             catch (Exception ex)
             {
-                System.Console.Error.WriteLine($"Exception thrown: '{ex.ToString()}'");
+                Console.Error.WriteLine($"Exception thrown: '{ex.ToString()}'");
                 return 1;
             }
         }
