@@ -22,6 +22,11 @@
         DotNetPackageVersionPropsPath=$(GeneratedNoTimestampPackageVersionPropsPath);
         IsFinalBuild=true;
       </TemplateProjNoTimestampProperties>
+      <TemplateProjTargets>Prepare;Compile;Package</TemplateProjTargets>
+      <TemplateProjTargets Condition="'$(SkipTest)' != 'true'">
+        $(TemplateProjTargets);
+        Test;
+      </TemplateProjTargets>
     </PropertyGroup>
 
     <!-- Produce regular, timestamped templates for pre-release builds -->
@@ -55,7 +60,7 @@
 
     <!-- Rebuild the templates without restoring. (The non-timestamped packages don't exist yet.) -->
     <MSBuild Projects="$(MSBuildProjectFullPath)"
-             Targets="Prepare;Compile;Package"
+             Targets="$(TemplateProjTargets)"
              Properties="$(TemplateProjNoTimestampProperties);NoRestore=true" />
 
     <ItemGroup>
