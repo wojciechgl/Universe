@@ -23,7 +23,7 @@
         IsFinalBuild=true;
       </TemplateProjNoTimestampProperties>
       <TemplateProjTargets>Prepare;Compile;Package</TemplateProjTargets>
-      <TemplateProjTargets Condition="'$(SkipTest)' != 'true'">
+      <TemplateProjTargets Condition="'$(SkipTests)' != 'true'">
         $(TemplateProjTargets);
         Test;
       </TemplateProjTargets>
