@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <ImportDirectoryBuildProps>false</ImportDirectoryBuildProps>
     <ImportDirectoryBuildTargets>false</ImportDirectoryBuildTargets>
@@ -10,19 +10,19 @@
 
   <PropertyGroup>
     <TargetFramework>$(RuntimeStoreTargetFramework)</TargetFramework>
+    <RestoreSources>$(DotNetRestoreSources)</RestoreSources>
+    <OutputType>Exe</OutputType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RS.References" Version="$(PackageVersion)" />
+    <PackageReference Include="$(HostingStartupPackageName)" Version="$(HostingStartupPackageVersion)" PrivateAssets="None" />
   </ItemGroup>
 
-  <Target Name="GetPackageDefinitions" Returns="@(_PackageDefinitions)">
-    <ResolvePackageDependencies ProjectPath="$(MSBuildThisFileFullPath)" ProjectAssetsFile="$(ProjectAssetsFile)">
-      <Output TaskParameter="PackageDefinitions" ItemName="_PackageDefinitions" />
-    </ResolvePackageDependencies>
-  </Target>
-
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk"/>
+
+  <Target Name="CollectDeps">
+    <Copy SourceFiles="$(PublishDepsFilePath)" DestinationFiles="$(DestinationDepsFile)" />
+  </Target>
 </Project>

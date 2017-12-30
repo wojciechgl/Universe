@@ -44,9 +44,10 @@
 
 
   <Target Name="_CheckForUnsupportedPlatform"
-    BeforeTargets="$(BuildDependsOn);Build;$(RebuildDependsOn);Rebuild;$(CleanDependsOn);Clean">
+    BeforeTargets="GetTargetPath;$(BuildDependsOn);Build;$(RebuildDependsOn);Rebuild;$(CleanDependsOn);Clean">
 
-    <Error Text="Platform is not defined." Condition="'$(Platform)' == ''"/>
+    <Error Text="Platform is not defined." Condition="'$(Platform)' == ''" />
+
     <ItemGroup>
       <_SupportedPlatforms Include="$(Platforms)" />
     </ItemGroup>

@@ -1,8 +1,6 @@
 <Project>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
 
-  <Import Project="..\..\build\artifacts.props" />
-
   <PropertyGroup>
     <Configurations>Debug;Release</Configurations>
 
@@ -21,6 +19,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ExistingStoreManifests Include="..\Metapackage\build\aspnetcore-store-*.xml" />
+    <HostingStartupPackageReference Include="Microsoft.AspNetCore.ApplicationInsights.HostingStartup" />
+    <HostingStartupPackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" />
+    <!-- Trim packages guaranteed to be in the runtime but isn't included in our runtime store -->
+    <PackagesToTrim Include="runtime.win-arm64.runtime.native.system.data.sqlclient.sni" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Partners\Mirror.proj" />
     <ProjectReference Include="..\Framework\*.repoproj" />
   </ItemGroup>
 

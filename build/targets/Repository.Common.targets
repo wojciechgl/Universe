@@ -151,8 +151,27 @@
     <MSBuild Projects="$(KoreBuildProjectFullPath)"
              Targets="GetArtifactInfo"
              Properties="RepositoryRoot=$(RepositoryRoot);ArtifactsDir=$(OutputPath);Configuration=$(Configuration);BuildNumber=$(BuildNumber);IsFinalBuild=$(IsFinalBuild)">
-      <Output TaskParameter="TargetOutputs" ItemName="Artifact" />
+      <Output TaskParameter="TargetOutputs" ItemName="_Artifact" />
     </MSBuild>
+
+    <!-- Assign additional metadata not currently stored in the repository. See https://github.com/aspnet/Universe/issues/686 -->
+    <ItemGroup>
+      <_UnexpectedPackageArtifact Remove="@(_UnexpectedPackageArtifact)" />
+      <_UnexpectedPackageArtifact Include="@(_Artifact->WithMetadataValue('ArtifactType', 'NuGetPackage')->'%(PackageId)')" />
+      <_UnexpectedPackageArtifact Remove="%(PackageArtifact.Identity)" />
+    </ItemGroup>
+
+    <Error Text="Unexpected package. Add to artifacts.props.%0A  @(_UnexpectedPackageArtifact ->'%(PackageId)', '%0A  ')" Condition="@(_UnexpectedPackageArtifact->Count()) != 0" />
+
+    <RepoTasks.JoinItems
+        Left="@(_Artifact)" LeftKey="PackageId" LeftMetadata="*" LeftItemSpec="Identity"
+        Right="@(PackageArtifact)" RightMetadata="Category;RuntimeStore;LZMA;LZMATools">
+      <Output TaskParameter="JoinResult" ItemName="Artifact" />
+    </RepoTasks.JoinItems>
+
   </Target>
+
+  <!-- Includes additional metadata not currently stored in the repository. See https://github.com/aspnet/Universe/issues/686 -->
+  <Import Project="..\artifacts.props" />
 
 </Project>

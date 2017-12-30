@@ -2,7 +2,6 @@
   <ItemDefinitionGroup>
     <PackageArtifact>
       <Metapackage>false</Metapackage>
-      <HostingStartup>false</HostingStartup>
       <RuntimeStore>false</RuntimeStore>
       <LZMA>false</LZMA>
       <LZMATools>false</LZMATools>
@@ -13,7 +12,7 @@
     <PackageArtifact Include="Microsoft.AspNet.Identity.AspNetCoreCompat" Category="noship" />
     <PackageArtifact Include="Microsoft.AspNetCore.All" Category="ship" LZMA="true" />
     <PackageArtifact Include="Microsoft.AspNetCore.Antiforgery" Category="ship" Metapackage="true" RuntimeStore="true"/>
-    <PackageArtifact Include="Microsoft.AspNetCore.ApplicationInsights.HostingStartup" Category="ship" Metapackage="true" RuntimeStore="true" HostingStartup="true" />
+    <PackageArtifact Include="Microsoft.AspNetCore.ApplicationInsights.HostingStartup" Category="ship" Metapackage="true" RuntimeStore="true" />
     <PackageArtifact Include="Microsoft.AspNetCore.Authentication.Abstractions" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.AspNetCore.Authentication.Cookies" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.AspNetCore.Authentication.Core" Category="ship" Metapackage="true" RuntimeStore="true"/>
@@ -27,10 +26,11 @@
     <PackageArtifact Include="Microsoft.AspNetCore.Authentication" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.AspNetCore.Authorization.Policy" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.AspNetCore.Authorization" Category="ship" Metapackage="true" RuntimeStore="true"/>
-    <PackageArtifact Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Category="ship" Metapackage="true" RuntimeStore="true" HostingStartup="true" />
+    <PackageArtifact Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Category="ship" Metapackage="true" RuntimeStore="true" />
     <PackageArtifact Include="Microsoft.AspNetCore.AzureAppServices.SiteExtension" Category="ship" />
     <PackageArtifact Include="Microsoft.AspNetCore.AzureAppServicesIntegration" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.AspNetCore.Buffering" Category="noship" />
+    <PackageArtifact Include="Microsoft.AspNetCore.CertificateGeneration.Task" Category="noship" />
     <PackageArtifact Include="Microsoft.AspNetCore.Certificates.Configuration.Sources" Category="noship" />
     <PackageArtifact Include="Microsoft.AspNetCore.ChunkingCookieManager.Sources" Category="noship" />
     <PackageArtifact Include="Microsoft.AspNetCore.CookiePolicy" Category="ship" Metapackage="true" RuntimeStore="true"/>
@@ -158,6 +158,7 @@
     <PackageArtifact Include="Microsoft.Extensions.Configuration.AzureKeyVault" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Configuration.Binder" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Configuration.CommandLine" Category="ship" Metapackage="true" RuntimeStore="true"/>
+    <PackageArtifact Include="Microsoft.Extensions.Configuration.DockerSecrets" Category="noship" />
     <PackageArtifact Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Configuration.FileExtensions" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Configuration.Ini" Category="ship" Metapackage="true" RuntimeStore="true"/>
@@ -167,6 +168,7 @@
     <PackageArtifact Include="Microsoft.Extensions.Configuration" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.CopyOnWriteDictionary.Sources" Category="noship" />
     <PackageArtifact Include="Microsoft.Extensions.DependencyInjection.Abstractions" Category="ship" Metapackage="true" RuntimeStore="true"/>
+    <PackageArtifact Include="Microsoft.Extensions.DependencyInjection.Specification.Tests" Category="ship" />
     <PackageArtifact Include="Microsoft.Extensions.DependencyInjection" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.DiagnosticAdapter" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.FileProviders.Abstractions" Category="ship" Metapackage="true" RuntimeStore="true"/>
@@ -185,6 +187,7 @@
     <PackageArtifact Include="Microsoft.Extensions.Logging.Configuration" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Logging.Console" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Logging.Debug" Category="ship" Metapackage="true" RuntimeStore="true"/>
+    <PackageArtifact Include="Microsoft.Extensions.Logging.EventLog" Category="ship" />
     <PackageArtifact Include="Microsoft.Extensions.Logging.EventSource" Category="ship" Metapackage="true" RuntimeStore="true"/>
     <PackageArtifact Include="Microsoft.Extensions.Logging.Testing" Category="noship" />
     <PackageArtifact Include="Microsoft.Extensions.Logging.TraceSource" Category="ship" Metapackage="true" RuntimeStore="true"/>
