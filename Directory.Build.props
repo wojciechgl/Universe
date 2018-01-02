@@ -1,5 +1,6 @@
 <Project>
   <Import Project="obj\korebuild.g.props" Condition="Exists('obj\korebuild.g.props') AND '$(MSBuildProjectExtension)' != '.csproj'" />
+  <Import Project="build\sources.props" />
 
   <PropertyGroup>
     <Product>Microsoft ASP.NET Core</Product>

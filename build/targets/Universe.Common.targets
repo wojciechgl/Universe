@@ -3,6 +3,7 @@
     <OutputType />
     <PrepareResourceNamesDependsOn />
     <CoreBuildDependsOn />
+    <ResolveReferencesDependsOn />
 
       <!-- Fallbacks, in case RestorePackagesPath hasn't been set. (It should be set in Directory.Build.props) -->
     <RestorePackagesPath Condition="'$(RestorePackagesPath)' == ''">$(MSBuildThisFileDirectory)..\..\obj\nuget\packages\</RestorePackagesPath>

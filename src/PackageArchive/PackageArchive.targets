@@ -1,7 +1,29 @@
 <Project>
   <PropertyGroup>
-    <_TemplatesDirectory>$(MSBuildThisFileDirectory)tools\templates\</_TemplatesDirectory>
-    <_WorkRoot>$(RepositoryRoot).w\</_WorkRoot>
+
+    <!-- Target chain -->
+    <CoreBuildDependsOn>
+      ResolveReferences;
+      Compile;
+    </CoreBuildDependsOn>
+
+    <CompileDependsOn>
+      BuildFallbackArchive
+    </CompileDependsOn>
+
+    <ResolveReferencesDependsOn>
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveArtifactReferences;
+      AfterResolveReferences
+    </ResolveReferencesDependsOn>
+
+    <ArchiverPath>$(MSBuildThisFileDirectory)..\..\tools\dotnet-archive\dotnet-archive.exe</ArchiverPath>
+
+    <!-- Folders -->
+    <_TemplatesDirectory>$(MSBuildThisFileDirectory)templates\</_TemplatesDirectory>
     <TimestampSource>$(RepositoryRoot).deps\Signed\Packages\</TimestampSource>
     <TimestampFreeSource>$(RepositoryRoot).deps\Signed\Packages-NoTimeStamp\</TimestampFreeSource>
     <TimestampOutputPackageName>nuGetPackagesArchive.timestamped</TimestampOutputPackageName>
@@ -16,59 +38,68 @@
       Projects="$(MSBuildProjectFullPath)"
       Targets="_BuildFallbackArchive"
       Properties="MetapackageRestoreSource=$(TimestampSource);OutputPackageName=$(TimestampOutputPackageName);RemoveTimestamp=false;MetapackageVersion=$(PackageVersion)" />
-    <MSBuild
+    <!-- <MSBuild
       Projects="$(MSBuildProjectFullPath)"
       Targets="_BuildFallbackArchive"
-      Properties="MetapackageRestoreSource=$(TimestampFreeSource);OutputPackageName=$(TimestampFreeOutputPackageName);RemoveTimestamp=true;MetapackageVersion=$(PackageVersionNoTimestamp)" />
+      Properties="MetapackageRestoreSource=$(TimestampFreeSource);OutputPackageName=$(TimestampFreeOutputPackageName);RemoveTimestamp=true;MetapackageVersion=$(PackageVersionNoTimestamp)" /> -->
   </Target>
 
-  <Target Name="_BuildFallbackArchive" DependsOnTargets="ResolveRepoInfo">
-    <Error Text="MetapackageRestoreSource must be specified" Condition=" '$(MetapackageRestoreSource)' == '' " />
+  <Target Name="_BuildFallbackArchive" DependsOnTargets="ResolveReferences">
     <Error Text="OutputPackageName must be specified" Condition=" '$(OutputPackageName)' == '' " />
-    <Error Text="ArchiverPath must be specified" Condition=" '$(ArchiverPath)' == '' " />
-    <Error Text="Archiver not found at $(ArchiverPath)" Condition="!Exists('$(ArchiverPath)')" />
 
     <!-- Clear the directories -->
-    <RemoveDir Directories="$(_WorkRoot)" />
+    <RemoveDir Directories="$(IntermediateOutputPath)" />
 
     <!-- Copy the archive template -->
-    <Copy SourceFiles="$(_TemplatesDirectory)Archive\Archive.csproj" DestinationFiles="$(_WorkRoot)Archive.csproj" />
+    <Copy SourceFiles="$(_TemplatesDirectory)Archive\Archive.csproj" DestinationFiles="$(IntermediateOutputPath)Archive.csproj" />
+
+    <ItemGroup>
+      <PackageArtifact Include="%(ArtifactReference.PackageId)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.ExternalDependency)' != 'true'">
+        <Version>%(ArtifactReference.Version)</Version>
+        <LZMA>%(ArtifactReference.LZMA)</LZMA>
+        <LZMATools>%(ArtifactReference.LZMATools)</LZMATools>
+      </PackageArtifact>
+      <ExternalDependency Include="%(ArtifactReference.PackageId)" Version="%(ArtifactReference.Version)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.ExternalDependency)' == 'true'">
+        <Version>%(ArtifactReference.Version)</Version>
+        <LZMA>%(ArtifactReference.LZMA)</LZMA>
+        <LZMATools>%(ArtifactReference.LZMATools)</LZMATools>
+      </ExternalDependency>
+    </ItemGroup>
 
     <!-- Copy the archive template -->
     <RepoTasks.AddArchiveReferences
-      ReferencePackagePath="$(_WorkRoot)Archive.csproj"
-      BuildArtifacts="@(ArtifactInfo)"
+      ReferencePackagePath="$(IntermediateOutputPath)Archive.csproj"
+      BuildArtifacts="@(ArtifactReference)"
       PackageArtifacts="@(PackageArtifact)"
       ExternalDependencies="@(ExternalDependency)"
       RemoveTimestamp="$(RemoveTimestamp)"
       MetapackageVersion="$(MetapackageVersion)" />
 
     <PropertyGroup>
-      <FallbackStagingDir>$(_WorkRoot)obj\$(OutputPackageName)</FallbackStagingDir>
-      <FallbackOutputDir>$(ArtifactsDir)lzma\</FallbackOutputDir>
-      <FallbackOutputPath>$(FallbackOutputDir)$(OutputPackageName).lzma</FallbackOutputPath>
-      <GeneratedFallbackRestoreSourcesPropsPath>$(_WorkRoot)restoresources.$(OutputPackageName).props</GeneratedFallbackRestoreSourcesPropsPath>
+      <FallbackStagingDir>$(IntermediateOutputPath)$(OutputPackageName)</FallbackStagingDir>
+      <TargetPath>$(OutputPath)$(OutputPackageName).lzma</TargetPath>
+      <GeneratedRestoreSourcesPropsPath>$(IntermediateOutputPath)restoresources.$(OutputPackageName).props</GeneratedRestoreSourcesPropsPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <_FallbackArchiveRestoreSources Include="$(MetapackageRestoreSource)" Condition="Exists($(MetapackageRestoreSource))" />
-      <_FallbackArchiveRestoreSources Include="$(_DependencyMirrorDirectory)" Condition="Exists($(_DependencyMirrorDirectory))" />
+      <_FallbackArchiveRestoreSources Include="$(RestoreSources)" />
+      <_FallbackArchiveRestoreSources Include="%(ArtifactReference.RootDir)%(ArtifactReference.Directory)" Condition=" '%(ArtifactReference.ArtifactType)' == 'NuGetPackage' " />
     </ItemGroup>
 
     <RepoTasks.GenerateRestoreSourcesPropsFile
       Sources="@(_FallbackArchiveRestoreSources)"
-      OutputPath="$(GeneratedFallbackRestoreSourcesPropsPath)" />
+      OutputPath="$(GeneratedRestoreSourcesPropsPath)" />
 
     <!-- Create the Staging Dir -->
-    <MakeDir Directories="$(FallbackStagingDir);$(FallbackOutputDir)" />
+    <MakeDir Directories="$(FallbackStagingDir);$(OutputPath)" />
 
     <!-- Restore the target project -->
     <MSBuild
-      Projects="$(_WorkRoot)Archive.csproj"
+      Projects="$(IntermediateOutputPath)Archive.csproj"
       Targets="Restore"
-      Properties="RestorePackagesPath=$(FallbackStagingDir);RuntimeFrameworkVersion=$(MicrosoftNETCoreApp20PackageVersion);DotNetRestoreSourcePropsPath=$(GeneratedFallbackRestoreSourcesPropsPath);AspNetUniverseBuildOffline=true" />
+      Properties="RestorePackagesPath=$(FallbackStagingDir);RuntimeFrameworkVersion=$(MicrosoftNETCoreApp20PackageVersion);DotNetRestoreSourcePropsPath=$(GeneratedRestoreSourcesPropsPath);AspNetUniverseBuildOffline=true" />
 
     <!-- Create the archive -->
-    <Exec Command="$(ArchiverPath) -a $(FallbackOutputPath) $(FallbackStagingDir)" />
+    <Exec Command="$(ArchiverPath) -a $(TargetPath) $(FallbackStagingDir)" />
   </Target>
 </Project>

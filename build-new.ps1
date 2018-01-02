@@ -1,14 +1,23 @@
 #requires -version 4
 [CmdletBinding(PositionalBinding = $false)]
 param(
+    [switch]$Help,
+
+    # Parameters
     [ValidateSet('Debug', 'Release')]
     [string]$Configuration = 'Debug',
 
     [ValidateSet('win-x64', 'win-x86')]
     [string]$Platform = $null,
 
-    [switch]$Help,
+    # Build phase
+    [switch]$BuildRuntimeStore,
+    [switch]$BuildPackageArchive,
 
+    # Logging
+    [switch]$BinaryLog,
+
+    # Catch-all
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$badargs
 )
@@ -53,13 +62,45 @@ if (-not $Platform) {
 $logDir = "$PSScriptRoot/artifacts/logs"
 mkdir $logDir -ErrorAction Ignore
 
+$misc = @()
+$targets = @()
+$properties = @('-property:GenerateFullPaths=true', "-property:Platform=$Platform", "-property:Configuration=$Configuration")
+
+$count = 0
+
+if ($BuildRuntimeStore) {
+    $count +=1
+    $targets += '-target:src\RuntimeStore\RuntimeStore'
+    $properties += '-property:BuildProjectReferences=false'
+}
+
+if ($BuildPackageArchive) {
+    $count +=1
+    $targets += '-target:src\PackageArchive\PackageArchive'
+    $properties += '-property:BuildProjectReferences=false'
+}
+
+if ($count -eq 0) {
+    $targets += '-target:Build'
+}
+
+if ($count -gt 1) {
+    Write-Host -f Red "At the moment, only building once phase at a time is supported."
+    exit 1
+}
+
+if ($BinaryLog) {
+    $misc += "-binaryLogger:$logDir/msbuild.binlog"
+}
+
+if ($VerbosePreference) {
+    $misc += '-verbosity:normal'
+}
+
 & dotnet msbuild `
     "$PSScriptRoot/Microsoft.AspNetCore.sln" `
+    '-clp:Summary' `
     '-noautoresponse' `
     '-maxcpucount' `
-    '-target:Build' `
-    "-property:Configuration=$Configuration" `
-    "-property:Platform=$Platform" `
-    '-property:GenerateFullPaths=true' `
     '-consoleLoggerParameters:Summary;ShowCommandLine' `
-    # "-binaryLogger:$logDir/msbuild.binlog" `
+    @targets @properties @misc

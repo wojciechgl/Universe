@@ -1,0 +1,16 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+
+  <PropertyGroup>
+    <!-- This is limited to only building on Windows because the dotnet-archive.exe tools is not cross-platform. -->
+    <Platforms>win-x64;win-x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Partners\Mirror.proj" />
+    <ProjectReference Include="..\Framework\*.repoproj" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <Import Project="PackageArchive.targets" />
+</Project>
