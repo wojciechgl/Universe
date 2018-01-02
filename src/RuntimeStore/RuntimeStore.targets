@@ -76,6 +76,10 @@
       <Artifact Include="$(ManifestTargetPath)">
         <ArtifactType>RuntimeStoreManifest</ArtifactType>
       </Artifact>
+
+      <Artifact Include="$(CommonManifestTargetPath)">
+        <ArtifactType>RuntimeStoreManifest</ArtifactType>
+      </Artifact>
     </ItemGroup>
   </Target>
 

@@ -165,7 +165,7 @@
 
     <RepoTasks.JoinItems
         Left="@(_Artifact)" LeftKey="PackageId" LeftMetadata="*" LeftItemSpec="Identity"
-        Right="@(PackageArtifact)" RightMetadata="Category;RuntimeStore;LZMA;LZMATools">
+        Right="@(PackageArtifact)" RightMetadata="Category;RuntimeStore;LZMA;LZMATools;Metapackage">
       <Output TaskParameter="JoinResult" ItemName="Artifact" />
     </RepoTasks.JoinItems>
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNetCore.All</id>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <description>Microsoft.AspNetCore.All</description>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <tags>aspnetcore</tags>
+    <serviceable>true</serviceable>
+
+    <!-- variable metadata -->
+    <version>$Version$</version>
+    <licenseUrl>$PackageLicenseUrl$</licenseUrl>
+    <projectUrl>$PackageProjectUrl$</projectUrl>
+    <iconUrl>$PackageIconUrl$</iconUrl>
+    <copyright>$Copyright$</copyright>
+    <repository type="$RepositoryType$" url="$RepositoryUrl$" />
+
+    <dependencies>
+      <!-- The list of dependencies is auto-generated. -->
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="build\**\*" target="build\" />
+    <file src="$RuntimeStoreManifest$" target="build\aspnetcore-store-$Version$.xml" />
+    <file src="$PlaceholderFile$" target="lib\$TargetFramework$\" />
+  </files>
+</package>

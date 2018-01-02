@@ -1,0 +1,65 @@
+<Project>
+  <Import Project="$([System.IO.Path]::GetDirectoryName($(KoreBuildProjectFullPath)))\modules\KoreBuild.Tasks\module.props" />
+
+  <ItemDefinitionGroup>
+    <Dependency>
+      <TargetFramework>$(PackageTargetFramework)</TargetFramework>
+    </Dependency>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <CoreBuildDependsOn>
+      Pack;
+    </CoreBuildDependsOn>
+
+    <PackDependsOn>
+      ResolveReferences;
+    </PackDependsOn>
+
+    <ResolveReferencesDependsOn>
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveArtifactReferences;
+      AfterResolveReferences
+    </ResolveReferencesDependsOn>
+
+    <TargetPath>$(OutputPath)$(PackageId).$(PackageVersion).nupkg</TargetPath>
+    <PlaceholderFile>$(IntermediateOutputPath)_._</PlaceholderFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Artifact Include="$(TargetPath)">
+      <ArtifactType>NuGetPackage</ArtifactType>
+      <PackageId>$(PackageId)</PackageId>
+      <Version>$(PackageVersion)</Version>
+      <Category>ship</Category>
+    </Artifact>
+  </ItemGroup>
+
+  <Target Name="Pack" DependsOnTargets="ResolveReferences">
+    <Touch Files="$(PlaceholderFile)" AlwaysCreate="true" />
+
+    <ItemGroup>
+      <Dependency Include="%(ArtifactReference.PackageId)" Version="%(ArtifactReference.Version)"
+        Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.Metapackage)' == 'true' " />
+      <RuntimeStoreManifestFiles Include="@(ArtifactReference->WithMetadataValue('ArtifactType', 'RuntimeStoreManifest'))" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <RuntimeStoreManifest>$(IntermediateOutputPath)aspnetcore-store-$(PackageVersion).xml</RuntimeStoreManifest>
+    </PropertyGroup>
+
+    <RepoTasks.ConsolidateManifests
+      Manifests="@(RuntimeStoreManifestFiles)"
+      ManifestDestination="$(RuntimeStoreManifest)"/>
+
+    <PackNuspec NuspecPath="$(NuspecFile)"
+      Dependencies="@(Dependency)"
+      Properties="$(NuspecProperties);RuntimeStoreManifest=$(RuntimeStoreManifest);PlaceholderFile=$(PlaceholderFile);TargetFramework=$(PackageTargetFramework)"
+      Overwrite="true"
+      OutputPath="$(TargetPath)" />
+  </Target>
+
+</Project>

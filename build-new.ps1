@@ -13,6 +13,9 @@ param(
     # Build phase
     [switch]$BuildRuntimeStore,
     [switch]$BuildPackageArchive,
+    [switch]$BuildMetapackage,
+
+    [switch]$NoDependencies,
 
     # Logging
     [switch]$BinaryLog,
@@ -29,6 +32,12 @@ Usage: build.ps1 [options]
 Options:
   -c, -Configuration <CONFIG>       Build configuration, Debug or Release. [Debug]
   -p, -Platform <PLATFORM>          Target platform, win-x64 or win-x86. [Auto detected based on machine arch]
+  -noDependencies                   Do not build ProjectReference's
+
+Targets:
+  -buildRuntimeStore                Builds the ASP.NET Core runtime store
+  -buildPackageArchive              Builds the LZMA archive
+  -buildMetapackage                 Builds the Microsoft.AspNetCore.All metapackage
 "@
 }
 
@@ -66,27 +75,20 @@ $misc = @()
 $targets = @()
 $properties = @('-property:GenerateFullPaths=true', "-property:Platform=$Platform", "-property:Configuration=$Configuration")
 
-$count = 0
+if ($NoDependencies) {
+    $properties += '-property:BuildProjectReferences=false'
+}
 
 if ($BuildRuntimeStore) {
-    $count +=1
     $targets += '-target:src\RuntimeStore\RuntimeStore'
-    $properties += '-property:BuildProjectReferences=false'
 }
 
 if ($BuildPackageArchive) {
-    $count +=1
     $targets += '-target:src\PackageArchive\PackageArchive'
-    $properties += '-property:BuildProjectReferences=false'
 }
 
-if ($count -eq 0) {
-    $targets += '-target:Build'
-}
-
-if ($count -gt 1) {
-    Write-Host -f Red "At the moment, only building once phase at a time is supported."
-    exit 1
+if ($BuildMetapackage) {
+    $targets += '-target:src\Metapackage\Metapackage'
 }
 
 if ($BinaryLog) {

@@ -4,6 +4,10 @@
 
   <PropertyGroup>
     <Product>Microsoft ASP.NET Core</Product>
+    <Copyright>Copyright © Microsoft Corporation</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/aspnet/Home/2.0.0/LICENSE.txt</PackageLicenseUrl>
+    <PackageIconUrl>https://go.microsoft.com/fwlink/?LinkID=288859</PackageIconUrl>
+    <PackageProjectUrl>https://asp.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/aspnet/Universe</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
