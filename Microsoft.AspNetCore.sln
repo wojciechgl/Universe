@@ -4,7 +4,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D7AFA165-BB36-4DE9-80B3-69C00E862B81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Templating", "src\Tooling\Templating.repoproj", "{17052599-51B1-491A-984F-FB1DE6ACB894}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Templating", "src\Templating\Templating.repoproj", "{17052599-51B1-491A-984F-FB1DE6ACB894}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mirror", "src\Partners\Mirror.proj", "{360B9FB0-7EC3-4C88-81E9-C32009D283D6}"
 EndProject
@@ -94,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSockets", "src\Framework
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{C3229682-9150-4E4A-BF29-9B1E92B6FFF1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tooling", "Tooling", "{A7FFFC63-E8ED-46D3-86C0-FEE4449BD4D7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templating", "Templating", "{A7FFFC63-E8ED-46D3-86C0-FEE4449BD4D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Partners", "Partners", "{70D9B094-74EE-4052-A545-45981DE7D83D}"
 EndProject

@@ -84,6 +84,7 @@
       <BuildArgs>$(BuildArgs) /p:BuildNumber=$(BuildNumber)</BuildArgs>
       <BuildArgs>$(BuildArgs) /p:Configuration=$(Configuration)</BuildArgs>
       <BuildArgs>$(BuildArgs) /p:IsFinalBuild=$(IsFinalBuild)</BuildArgs>
+      <BuildArgs>$(BuildArgs) /t:CleanArtifacts</BuildArgs>
       <BuildArgs>$(BuildArgs) /t:Package</BuildArgs>
       <BuildArgs>$(BuildArgs) /t:VerifyPackages</BuildArgs>
     </PropertyGroup>
