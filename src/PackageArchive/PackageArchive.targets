@@ -54,26 +54,19 @@
     <Copy SourceFiles="$(_TemplatesDirectory)Archive\Archive.csproj" DestinationFiles="$(IntermediateOutputPath)Archive.csproj" />
 
     <ItemGroup>
-      <PackageArtifact Include="%(ArtifactReference.PackageId)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.ExternalDependency)' != 'true'">
+      <ArchivePackage Include="%(ArtifactReference.PackageId)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.LZMA)' == 'true'">
         <Version>%(ArtifactReference.Version)</Version>
-        <LZMA>%(ArtifactReference.LZMA)</LZMA>
-        <LZMATools>%(ArtifactReference.LZMATools)</LZMATools>
-      </PackageArtifact>
-      <ExternalDependency Include="%(ArtifactReference.PackageId)" Version="%(ArtifactReference.Version)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.ExternalDependency)' == 'true'">
+      </ArchivePackage>
+      <ArchiveTools Include="%(ArtifactReference.PackageId)" Condition="'%(ArtifactReference.ArtifactType)' == 'NuGetPackage' AND '%(ArtifactReference.LZMATools)' == 'true'">
         <Version>%(ArtifactReference.Version)</Version>
-        <LZMA>%(ArtifactReference.LZMA)</LZMA>
-        <LZMATools>%(ArtifactReference.LZMATools)</LZMATools>
-      </ExternalDependency>
+      </ArchiveTools>
     </ItemGroup>
 
     <!-- Copy the archive template -->
     <RepoTasks.AddArchiveReferences
       ReferencePackagePath="$(IntermediateOutputPath)Archive.csproj"
-      BuildArtifacts="@(ArtifactReference)"
-      PackageArtifacts="@(PackageArtifact)"
-      ExternalDependencies="@(ExternalDependency)"
-      RemoveTimestamp="$(RemoveTimestamp)"
-      MetapackageVersion="$(MetapackageVersion)" />
+      References="@(ArchivePackage)"
+      Tools="@(ArchiveTools)" />
 
     <PropertyGroup>
       <FallbackStagingDir>$(IntermediateOutputPath)$(OutputPackageName)</FallbackStagingDir>

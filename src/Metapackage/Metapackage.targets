@@ -30,12 +30,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Artifact Include="$(TargetPath)">
+    <ArtifactInfo Include="$(TargetPath)">
       <ArtifactType>NuGetPackage</ArtifactType>
       <PackageId>$(PackageId)</PackageId>
       <Version>$(PackageVersion)</Version>
       <Category>ship</Category>
-    </Artifact>
+      <LZMA>true</LZMA>
+    </ArtifactInfo>
   </ItemGroup>
 
   <Target Name="Pack" DependsOnTargets="ResolveReferences">

@@ -57,29 +57,29 @@
   <!-- Final output-->
   <Target Name="ResolveArtifacts">
     <ItemGroup>
-      <Artifact Include="$(ArchiveTargetPath)">
+      <ArtifactInfo Include="$(ArchiveTargetPath)">
         <ArtifactType>ZipArchive</ArtifactType>
         <Id>aspnetcore-store</Id>
         <RuntimeIdentifier>$(RuntimeIdentifier)</RuntimeIdentifier>
         <Version>$(PackageVersion)</Version>
         <Arch>$(RuntimeArch)</Arch>
-      </Artifact>
+      </ArtifactInfo>
 
-      <Artifact Include="$(SymbolsArchiveTargetPath)">
+      <ArtifactInfo Include="$(SymbolsArchiveTargetPath)">
         <ArtifactType>ZipArchive</ArtifactType>
         <Id>aspnetcore-symbols</Id>
         <RuntimeIdentifier>$(RuntimeIdentifier)</RuntimeIdentifier>
         <Version>$(PackageVersion)</Version>
         <Arch>$(RuntimeArch)</Arch>
-      </Artifact>
+      </ArtifactInfo>
 
-      <Artifact Include="$(ManifestTargetPath)">
+      <ArtifactInfo Include="$(ManifestTargetPath)">
         <ArtifactType>RuntimeStoreManifest</ArtifactType>
-      </Artifact>
+      </ArtifactInfo>
 
-      <Artifact Include="$(CommonManifestTargetPath)">
+      <ArtifactInfo Include="$(CommonManifestTargetPath)">
         <ArtifactType>RuntimeStoreManifest</ArtifactType>
-      </Artifact>
+      </ArtifactInfo>
     </ItemGroup>
   </Target>
 

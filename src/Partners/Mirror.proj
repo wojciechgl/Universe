@@ -19,14 +19,14 @@
 
   <Target Name="ResolveArtifacts">
     <ItemGroup>
-      <Artifact Include="$(OutputPath)%(ExternalDependency.Identity).%(ExternalDependency.Version).nupkg">
+      <ArtifactInfo Include="$(OutputPath)%(ExternalDependency.Identity).%(ExternalDependency.Version).nupkg">
         <ArtifactType>NuGetPackage</ArtifactType>
         <ExternalDependency>true</ExternalDependency>
         <PackageId>%(ExternalDependency.Identity)</PackageId>
         <VariableName>%(ExternalDependency.VariableName)</VariableName>
         <VariableTargetFramework>%(ExternalDependency.TargetFramework)</VariableTargetFramework>
         <Version>%(ExternalDependency.Version)</Version>
-      </Artifact>
+      </ArtifactInfo>
     </ItemGroup>
   </Target>
 

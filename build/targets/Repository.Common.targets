@@ -102,10 +102,10 @@
     <!-- TODO: consider writing directly to output path instead of copying. There were problems with trailing slashes :( -->
     <Copy SourceFiles="@(_CompileOutputs)" DestinationFiles="$(OutputPath)%(RecursiveDir)%(FileName)%(Extension)" />
 
-    <Message Text="$(MSBuildProjectName) -> %(Artifact.FullPath)" Condition="'%(Artifact.Identity)' != ''" Importance="High" />
+    <Message Text="$(MSBuildProjectName) -> %(ArtifactInfo.FullPath)" Condition="'%(ArtifactInfo.Identity)' != ''" Importance="High" />
 
     <!-- Clean the local nuget cache -->
-    <RemoveDir Directories="$(RestorePackagesPath)\%(Artifact.PackageId)\%(Version)\" Condition="'%(ArtifactType)' == 'NuGetPackage'" />
+    <RemoveDir Directories="$(RestorePackagesPath)\%(ArtifactInfo.PackageId)\%(Version)\" Condition="'%(ArtifactType)' == 'NuGetPackage'" />
   </Target>
 
   <Target Name="CleanRepo">
@@ -118,7 +118,7 @@
   <Target Name="DownloadFromBuildCache" DependsOnTargets="ResolveArtifacts">
 
     <ItemGroup>
-      <_PackagesToDownload Include="%(Artifact.PackageId)" Version="%(Artifact.Version)" Source="$(NuGetArtifactSource)" />
+      <_PackagesToDownload Include="%(ArtifactInfo.PackageId)" Version="%(ArtifactInfo.Version)" Source="$(NuGetArtifactSource)" />
     </ItemGroup>
 
     <RepoTasks.DownloadNuGetPackages
@@ -141,9 +141,9 @@
       Condition="'$(FallbackNuGetArtifactSource)' != ''"
       ContinueOnError="true" />
 
-    <MakeDir Directories="%(Artifact.RootDir)%(Artifact.Directory)" />
+    <MakeDir Directories="%(ArtifactInfo.RootDir)%(ArtifactInfo.Directory)" />
 
-    <Message Text="CACHE $(MSBuildProjectName) -> %(Artifact.FullPath)" Condition="%(Artifact.Identity) != ''" Importance="High" />
+    <Message Text="CACHE $(MSBuildProjectName) -> %(ArtifactInfo.FullPath)" Condition="%(ArtifactInfo.Identity) != ''" Importance="High" />
   </Target>
 
   <Target Name="ResolveArtifacts">
@@ -166,7 +166,7 @@
     <RepoTasks.JoinItems
         Left="@(_Artifact)" LeftKey="PackageId" LeftMetadata="*" LeftItemSpec="Identity"
         Right="@(PackageArtifact)" RightMetadata="Category;RuntimeStore;LZMA;LZMATools;Metapackage">
-      <Output TaskParameter="JoinResult" ItemName="Artifact" />
+      <Output TaskParameter="JoinResult" ItemName="ArtifactInfo" />
     </RepoTasks.JoinItems>
 
   </Target>

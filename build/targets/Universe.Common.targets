@@ -36,12 +36,12 @@
   </Target>
 
   <!-- Override the default GetTargetPath target -->
-  <Target Name="GetTargetPath" DependsOnTargets="$(GetTargetPathDependsOn)" Returns="@(Artifact)" />
+  <Target Name="GetTargetPath" DependsOnTargets="$(GetTargetPathDependsOn)" Returns="@(ArtifactInfo)" />
 
   <!-- Override the default Build target because the one in Microsoft.Common.targets doesn't Return items -->
   <Target Name="Build"
     DependsOnTargets="$(BuildDependsOn)"
-    Returns="@(Artifact)" />
+    Returns="@(ArtifactInfo)" />
 
 
   <Target Name="_CheckForUnsupportedPlatform"
