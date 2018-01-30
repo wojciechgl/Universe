@@ -20,10 +20,10 @@
 param(
     [string]$GitAuthorName = $null,
     [string]$GitAuthorEmail = $null,
+    [string[]]$IgnoredRepos = @(),
     [string[]]$GitCommitArgs = @(),
     [switch]$NoCommit,
-    [switch]$Force,
-    [string[]]$IgnoredRepos = @()
+    [switch]$Force
 )
 
 $ErrorActionPreference = 'Stop'
@@ -59,8 +59,7 @@ try {
 
     foreach ($submodule in  $submodules) {
         $submoduleName = $submodule.module
-        if ($IgnoredRepos.Contains($submoduleName))
-        {
+        if ($IgnoredRepos.Contains($submoduleName)) {
             Write-Host "Skipping $submoduleName due to IgnoredRepos."
             continue
         }
@@ -68,7 +67,7 @@ try {
         $submodulePath = $submodule.path
         Write-Host "Updating $submodulePath"
 
-        $vcs_name = "BUILD_VCS_NUMBER_" + ($submodule.module -replace '\.','_')
+        $vcs_name = "BUILD_VCS_NUMBER_" + ($submodule.module -replace '\.', '_')
         $newCommit = [environment]::GetEnvironmentVariable($vcs_name)
 
         if (-not $newCommit) {
@@ -107,9 +106,9 @@ try {
     $changes = $submodules `
         | ? { $_.changed } `
         | % {
-            Invoke-Block { & git add $_.path }
-            "$($_.module) => $($_.newCommit)"
-        }
+        Invoke-Block { & git add $_.path }
+        "$($_.module) => $($_.newCommit)"
+    }
 
     if ($changes) {
         $shortMessage = "Updating submodule(s) `n`n$( $changes -join "`n" )"
@@ -119,11 +118,11 @@ try {
 
             $gitConfigArgs = @()
             if ($GitAuthorName) {
-                $gitConfigArgs += '-c',"user.name=$GitAuthorName"
+                $gitConfigArgs += '-c', "user.name=$GitAuthorName"
             }
 
             if ($GitAuthorEmail) {
-                $gitConfigArgs += '-c',"user.email=$GitAuthorEmail"
+                $gitConfigArgs += '-c', "user.email=$GitAuthorEmail"
             }
 
             Invoke-Block { & git @gitConfigArgs commit -m $message @GitCommitArgs }
