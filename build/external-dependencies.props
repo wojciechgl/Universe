@@ -204,6 +204,7 @@
     <ExternalDependency Include="System.Reactive.Linq" Version="$(SystemReactiveLinqPackageVersion)" />
     <ExternalDependency Include="System.Reflection.DispatchProxy" Version="$(SystemReflectionDispatchProxyPackageVersion)" />
     <ExternalDependency Include="System.Reflection.Emit" Version="$(SystemReflectionEmitPackageVersion)" />
+    <ExternalDependency Include="System.Reflection.Emit.Lightweight" Version="$(SystemReflectionEmitLightweightPackageVersion)" />
     <ExternalDependency Include="System.Reflection.Metadata" Version="$(SystemReflectionMetadataPackageVersion)" />
     <ExternalDependency Include="System.Reflection.TypeExtensions" Version="$(SystemReflectionTypeExtensionsPackageVersion)" />
     <ExternalDependency Include="System.Runtime.CompilerServices.Unsafe" Version="$(SystemRuntimeCompilerServicesUnsafePackageVersion)" />
