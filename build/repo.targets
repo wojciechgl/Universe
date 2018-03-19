@@ -150,6 +150,21 @@
     </RepoTasks.AnalyzeBuildGraph>
   </Target>
 
+  <Target Name="GeneratePatchManifest" DependsOnTargets="ResolveRepoInfo">
+    <RepoTasks.GeneratePatchManifest
+      Solutions="@(Solution)"
+      Properties="Configuration=$(Configuration)"
+      PatchManifestPath="$(PatchManifestPath)" />
+  </Target>
+
+  <Target Name="UpdatePatch" DependsOnTargets="ResolveRepoInfo">
+    <RepoTasks.GeneratePatchManifest
+      Solutions="@(Solution)"
+      Properties="Configuration=$(Configuration)"
+      PatchManifestPath="$(PatchManifestPath)"
+      PatchConfigPath="$(PatchManifestPath)" />
+  </Target>
+
   <Target Name="SplitPackages">
     <ItemGroup>
       <PackageArtifactFile Include="$(BuildDir)*.nupkg" />
