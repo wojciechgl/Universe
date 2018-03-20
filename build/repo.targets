@@ -167,6 +167,7 @@
       PatchPackages="@(PatchPackage)"
       RepoUpdates="@(RepoUpdates)"
       PackageUpdates="@(PackageUpdates)"
+      PatchUpdatesPath="$(PatchUpdatesPath)"
       PatchManifestPath="$(PatchManifestPath)"
       PatchConfigPath="$(PatchManifestPath)" />
   </Target>

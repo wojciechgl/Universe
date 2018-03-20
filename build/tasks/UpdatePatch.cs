@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using NuGet.Versioning;
@@ -44,6 +46,9 @@ namespace RepoTasks
         public string PatchConfigPath { get; set; }
 
         [Required]
+        public string PatchUpdatesPath { get; set; }
+
+        [Required]
         public string Properties { get; set; }
 
         [Required]
@@ -74,11 +79,12 @@ namespace RepoTasks
             // {
             //     Log.LogMessage(MessageImportance.High, $"{patchPackage.PackageName}:{patchPackage.CurrentVersion}=>{patchPackage.CurrentVersion}");
             // }
-            foreach (var packageArtifact in packageArtifacts)
-            {
-                Log.LogMessage(MessageImportance.High, $"Package Artifact: {packageArtifact.PackageInfo.Id}");
-            }
+            // foreach (var packageArtifact in packageArtifacts)
+            // {
+            //     Log.LogMessage(MessageImportance.High, $"Package Artifact: {packageArtifact.PackageInfo.Id}");
+            // }
 
+            // Generate build graph
             var repositories = solutions.Select(s =>
                 {
                     var repoName = Path.GetFileName(Path.GetDirectoryName(s.FullPath));
@@ -110,31 +116,32 @@ namespace RepoTasks
 
             var graph = GraphBuilder.Generate(repositories, string.Empty, Log);
 
-            foreach (var node in graph)
-            {
-                Log.LogMessage(MessageImportance.High, $"Repository: {node.Repository.Name}");
-                foreach (var dependentRepo in node.Incoming)
-                {
-                    Log.LogMessage(MessageImportance.High, $"Incoming: {dependentRepo.Repository.Name}");
-                }
-                foreach (var project in node.Repository.Projects)
-                {
-                    Log.LogMessage(MessageImportance.High, $"  Project: {project.Name}");
-                    foreach (var dependency in project.PackageReferences)
-                    {
-                        Log.LogMessage(MessageImportance.High, $"    Dependency: {dependency}");
-                    }
-                }
-                foreach (var project in node.Repository.SupportProjects)
-                {
-                    Log.LogMessage(MessageImportance.High, $"  SupportProject: {project.Name}");
-                    foreach (var dependency in project.PackageReferences)
-                    {
-                        Log.LogMessage(MessageImportance.High, $"    Dependency: {dependency}");
-                    }
-                }
-            }
+            // foreach (var node in graph)
+            // {
+            //     Log.LogMessage(MessageImportance.High, $"Repository: {node.Repository.Name}");
+            //     foreach (var dependentRepo in node.Incoming)
+            //     {
+            //         Log.LogMessage(MessageImportance.High, $"Incoming: {dependentRepo.Repository.Name}");
+            //     }
+            //     foreach (var project in node.Repository.Projects)
+            //     {
+            //         Log.LogMessage(MessageImportance.High, $"  Project: {project.Name}");
+            //         foreach (var dependency in project.PackageReferences)
+            //         {
+            //             Log.LogMessage(MessageImportance.High, $"    Dependency: {dependency}");
+            //         }
+            //     }
+            //     foreach (var project in node.Repository.SupportProjects)
+            //     {
+            //         Log.LogMessage(MessageImportance.High, $"  SupportProject: {project.Name}");
+            //         foreach (var dependency in project.PackageReferences)
+            //         {
+            //             Log.LogMessage(MessageImportance.High, $"    Dependency: {dependency}");
+            //         }
+            //     }
+            // }
 
+            // Update initial packages and repos
             var packagesToUpdate = new HashSet<PackageUpdate>();
 
             foreach (var packageUpdate in packageUpdates)
@@ -169,16 +176,17 @@ namespace RepoTasks
                 packagesToUpdate.UnionWith(projectsToUpdate);
             }
 
+            // Cascade updates
             foreach (var repo in graph.OrderBy(n => TopologicalSort.GetOrder(n)).Select(n => n.Repository))
             {
-                Log.LogMessage(MessageImportance.High, $"Cascading repo {repo.Name}");
+                // Log.LogMessage(MessageImportance.High, $"Cascading repo {repo.Name}");
 
                 if (repo.Projects.Any(project =>
                     project.PackageReferences.Any(reference =>
                         packagesToUpdate.Any(package =>
                             string.Equals(reference, package.PackageName, StringComparison.OrdinalIgnoreCase)))))
                 {
-                    Log.LogMessage(MessageImportance.High, $"{repo.Name} requires cascaded update");
+                    // Log.LogMessage(MessageImportance.High, $"{repo.Name} requires cascaded update");
 
                     var repoProjects = graph
                         .Single(n => string.Equals(n.Repository.Name, repo.Name, StringComparison.OrdinalIgnoreCase))
@@ -207,12 +215,30 @@ namespace RepoTasks
                 }
             }
 
+            // Generate patch update file
+            var root = new XElement("ItemGroup");
+            var doc = new XDocument(new XElement("Project", root));
             foreach (var packageToUpdate in packagesToUpdate)
             {
                 Log.LogMessage(MessageImportance.High, $"Updates required: {packageToUpdate.PackageName}={packageToUpdate.PackageVersion}");
+
+                var packageElement = new XElement("PatchUpdate");
+                packageElement.Add(new XAttribute("Include", packageToUpdate.PackageName));
+                packageElement.Add(new XAttribute("CurrentVersion", packageToUpdate.PackageVersion));
+                root.Add(packageElement);
             }
 
-            // Parse input
+            using (var writer = XmlWriter.Create(PatchUpdatesPath, new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                Indent = true,
+            }))
+            {
+                Log.LogMessage(MessageImportance.Normal, $"Generate {PatchUpdatesPath}");
+                doc.Save(writer);
+            }
+
+            // TODO: Update patch manifest
             return true;
         }
     }

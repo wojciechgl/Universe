@@ -1,0 +1,16 @@
+﻿<Project>
+  <ItemGroup>
+    <PatchUpdate Include="StackExchange.Redis.StrongName" CurrentVersion="9.9.9" />
+    <PatchUpdate Include="Microsoft.AspNetCore.Hosting.WindowsServices" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.AspNetCore.Server.IntegrationTesting" CurrentVersion="0.4.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.AspNetCore.Hosting.Abstractions" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.Extensions.Hosting.Abstractions" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.AspNetCore.Hosting" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.AspNetCore.TestHost" CurrentVersion="2.0.2-rtm-30245" />
+    <PatchUpdate Include="Microsoft.Extensions.Caching.Abstractions" CurrentVersion="2.0.1" />
+    <PatchUpdate Include="Microsoft.Extensions.Caching.Memory" CurrentVersion="2.0.1" />
+    <PatchUpdate Include="Microsoft.Extensions.Caching.SqlServer" CurrentVersion="2.0.1" />
+    <PatchUpdate Include="Microsoft.Extensions.Caching.Redis" CurrentVersion="2.0.1" />
+  </ItemGroup>
+</Project>
