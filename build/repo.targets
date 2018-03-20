@@ -5,10 +5,9 @@
   <Import Project="PackageArchive.targets" />
   <Import Project="Templating.targets" />
   <Import Project="push.targets" />
-  <Import Project="$(PatchConfigPath)" Condition="'$(PatchConfigPath)' != ''" />
-  <Import Project="$(PatchManifestPath)" Condition="'$(PatchManifestPath)' != ''" />
 
   <PropertyGroup>
+    <ReleaseManifestPath>$(RepositoryRoot)build\ReleaseManifest.props</ReleaseManifestPath>
     <SubmoduleRoot>$(RepositoryRoot)modules\</SubmoduleRoot>
     <_DependencyBuildDirectory>$(RepositoryRoot).deps\build\</_DependencyBuildDirectory>
     <_DependencyPackagesDirectory>$(_DependencyBuildDirectory)</_DependencyPackagesDirectory>
@@ -29,6 +28,9 @@
     <PackageDependsOn>$(PackageDependsOn);BuildAllMetapackage;BuildTemplates;SplitPackages</PackageDependsOn>
     <VerifyDependsOn>$(VerifyDependsOn);VerifyCoherentVersions</VerifyDependsOn>
   </PropertyGroup>
+
+  <Import Project="$(ReleaseManifestPath)" Condition="'$(ReleaseManifestPath)' != ''" />
+  <Import Project="$(PatchConfigPath)" Condition="'$(PatchConfigPath)' != ''" />
 
   <Target Name="PrepareOutputPath">
     <MakeDir Directories="$(ArtifactsDir);$(BuildDir)" />
@@ -152,23 +154,23 @@
     </RepoTasks.AnalyzeBuildGraph>
   </Target>
 
-  <Target Name="GeneratePatchManifest" DependsOnTargets="ResolveRepoInfo">
-    <RepoTasks.GeneratePatchManifest
+  <Target Name="GenerateReleaseManifest" DependsOnTargets="ResolveRepoInfo">
+    <RepoTasks.GenerateReleaseManifest
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
-      PatchManifestPath="$(PatchManifestPath)" />
+      ReleaseManifestPath="$(ReleaseManifestPath)" />
   </Target>
 
-  <Target Name="UpdatePatch" DependsOnTargets="ResolveRepoInfo">
-    <RepoTasks.UpdatePatch
+  <Target Name="ComputeUpdatesForRelease" DependsOnTargets="ResolveRepoInfo">
+    <RepoTasks.ComputeUpdatesForRelease
       Artifacts="@(ArtifactInfo)"
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
       PatchPackages="@(PatchPackage)"
-      RepoUpdates="@(RepoUpdates)"
-      PackageUpdates="@(PackageUpdates)"
+      SourceUpdates="@(SourceUpdates)"
+      DependencyUpdates="@(DependencyUpdates)"
       PatchUpdatesPath="$(PatchUpdatesPath)"
-      PatchManifestPath="$(PatchManifestPath)"
+      ReleaseManifestPath="$(PatchManifestPath)"
       PatchConfigPath="$(PatchManifestPath)" />
   </Target>
 

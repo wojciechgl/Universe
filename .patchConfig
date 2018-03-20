@@ -1,6 +1,6 @@
 <Project>
     <ItemGroup>
-        <RepoUpdates Include="Hosting" />
-        <PackageUpdates Include="StackExchange.Redis.StrongName" Version="9.9.9" />
+        <SourceUpdates Include="Microsoft.AspNetCore.Hosting" />
+        <DependencyUpdates Include="StackExchange.Redis.StrongName" Version="9.9.9" />
     </ItemGroup>
 </Project>

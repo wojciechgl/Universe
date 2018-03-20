@@ -14,10 +14,10 @@ using RepoTasks.Utilities;
 
 namespace RepoTasks
 {
-    public class GeneratePatchManifest : Task
+    public class GenerateReleaseManifest : Task
     {
         [Required]
-        public string PatchManifestPath { get; set; }
+        public string ReleaseManifestPath { get; set; }
 
         [Required]
         public string Properties { get; set; }
@@ -50,13 +50,13 @@ namespace RepoTasks
                 }
             }
 
-            using (var writer = XmlWriter.Create(PatchManifestPath, new XmlWriterSettings
+            using (var writer = XmlWriter.Create(ReleaseManifestPath, new XmlWriterSettings
             {
                 OmitXmlDeclaration = true,
                 Indent = true,
             }))
             {
-                Log.LogMessage(MessageImportance.Normal, $"Generate {PatchManifestPath}");
+                Log.LogMessage(MessageImportance.Normal, $"Generate {ReleaseManifestPath}");
                 doc.Save(writer);
             }
 

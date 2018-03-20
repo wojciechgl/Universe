@@ -18,6 +18,6 @@
   <UsingTask TaskName="RepoTasks.ComposeNewStore" AssemblyFile="$(_RepoTaskAssembly)" />
   <UsingTask TaskName="RepoTasks.ConsolidateManifests" AssemblyFile="$(_RepoTaskAssembly)" />
   <UsingTask TaskName="RepoTasks.ReplaceInFile" AssemblyFile="$(_RepoTaskAssembly)" />
-  <UsingTask TaskName="RepoTasks.GeneratePatchManifest" AssemblyFile="$(_RepoTaskAssembly)" />
-  <UsingTask TaskName="RepoTasks.UpdatePatch" AssemblyFile="$(_RepoTaskAssembly)" />
+  <UsingTask TaskName="RepoTasks.GenerateReleaseManifest" AssemblyFile="$(_RepoTaskAssembly)" />
+  <UsingTask TaskName="RepoTasks.ComputeUpdatesForRelease" AssemblyFile="$(_RepoTaskAssembly)" />
 </Project>

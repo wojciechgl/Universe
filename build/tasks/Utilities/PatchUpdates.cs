@@ -4,36 +4,24 @@
 using System;
 using System.IO;
 using System.Linq;
-using NuGet.Frameworks;
-using NuGet.Packaging;
-using NuGet.Packaging.Core;
-using NuGet.Versioning;
 using Microsoft.Build.Framework;
 using RepoTasks.ProjectModel;
 
 namespace RepoTasks.Utilities
 {
-    internal class RepoUpdate
+    internal class ReleaseUpdate
     {
-        public static RepoUpdate Parse(ITaskItem item)
-            => new RepoUpdate { RepoName = item.GetMetadata("Identity") };
-
-        public string RepoName { get; private set; }
-    }
-
-    internal class PackageUpdate
-    {
-        public static PackageUpdate Parse(ITaskItem item)
-            => new PackageUpdate
+        public static ReleaseUpdate Parse(ITaskItem item)
+            => new ReleaseUpdate
             {
-                PackageName = item.GetMetadata("Identity"),
-                PackageVersion = item.GetMetadata("Version"),
+                Name = item.GetMetadata("Identity"),
+                Version = item.GetMetadata("Version"),
             };
 
-        public string PackageName { get; set; }
-        public string PackageVersion { get; set; }
+        public string Name { get; set; }
+        public string Version { get; set; }
 
-        public override int GetHashCode() => (PackageName + PackageVersion).GetHashCode();
+        public override int GetHashCode() => (Name + Version).GetHashCode();
     }
 
     internal class PatchPackage
@@ -41,13 +29,13 @@ namespace RepoTasks.Utilities
         public static PatchPackage Parse(ITaskItem item)
             => new PatchPackage
             {
-                PackageName = item.GetMetadata("Identity"),
-                CurrentVersion = item.GetMetadata("CurrentVersion"),
-                PatchedVersion = item.GetMetadata("PatchedVersion"),
+                Name = item.GetMetadata("Identity"),
+                Version = item.GetMetadata("Version"),
+                NewVersion = item.GetMetadata("NewVersion"),
             };
 
-        public string PackageName { get; private set; }
-        public string CurrentVersion { get; private set; }
-        public string PatchedVersion { get; set; }
+        public string Name { get; private set; }
+        public string Version { get; private set; }
+        public string NewVersion { get; set; }
     }
 }

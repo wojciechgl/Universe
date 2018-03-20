@@ -25,7 +25,7 @@ namespace RepoTasks
         }
     }
 
-    public class UpdatePatch : Task
+    public class ComputeUpdatesForRelease : Task
     {
         [Required]
         public ITaskItem[] Artifacts { get; set; }
@@ -34,13 +34,13 @@ namespace RepoTasks
         public ITaskItem[] PatchPackages { get; set; }
 
         [Required]
-        public ITaskItem[] RepoUpdates { get; set; }
+        public ITaskItem[] SourceUpdates { get; set; }
 
         [Required]
-        public ITaskItem[] PackageUpdates { get; set; }
+        public ITaskItem[] DependencyUpdates { get; set; }
 
         [Required]
-        public string PatchManifestPath { get; set; }
+        public string ReleaseManifestPath { get; set; }
 
         [Required]
         public string PatchConfigPath { get; set; }
@@ -56,8 +56,8 @@ namespace RepoTasks
 
         public override bool Execute()
         {
-            var repoUpdates = RepoUpdates.Select(RepoUpdate.Parse);
-            var packageUpdates = PackageUpdates.Select(PackageUpdate.Parse);
+            var sourceUpdates = SourceUpdates.Select(ReleaseUpdate.Parse);
+            var dependencyUpdates = DependencyUpdates.Select(ReleaseUpdate.Parse);
             var patchPackages = PatchPackages.Select(PatchPackage.Parse);
 
             var factory = new SolutionInfoFactory(Log, BuildEngine5);
@@ -67,11 +67,11 @@ namespace RepoTasks
                 .OfType<ArtifactInfo.Package>()
                 .Where(p => !p.IsSymbolsArtifact);
 
-            // foreach (var repoUpdate in repoUpdates)
+            // foreach (var repoUpdate in sourceUpdates)
             // {
             //     Log.LogMessage(MessageImportance.High, repoUpdate.RepoName);
             // }
-            // foreach (var packageUpdate in packageUpdates)
+            // foreach (var packageUpdate in dependencyUpdates)
             // {
             //     Log.LogMessage(MessageImportance.High, $"{packageUpdate.PackageName}:{packageUpdate.PackageVersion}");
             // }
@@ -142,38 +142,58 @@ namespace RepoTasks
             // }
 
             // Update initial packages and repos
-            var packagesToUpdate = new HashSet<PackageUpdate>();
+            var packagesToUpdate = new HashSet<ReleaseUpdate>();
 
-            foreach (var packageUpdate in packageUpdates)
+            foreach (var packageUpdate in dependencyUpdates)
             {
+                if (!graph.Any(node =>
+                    node.Repository.AllProjects.Any(project =>
+                        project.PackageReferences.Any(dependency =>
+                            string.Equals(dependency, packageUpdate.Name, StringComparison.OrdinalIgnoreCase)))))
+                {
+                    Log.LogError($"The dependency to be updated, {packageUpdate.Name}, does not exist as a dependency of any projects in this patch.");
+                }
+
                 packagesToUpdate.Add(packageUpdate);
             }
-            foreach (var repoUpdate in repoUpdates)
+            foreach (var sourceUpdate in sourceUpdates)
             {
-                var repoProjects = graph
-                    .Single(n => string.Equals(n.Repository.Name, repoUpdate.RepoName, StringComparison.OrdinalIgnoreCase))
-                    .Repository
-                    .Projects;
-                var unupdatedProjects = patchPackages
-                    .Where(patchPackage =>
-                        repoProjects.Any(repoProject =>
-                            string.Equals(repoProject.Name, patchPackage.PackageName, StringComparison.OrdinalIgnoreCase)
-                            && patchPackage.CurrentVersion == patchPackage.PatchedVersion));
-                // foreach (var project in unupdatedProjects)
-                // {
-                //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageName}:{project.CurrentVersion}");
-                // }
-                var projectsToUpdate = unupdatedProjects
-                        .Select(projectToUpdate => new PackageUpdate
-                        {
-                            PackageName = projectToUpdate.PackageName,
-                            PackageVersion = NuGetVersion.Parse(projectToUpdate.PatchedVersion).IncrementPatch().ToNormalizedString()
-                        });
-                // foreach (var project in projectsToUpdate)
-                // {
-                //     Log.LogMessage(MessageImportance.High, $"  PackagesToUpdate: {project.PackageName}:{project.PackageVersion}");
-                // }
-                packagesToUpdate.UnionWith(projectsToUpdate);
+                // var repoProjects = graph
+                //     .Single(n => string.Equals(n.Repository.Name, repoUpdate.RepoName, StringComparison.OrdinalIgnoreCase))
+                //     .Repository
+                //     .Projects;
+                // var unupdatedProjects = patchPackages
+                //     .Where(patchPackage =>
+                //         repoProjects.Any(repoProject =>
+                //             string.Equals(repoProject.Name, patchPackage.PackageName, StringComparison.OrdinalIgnoreCase)
+                //             && patchPackage.CurrentVersion == patchPackage.PatchedVersion));
+                // // foreach (var project in unupdatedProjects)
+                // // {
+                // //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageName}:{project.CurrentVersion}");
+                // // }
+                // var projectsToUpdate = unupdatedProjects
+                //         .Select(projectToUpdate => new ReleaseUpdate
+                //         {
+                //             PackageName = projectToUpdate.PackageName,
+                //             PackageVersion = NuGetVersion.Parse(projectToUpdate.PatchedVersion).IncrementPatch().ToNormalizedString()
+                //         });
+                // // foreach (var project in projectsToUpdate)
+                // // {
+                // //     Log.LogMessage(MessageImportance.High, $"  PackagesToUpdate: {project.PackageName}:{project.PackageVersion}");
+                // // }
+                // packagesToUpdate.UnionWith(projectsToUpdate);
+
+                if (!graph.Any(node =>
+                    node.Repository.Projects.Any(project =>
+                        string.Equals(project.Name, sourceUpdate.Name, StringComparison.OrdinalIgnoreCase))))
+                {
+                    Log.LogError($"The source project to be updated, {sourceUpdate.Name}, does not exist in this patch.");
+                }
+
+                var currentSourceVersion = patchPackages.Single(p => string.Equals(p.Name, sourceUpdate.Name, StringComparison.OrdinalIgnoreCase)).Version;
+                sourceUpdate.Version = NuGetVersion.Parse(currentSourceVersion).IncrementPatch().ToNormalizedString();
+
+                packagesToUpdate.Add(sourceUpdate);
             }
 
             // Cascade updates
@@ -184,7 +204,7 @@ namespace RepoTasks
                 if (repo.Projects.Any(project =>
                     project.PackageReferences.Any(reference =>
                         packagesToUpdate.Any(package =>
-                            string.Equals(reference, package.PackageName, StringComparison.OrdinalIgnoreCase)))))
+                            string.Equals(reference, package.Name, StringComparison.OrdinalIgnoreCase)))))
                 {
                     // Log.LogMessage(MessageImportance.High, $"{repo.Name} requires cascaded update");
 
@@ -195,17 +215,17 @@ namespace RepoTasks
                     var unupdatedProjects = patchPackages
                         .Where(patchPackage =>
                             repoProjects.Any(repoProject =>
-                                string.Equals(repoProject.Name, patchPackage.PackageName, StringComparison.OrdinalIgnoreCase)
-                                && patchPackage.CurrentVersion == patchPackage.PatchedVersion));
+                                string.Equals(repoProject.Name, patchPackage.Name, StringComparison.OrdinalIgnoreCase)
+                                && patchPackage.Version == patchPackage.NewVersion));
                     // foreach (var project in unupdatedProjects)
                     // {
                     //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageName}:{project.CurrentVersion}");
                     // }
                     var projectsToUpdate = unupdatedProjects
-                            .Select(projectToUpdate => new PackageUpdate
+                            .Select(projectToUpdate => new ReleaseUpdate
                             {
-                                PackageName = projectToUpdate.PackageName,
-                                PackageVersion = NuGetVersion.Parse(projectToUpdate.PatchedVersion).IncrementPatch().ToNormalizedString()
+                                Name = projectToUpdate.Name,
+                                Version = NuGetVersion.Parse(projectToUpdate.NewVersion).IncrementPatch().ToNormalizedString()
                             });
                     // foreach (var project in projectsToUpdate)
                     // {
@@ -220,11 +240,11 @@ namespace RepoTasks
             var doc = new XDocument(new XElement("Project", root));
             foreach (var packageToUpdate in packagesToUpdate)
             {
-                Log.LogMessage(MessageImportance.High, $"Updates required: {packageToUpdate.PackageName}={packageToUpdate.PackageVersion}");
+                Log.LogMessage(MessageImportance.High, $"Updates required: {packageToUpdate.Name}={packageToUpdate.Version}");
 
                 var packageElement = new XElement("PatchUpdate");
-                packageElement.Add(new XAttribute("Include", packageToUpdate.PackageName));
-                packageElement.Add(new XAttribute("CurrentVersion", packageToUpdate.PackageVersion));
+                packageElement.Add(new XAttribute("Include", packageToUpdate.Name));
+                packageElement.Add(new XAttribute("CurrentVersion", packageToUpdate.Version));
                 root.Add(packageElement);
             }
 
