@@ -5,6 +5,8 @@
   <Import Project="PackageArchive.targets" />
   <Import Project="Templating.targets" />
   <Import Project="push.targets" />
+  <Import Project="$(PatchConfigPath)" Condition="'$(PatchConfigPath)' != ''" />
+  <Import Project="$(PatchManifestPath)" Condition="'$(PatchManifestPath)' != ''" />
 
   <PropertyGroup>
     <SubmoduleRoot>$(RepositoryRoot)modules\</SubmoduleRoot>
@@ -158,9 +160,13 @@
   </Target>
 
   <Target Name="UpdatePatch" DependsOnTargets="ResolveRepoInfo">
-    <RepoTasks.GeneratePatchManifest
+    <RepoTasks.UpdatePatch
+      Artifacts="@(ArtifactInfo)"
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
+      PatchPackages="@(PatchPackage)"
+      RepoUpdates="@(RepoUpdates)"
+      PackageUpdates="@(PackageUpdates)"
       PatchManifestPath="$(PatchManifestPath)"
       PatchConfigPath="$(PatchManifestPath)" />
   </Target>

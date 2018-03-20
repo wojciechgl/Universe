@@ -27,8 +27,8 @@ namespace RepoTasks
 
         public override bool Execute()
         {
-            var root = new XElement("PatchMaifest");
-            var doc = new XDocument(root);
+            var root = new XElement("ItemGroup");
+            var doc = new XDocument(new XElement("Project", root));
             var factory = new SolutionInfoFactory(Log, BuildEngine5);
             var props = MSBuildListSplitter.GetNamedProperties(Properties);
             var solutions = factory.Create(Solutions, props, CancellationToken.None);
@@ -36,11 +36,18 @@ namespace RepoTasks
             foreach (var solution in solutions)
             foreach (var project in solution.Projects)
             {
-                var packageElement = new XElement("Package");
-                packageElement.Add(new XAttribute("Name", "Microsoft.AspNetCore.All"));
-                packageElement.Add(new XAttribute("CurrentVersion", "2.0.0"));
-                packageElement.Add(new XAttribute("PatchedVersion", "2.0.0"));
-                root.Add(packageElement);
+                if (string.IsNullOrEmpty(project.PackageId))
+                {
+                    Log.LogMessage(MessageImportance.High, $"{solution.FullPath}: {project.FullPath}");
+                }
+                else
+                {
+                    var packageElement = new XElement("PatchPackage");
+                    packageElement.Add(new XAttribute("Include", project.PackageId));
+                    packageElement.Add(new XAttribute("CurrentVersion", project.PackageVersion));
+                    packageElement.Add(new XAttribute("PatchedVersion", project.PackageVersion));
+                    root.Add(packageElement);
+                }
             }
 
             using (var writer = XmlWriter.Create(PatchManifestPath, new XmlWriterSettings
