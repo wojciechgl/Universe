@@ -1,346 +1,346 @@
 ﻿<Project>
   <ItemGroup>
-    <PatchPackage Include="KeyVaultSample" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.DockerSecrets.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.UserSecrets.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0">
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.0.1">
+      <Dependency>Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.0.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.AzureKeyVault.Test" Version="2.0.0">
-      <Dependency>Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.IdentityModel.Clients.ActiveDirectory;Microsoft.Azure.KeyVault;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.FileExtensions.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.DockerSecrets" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Binder.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.EnvironmentVariables.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Ini.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.CommandLine.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Ini" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Test.Common" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.FunctionalTests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Xml.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Json.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;System.Security.Cryptography.Xml;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Newtonsoft.Json;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="TestStartupAssembly1" Version="2.0.1">
+    </ReleasePackages>
+    <ReleasePackages Include="TestStartupAssembly1" Version="2.0.1">
       <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="SampleStartups" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Certificates.Configuration.Tests" Version="2.0.1">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Binder;Microsoft.Extensions.Logging.Abstractions;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.0.1">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.FunctionalTests" Version="2.0.1">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Console;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.TestSites" Version="2.0.1">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Logging.Console;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.0.1">
-      <Dependency>Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Server.IntegrationTesting" Version="0.4.1">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.FunctionalTests" Version="2.0.1">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Console;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Console;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Server.IntegrationTesting" Version="0.4.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.FileProviders.Embedded;Microsoft.Extensions.Logging;Microsoft.Extensions.Logging.Console;Microsoft.Extensions.Logging.Testing;Microsoft.Extensions.Process.Sources;Microsoft.NETCore.Windows.ApiSets;Serilog.Extensions.Logging;Serilog.Sinks.File;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.0.1">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.Tests" Version="2.0.1">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Owin;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Testing;Microsoft.Extensions.Options;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Owin;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Testing;Microsoft.Extensions.Options;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Certificates.Configuration.Tests" Version="2.0.1">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Binder;Microsoft.Extensions.Logging.Abstractions;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Binder;Microsoft.Extensions.Logging.Abstractions;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.TestSites" Version="2.0.1">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Logging.Console;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Logging.Console;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="SampleStartups" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Configuration.CommandLine;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.0.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Http.Features;Microsoft.Extensions.Configuration.Abstractions;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.1">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Http.Abstractions;Microsoft.Extensions.Configuration.Abstractions;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.FileProviders.Abstractions;Microsoft.Extensions.Logging.Abstractions;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting.Tests" Version="2.0.1">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Owin;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Logging.Testing;Microsoft.Extensions.Options;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Hosting" Version="2.0.1">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Hosting" Version="2.0.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Http;Microsoft.AspNetCore.Http.Extensions;Microsoft.Extensions.Configuration;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.FileExtensions;Microsoft.Extensions.DependencyInjection;Microsoft.Extensions.FileProviders.Physical;Microsoft.Extensions.Logging;Microsoft.Extensions.Options;Microsoft.Extensions.RazorViews.Sources;Microsoft.Extensions.StackTrace.Sources;Microsoft.Extensions.TypeNameHelper.Sources;System.Diagnostics.DiagnosticSource;System.Reflection.Metadata;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.TestHost" Version="2.0.1">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.TestHost.Tests" Version="2.0.1">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DiagnosticAdapter;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DiagnosticAdapter;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.TestHost" Version="2.0.1">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.TestHost.Tests" Version="2.0.1">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DiagnosticAdapter;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="SqlServerCacheConcurencySample" Version="1.0.0">
-      <Dependency>Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Options;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Options;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="SqlServerCacheSample" Version="1.0.0">
-      <Dependency>Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="MemoryCacheFileWatchSample" Version="1.0.0">
-      <Dependency>Microsoft.Extensions.FileProviders.Physical;Microsoft.NETCore.App;Microsoft.Extensions.FileProviders.Physical;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="RedisCacheSample" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.Redis.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.SqlServer" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options;System.Data.SqlClient;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.Redis" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options;StackExchange.Redis.StrongName;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="ProfilingSample" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="MemoryCacheConcurencySample" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.SqlServer.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.Memory.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="MemoryCacheSample" Version="1.0.0">
-      <Dependency>Microsoft.NETCore.App;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.AzureAppServices.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.EventSource.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;System.ValueTuple;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Configuration" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options.ConfigurationExtensions;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.EventSource" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Newtonsoft.Json;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Testing.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.CommandLineUtils.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.ObjectPool.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.ObjectPool" Version="2.0.0">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Testing" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;xunit.abstractions;xunit.assert;Serilog.Extensions.Logging;Serilog.Sinks.File;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.EventLog" Version="2.0.0">
-      <Dependency>Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="SampleApp" Version="1.0.0">
-      <Dependency>Microsoft.Extensions.Configuration.FileExtensions;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.Extensions.FileProviders.Physical;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.FileExtensions;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.Extensions.FileProviders.Physical;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.TraceSource" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Console" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Abstractions;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Logging" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.CommandLineUtils.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.ObjectPool.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.ObjectPool" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Primitives.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Primitives" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Primitives.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Internal.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;FSharp.Core;Microsoft.NET.Test.Sdk;Moq;System.Reflection.Metadata;System.Threading.Tasks.Extensions;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;FSharp.Core;Microsoft.NET.Test.Sdk;Moq;System.Reflection.Metadata;System.Threading.Tasks.Extensions;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Primitives" Version="2.0.0">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;System.Runtime.CompilerServices.Unsafe;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Internal.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;FSharp.Core;Microsoft.NET.Test.Sdk;Moq;System.Reflection.Metadata;System.Threading.Tasks.Extensions;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Composite.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Composite" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Physical.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileSystemGlobbing.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Embedded.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Physical" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.HashCodeCombiner.Sources;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Testing.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;System.Runtime.InteropServices.RuntimeInformation;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Sample.Tests" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.SecretManager.Tools.Tests" Version="2.0.0">
       <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Testing" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DiagnosticAdapter.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DiagnosticAdapter" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;System.Diagnostics.DiagnosticSource;Internal.AspNetCore.Sdk;System.Diagnostics.DiagnosticSource;NETStandard.Library;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.WebEncoders.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.WebEncoders" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;System.Text.Encodings.Web;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Html.Abstractions.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;System.Text.Encodings.Web;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DependencyInjection.Specification.Tests" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;xunit.assert;xunit.extensibility.core;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.ActivatorUtilities.Sources;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DependencyInjection.Performance" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;BenchmarkDotNet;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DependencyInjection.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.ParameterDefaultValue.Sources;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Options" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Primitives;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Abstractions;Microsoft.Extensions.Configuration.Binder;Microsoft.Extensions.DependencyInjection.Abstractions;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Options.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Data.Sqlite" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;SQLitePCLRaw.bundle_green;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Data.Sqlite.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;SQLitePCLRaw.bundle_green;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Data.Sqlite.Core" Version="2.0.0">
-      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;SQLitePCLRaw.core;StyleCop.Analyzers;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.Caching.SqlConfig.Tools" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.CommandLineUtils.Sources;System.Data.SqlClient;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.CertificateGeneration.Task" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Build.Tasks.Core;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.DotNet.Watcher.Tools.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.SecretManager.Tools.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.CommandLineUtils.Sources;Microsoft.Extensions.Configuration.UserSecrets;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.CertificateGeneration.Task.Tests" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.DotNet.Watcher.Tools.FunctionalTests" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.DotNet.Watcher.Tools.FunctionalTests" Version="2.0.0">
       <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Process.Sources;Microsoft.Extensions.CommandLineUtils.Sources;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0">
       <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.CommandLineUtils.Sources;Microsoft.Extensions.Process.Sources;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.JsonPatch.Test" Version="2.0.0">
-      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
-    </PatchPackage>
-    <PatchPackage Include="Microsoft.AspNetCore.JsonPatch" Version="2.0.0">
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.CertificateGeneration.Task.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.CertificateGeneration.Task" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Build.Tasks.Core;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.SqlConfig.Tools" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.CommandLineUtils.Sources;System.Data.SqlClient;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.CommandLineUtils.Sources;Microsoft.Extensions.Configuration.UserSecrets;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.DotNet.Watcher.Tools.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="MemoryCacheSample" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.Memory.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="SqlServerCacheConcurencySample" Version="1.0.0">
+      <Dependency>Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Options;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.Options;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="MemoryCacheFileWatchSample" Version="1.0.0">
+      <Dependency>Microsoft.Extensions.FileProviders.Physical;Microsoft.NETCore.App;Microsoft.Extensions.FileProviders.Physical;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.SqlServer.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="SqlServerCacheSample" Version="1.0.0">
+      <Dependency>Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.SqlServer" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options;System.Data.SqlClient;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.Redis.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="RedisCacheSample" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.Redis" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options;StackExchange.Redis.StrongName;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="ProfilingSample" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="MemoryCacheConcurencySample" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Html.Abstractions.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.WebEncoders.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.WebEncoders" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;System.Text.Encodings.Web;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;System.Text.Encodings.Web;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.JsonPatch.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.JsonPatch" Version="2.0.0">
       <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.CSharp;Newtonsoft.Json;Microsoft.Extensions.ClosedGenericMatcher.Sources;</Dependency>
-    </PatchPackage>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.DockerSecrets.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.DockerSecrets" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.UserSecrets.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="KeyVaultSample" Version="1.0.0">
+      <Dependency>Microsoft.NETCore.App;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.AzureKeyVault.Test" Version="2.0.0">
+      <Dependency>Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.IdentityModel.Clients.ActiveDirectory;Microsoft.Azure.KeyVault;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.FileExtensions.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Binder.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.EnvironmentVariables.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Ini.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.CommandLine.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Ini" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Test.Common" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.FileProviders.Physical;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.FunctionalTests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Xml.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Json.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;System.Security.Cryptography.Xml;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Newtonsoft.Json;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Configuration" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Options.ConfigurationExtensions;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.AzureAppServices.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.EnvironmentVariables;Microsoft.Extensions.Configuration.Json;System.ValueTuple;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.EventSource.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.EventSource" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Newtonsoft.Json;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Testing.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Testing" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;xunit.abstractions;xunit.assert;Serilog.Extensions.Logging;Serilog.Sinks.File;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.EventLog" Version="2.0.0">
+      <Dependency>Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.TraceSource" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Console" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Abstractions;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="SampleApp" Version="1.0.0">
+      <Dependency>Microsoft.Extensions.Configuration.FileExtensions;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.Extensions.FileProviders.Physical;Microsoft.NETCore.App;Microsoft.Extensions.Configuration.FileExtensions;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.Extensions.FileProviders.Physical;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Json;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Logging" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Options;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Composite.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Composite" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Physical.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Embedded.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Physical" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileSystemGlobbing.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.HashCodeCombiner.Sources;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Primitives;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Testing.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;System.Runtime.InteropServices.RuntimeInformation;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;System.Runtime.InteropServices.RuntimeInformation;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Sample.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.AspNetCore.Testing" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;xunit;Internal.AspNetCore.Sdk;xunit;NETStandard.Library;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DependencyInjection.Performance" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;BenchmarkDotNet;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DependencyInjection.Specification.Tests" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;xunit.assert;xunit.extensibility.core;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.ActivatorUtilities.Sources;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DependencyInjection.Tests" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;Moq;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.ParameterDefaultValue.Sources;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DiagnosticAdapter.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;Internal.AspNetCore.Sdk;Microsoft.AspNetCore.Testing;Microsoft.NET.Test.Sdk;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.DiagnosticAdapter" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;System.Diagnostics.DiagnosticSource;Internal.AspNetCore.Sdk;System.Diagnostics.DiagnosticSource;NETStandard.Library;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Options" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection.Abstractions;Microsoft.Extensions.Primitives;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;Microsoft.Extensions.Configuration.Abstractions;Microsoft.Extensions.Configuration.Binder;Microsoft.Extensions.DependencyInjection.Abstractions;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Extensions.Options.Test" Version="2.0.0">
+      <Dependency>Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;Internal.AspNetCore.Sdk;Microsoft.Extensions.DependencyInjection;Microsoft.NET.Test.Sdk;xunit.runner.visualstudio;xunit;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Data.Sqlite" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;SQLitePCLRaw.bundle_green;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Data.Sqlite.Tests" Version="2.0.0">
+      <Dependency>Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;SQLitePCLRaw.bundle_green;xunit;xunit.runner.visualstudio;Microsoft.NETCore.App;Internal.AspNetCore.Sdk;Microsoft.NET.Test.Sdk;SQLitePCLRaw.bundle_green;xunit;xunit.runner.visualstudio;</Dependency>
+    </ReleasePackages>
+    <ReleasePackages Include="Microsoft.Data.Sqlite.Core" Version="2.0.0">
+      <Dependency>NETStandard.Library;Internal.AspNetCore.Sdk;SQLitePCLRaw.core;StyleCop.Analyzers;</Dependency>
+    </ReleasePackages>
   </ItemGroup>
 </Project>

@@ -44,7 +44,7 @@ namespace RepoTasks
                 }
                 else
                 {
-                    var packageElement = new XElement("PatchPackage");
+                    var packageElement = new XElement("ReleasePackages");
                     packageElement.Add(new XAttribute("Include", project.PackageId));
                     // Take the Major.Minor.Patch as the released package
                     packageElement.Add(new XAttribute("Version", NuGetVersion.Parse(project.PackageVersion).Version.ToString(3)));

@@ -38,10 +38,10 @@ namespace RepoTasks.Utilities
         }
     }
 
-    internal class PatchPackage
+    internal class ReleasePackage
     {
-        public static PatchPackage Parse(ITaskItem item)
-            => new PatchPackage
+        public static ReleasePackage Parse(ITaskItem item)
+            => new ReleasePackage
             {
                 Name = item.GetMetadata("Identity"),
                 Version = item.GetMetadata("Version"),

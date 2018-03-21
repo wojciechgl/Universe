@@ -9,6 +9,8 @@
   <PropertyGroup>
     <ReleaseManifestPath>$(RepositoryRoot)build\ReleaseManifest.props</ReleaseManifestPath>
     <ReleaseUpdatesPath>$(IntermediateDir)ReleaseUpdates.props</ReleaseUpdatesPath>
+    <ReleaseBuildConfigPath>$(IntermediateDir)ReleaseBuildConfig.props</ReleaseBuildConfigPath>
+    <ReleaseUpdateConfigPath Condition="'$(ReleaseUpdateConfigPath)' == ''">$(RepositoryRoot)build\ReleaseUpdateConfig.props</ReleaseUpdateConfigPath>
     <SubmoduleRoot>$(RepositoryRoot)modules\</SubmoduleRoot>
     <_DependencyBuildDirectory>$(RepositoryRoot).deps\build\</_DependencyBuildDirectory>
     <_DependencyPackagesDirectory>$(_DependencyBuildDirectory)</_DependencyPackagesDirectory>
@@ -31,7 +33,7 @@
   </PropertyGroup>
 
   <Import Project="$(ReleaseManifestPath)" Condition="'$(ReleaseManifestPath)' != ''" />
-  <Import Project="$(PatchConfigPath)" Condition="'$(PatchConfigPath)' != ''" />
+  <Import Project="$(ReleaseUpdateConfigPath)" Condition="'$(ReleaseUpdateConfigPath)' != ''" />
 
   <Target Name="PrepareOutputPath">
     <MakeDir Directories="$(ArtifactsDir);$(BuildDir)" />
@@ -167,12 +169,11 @@
       Artifacts="@(ArtifactInfo)"
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
-      PatchPackages="@(PatchPackage)"
+      ReleasePackages="@(ReleasePackages)"
       SourceUpdates="@(SourceUpdates)"
       DependencyUpdates="@(DependencyUpdates)"
       ReleaseUpdatesPath="$(ReleaseUpdatesPath)"
-      ReleaseManifestPath="$(ReleaseManifestPath)"
-      PatchConfigPath="$(PatchConfigPath)" />
+      ReleaseBuildConfigPath="$(ReleaseBuildConfigPath)" />
   </Target>
 
   <Target Name="SplitPackages">

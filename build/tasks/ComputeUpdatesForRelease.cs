@@ -31,7 +31,7 @@ namespace RepoTasks
         public ITaskItem[] Artifacts { get; set; }
 
         [Required]
-        public ITaskItem[] PatchPackages { get; set; }
+        public ITaskItem[] ReleasePackages { get; set; }
 
         [Required]
         public ITaskItem[] SourceUpdates { get; set; }
@@ -40,10 +40,7 @@ namespace RepoTasks
         public ITaskItem[] DependencyUpdates { get; set; }
 
         [Required]
-        public string ReleaseManifestPath { get; set; }
-
-        [Required]
-        public string PatchConfigPath { get; set; }
+        public string ReleaseBuildConfigPath { get; set; }
 
         [Required]
         public string ReleaseUpdatesPath { get; set; }
@@ -58,7 +55,7 @@ namespace RepoTasks
         {
             var sourceUpdates = SourceUpdates.Select(ReleaseUpdate.Parse);
             var dependencyUpdates = DependencyUpdates.Select(ReleaseUpdate.Parse);
-            var patchPackages = PatchPackages.Select(PatchPackage.Parse);
+            var releasePackages = ReleasePackages.Select(ReleasePackage.Parse);
 
             var factory = new SolutionInfoFactory(Log, BuildEngine5);
             var props = MSBuildListSplitter.GetNamedProperties(Properties);
@@ -69,13 +66,13 @@ namespace RepoTasks
 
             // foreach (var repoUpdate in sourceUpdates)
             // {
-            //     Log.LogMessage(MessageImportance.High, repoUpdate.RepoName);
+            //     Log.LogMessage(MessageImportance.High, repoUpdate.Name);
             // }
             // foreach (var packageUpdate in dependencyUpdates)
             // {
-            //     Log.LogMessage(MessageImportance.High, $"{packageUpdate.PackageName}:{packageUpdate.PackageVersion}");
+            //     Log.LogMessage(MessageImportance.High, $"{packageUpdate.Name}:{packageUpdate.Version}");
             // }
-            // foreach (var patchPackage in patchPackages)
+            // foreach (var patchPackage in releasePackages)
             // {
             //     Log.LogMessage(MessageImportance.High, $"ReleasePackage: {patchPackage.Name}");
             //     Log.LogMessage(MessageImportance.High, $"  Dependency: {patchPackage.Dependencies.Aggregate((a, b) => a + ";" + b)}");
@@ -163,7 +160,7 @@ namespace RepoTasks
                 //     .Single(n => string.Equals(n.Repository.Name, repoUpdate.RepoName, StringComparison.OrdinalIgnoreCase))
                 //     .Repository
                 //     .Projects;
-                // var unupdatedProjects = patchPackages
+                // var unupdatedProjects = releasePackages
                 //     .Where(patchPackage =>
                 //         repoProjects.Any(repoProject =>
                 //             string.Equals(repoProject.Name, patchPackage.PackageName, StringComparison.OrdinalIgnoreCase)
@@ -191,7 +188,7 @@ namespace RepoTasks
                     Log.LogError($"The source project to be updated, {sourceUpdate.Name}, does not exist in this patch.");
                 }
 
-                var currentSourceVersion = patchPackages.Single(p => string.Equals(p.Name, sourceUpdate.Name, StringComparison.OrdinalIgnoreCase)).Version;
+                var currentSourceVersion = releasePackages.Single(p => string.Equals(p.Name, sourceUpdate.Name, StringComparison.OrdinalIgnoreCase)).Version;
                 sourceUpdate.Version = NuGetVersion.Parse(currentSourceVersion).IncrementPatch().ToNormalizedString();
 
                 packagesToUpdate.Add(sourceUpdate);
@@ -226,7 +223,7 @@ namespace RepoTasks
                     // {
                     //     Log.LogMessage(MessageImportance.High, $"  RepoProjectArtifact: {projectArtifact.PackageInfo.Id}:{projectArtifact.PackageInfo.Version.ToNormalizedString()}");
                     // }
-                    var patchPackage = patchPackages.Where(package =>
+                    var releasePackage = releasePackages.Where(package =>
                         repoProjectArtifact.Any(packageArtifact =>
                             string.Equals(package.Name, packageArtifact.PackageInfo.Id, StringComparison.OrdinalIgnoreCase)
                             && package.Version == packageArtifact.PackageInfo.Version.Version.ToString(3)));
@@ -234,7 +231,7 @@ namespace RepoTasks
                     // {
                     //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageInfo.Id}:{project.PackageInfo.Version.ToNormalizedString()}");
                     // }
-                    var projectsToUpdate = patchPackage
+                    var projectsToUpdate = releasePackage
                             .Select(packageToUpdate => new ReleaseUpdate
                             {
                                 Name = packageToUpdate.Name,
@@ -248,7 +245,7 @@ namespace RepoTasks
                 }
             }
 
-            // Generate patch update file
+            // Generate release update file
             var root = new XElement("ItemGroup");
             var doc = new XDocument(new XElement("Project", root));
             foreach (var packageToUpdate in packagesToUpdate)
@@ -271,7 +268,47 @@ namespace RepoTasks
                 doc.Save(writer);
             }
 
-            // TODO: Update patch manifest
+            // Update release manifest
+            var releaseBuildRoot = new XElement("ItemGroup");
+            var releaseBuildDoc = new XDocument(new XElement("Project", releaseBuildRoot));
+
+            foreach (var repo in graph.Select(n => n.Repository))
+            {
+                var repoContainsUpdatedProjects = false;
+                foreach (var project in repo.Projects)
+                {
+                    var releasedVersion = releasePackages.Single(rp => string.Equals(rp.Name, project.Name, StringComparison.OrdinalIgnoreCase)).Version;
+                    var releaseUpdateVersion = packagesToUpdate.SingleOrDefault(p => string.Equals(p.Name, project.Name, StringComparison.OrdinalIgnoreCase))?.Version ??
+                        packageArtifacts.Single(p => string.Equals(p.PackageInfo.Id, project.Name, StringComparison.OrdinalIgnoreCase)).PackageInfo.Version.Version.ToString(3);
+
+                    if (!string.Equals(releasedVersion, releaseUpdateVersion, StringComparison.OrdinalIgnoreCase))
+                    {
+                        repoContainsUpdatedProjects = true;
+                        var packageElement = new XElement("UpdatedPackages");
+                        packageElement.Add(new XAttribute("Include", project.Name));
+                        packageElement.Add(new XAttribute("Version", releaseUpdateVersion));
+                        releaseBuildRoot.Add(packageElement);
+                    }
+                }
+
+                if (repoContainsUpdatedProjects)
+                {
+                    var packageElement = new XElement("UpdatedRepos");
+                    packageElement.Add(new XAttribute("Include", repo.Name));
+                    releaseBuildRoot.Add(packageElement);
+                }
+            }
+
+            using (var writer = XmlWriter.Create(ReleaseBuildConfigPath, new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                Indent = true,
+            }))
+            {
+                Log.LogMessage(MessageImportance.Normal, $"Generate {ReleaseBuildConfigPath}");
+                releaseBuildDoc.Save(writer);
+            }
+
             return !Log.HasLoggedErrors;
         }
     }
