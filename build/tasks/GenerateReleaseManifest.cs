@@ -4,11 +4,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using NuGet.Versioning;
 using RepoTasks.ProjectModel;
 using RepoTasks.Utilities;
 
@@ -38,14 +40,23 @@ namespace RepoTasks
             {
                 if (string.IsNullOrEmpty(project.PackageId))
                 {
-                    Log.LogMessage(MessageImportance.High, $"{solution.FullPath}: {project.FullPath}");
+                    Log.LogError($"{solution.FullPath}: {project.FullPath}");
                 }
                 else
                 {
                     var packageElement = new XElement("PatchPackage");
                     packageElement.Add(new XAttribute("Include", project.PackageId));
-                    packageElement.Add(new XAttribute("CurrentVersion", project.PackageVersion));
-                    packageElement.Add(new XAttribute("PatchedVersion", project.PackageVersion));
+                    // Take the Major.Minor.Patch as the released package
+                    packageElement.Add(new XAttribute("Version", NuGetVersion.Parse(project.PackageVersion).Version.ToString(3)));
+
+                    var dependencyBuilder = new StringBuilder();
+                    foreach (var tfm in project.Frameworks)
+                    foreach (var dependency in tfm.Dependencies)
+                    {
+                        dependencyBuilder.Append($"{dependency.Value.Id};");
+                    }
+                    packageElement.Add(new XElement("Dependency", dependencyBuilder.ToString()));
+
                     root.Add(packageElement);
                 }
             }

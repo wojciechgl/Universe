@@ -8,6 +8,7 @@
 
   <PropertyGroup>
     <ReleaseManifestPath>$(RepositoryRoot)build\ReleaseManifest.props</ReleaseManifestPath>
+    <ReleaseUpdatesPath>$(IntermediateDir)ReleaseUpdates.props</ReleaseUpdatesPath>
     <SubmoduleRoot>$(RepositoryRoot)modules\</SubmoduleRoot>
     <_DependencyBuildDirectory>$(RepositoryRoot).deps\build\</_DependencyBuildDirectory>
     <_DependencyPackagesDirectory>$(_DependencyBuildDirectory)</_DependencyPackagesDirectory>
@@ -169,9 +170,9 @@
       PatchPackages="@(PatchPackage)"
       SourceUpdates="@(SourceUpdates)"
       DependencyUpdates="@(DependencyUpdates)"
-      PatchUpdatesPath="$(PatchUpdatesPath)"
-      ReleaseManifestPath="$(PatchManifestPath)"
-      PatchConfigPath="$(PatchManifestPath)" />
+      ReleaseUpdatesPath="$(ReleaseUpdatesPath)"
+      ReleaseManifestPath="$(ReleaseManifestPath)"
+      PatchConfigPath="$(PatchConfigPath)" />
   </Target>
 
   <Target Name="SplitPackages">

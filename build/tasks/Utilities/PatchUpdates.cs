@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
@@ -24,6 +25,19 @@ namespace RepoTasks.Utilities
         public override int GetHashCode() => (Name + Version).GetHashCode();
     }
 
+    internal class ReleaseUpdateComparer : IEqualityComparer<ReleaseUpdate>
+    {
+        public bool Equals(ReleaseUpdate x, ReleaseUpdate y)
+        {
+            return string.Equals(x.Name, y.Name, StringComparison.OrdinalIgnoreCase) && string.Equals(x.Version, y.Version, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public int GetHashCode(ReleaseUpdate obj)
+        {
+            return (obj.Name + obj.Version).GetHashCode();
+        }
+    }
+
     internal class PatchPackage
     {
         public static PatchPackage Parse(ITaskItem item)
@@ -31,11 +45,11 @@ namespace RepoTasks.Utilities
             {
                 Name = item.GetMetadata("Identity"),
                 Version = item.GetMetadata("Version"),
-                NewVersion = item.GetMetadata("NewVersion"),
+                Dependencies = new HashSet<string>(item.GetMetadata("Dependency").Split(';')),
             };
 
         public string Name { get; private set; }
         public string Version { get; private set; }
-        public string NewVersion { get; set; }
+        public HashSet<string> Dependencies { get; private set; }
     }
 }

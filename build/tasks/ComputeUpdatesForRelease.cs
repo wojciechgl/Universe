@@ -46,7 +46,7 @@ namespace RepoTasks
         public string PatchConfigPath { get; set; }
 
         [Required]
-        public string PatchUpdatesPath { get; set; }
+        public string ReleaseUpdatesPath { get; set; }
 
         [Required]
         public string Properties { get; set; }
@@ -77,11 +77,12 @@ namespace RepoTasks
             // }
             // foreach (var patchPackage in patchPackages)
             // {
-            //     Log.LogMessage(MessageImportance.High, $"{patchPackage.PackageName}:{patchPackage.CurrentVersion}=>{patchPackage.CurrentVersion}");
+            //     Log.LogMessage(MessageImportance.High, $"ReleasePackage: {patchPackage.Name}");
+            //     Log.LogMessage(MessageImportance.High, $"  Dependency: {patchPackage.Dependencies.Aggregate((a, b) => a + ";" + b)}");
             // }
             // foreach (var packageArtifact in packageArtifacts)
             // {
-            //     Log.LogMessage(MessageImportance.High, $"Package Artifact: {packageArtifact.PackageInfo.Id}");
+            //     Log.LogMessage(MessageImportance.High, $"Package Artifact: {packageArtifact.PackageInfo.Id} ");
             // }
 
             // Generate build graph
@@ -142,7 +143,7 @@ namespace RepoTasks
             // }
 
             // Update initial packages and repos
-            var packagesToUpdate = new HashSet<ReleaseUpdate>();
+            var packagesToUpdate = new HashSet<ReleaseUpdate>(new ReleaseUpdateComparer());
 
             foreach (var packageUpdate in dependencyUpdates)
             {
@@ -202,7 +203,9 @@ namespace RepoTasks
                 // Log.LogMessage(MessageImportance.High, $"Cascading repo {repo.Name}");
 
                 if (repo.Projects.Any(project =>
-                    project.PackageReferences.Any(reference =>
+                    packagesToUpdate.Any(package =>
+                        string.Equals(project.Name, package.Name, StringComparison.OrdinalIgnoreCase))
+                    || project.PackageReferences.Any(reference =>
                         packagesToUpdate.Any(package =>
                             string.Equals(reference, package.Name, StringComparison.OrdinalIgnoreCase)))))
                 {
@@ -212,20 +215,30 @@ namespace RepoTasks
                         .Single(n => string.Equals(n.Repository.Name, repo.Name, StringComparison.OrdinalIgnoreCase))
                         .Repository
                         .Projects;
-                    var unupdatedProjects = patchPackages
-                        .Where(patchPackage =>
-                            repoProjects.Any(repoProject =>
-                                string.Equals(repoProject.Name, patchPackage.Name, StringComparison.OrdinalIgnoreCase)
-                                && patchPackage.Version == patchPackage.NewVersion));
+                    // foreach (var project in repoProjects)
+                    // {
+                    //     Log.LogMessage(MessageImportance.High, $"  RepoProjects: {project.Name}");
+                    // }
+                    var repoProjectArtifact = packageArtifacts.Where(packageArtifact =>
+                        repoProjects.Any(repoProject =>
+                            string.Equals(repoProject.Name, packageArtifact.PackageInfo.Id, StringComparison.OrdinalIgnoreCase)));
+                    // foreach (var projectArtifact in repoProjectArtifact)
+                    // {
+                    //     Log.LogMessage(MessageImportance.High, $"  RepoProjectArtifact: {projectArtifact.PackageInfo.Id}:{projectArtifact.PackageInfo.Version.ToNormalizedString()}");
+                    // }
+                    var patchPackage = patchPackages.Where(package =>
+                        repoProjectArtifact.Any(packageArtifact =>
+                            string.Equals(package.Name, packageArtifact.PackageInfo.Id, StringComparison.OrdinalIgnoreCase)
+                            && package.Version == packageArtifact.PackageInfo.Version.Version.ToString(3)));
                     // foreach (var project in unupdatedProjects)
                     // {
-                    //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageName}:{project.CurrentVersion}");
+                    //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageInfo.Id}:{project.PackageInfo.Version.ToNormalizedString()}");
                     // }
-                    var projectsToUpdate = unupdatedProjects
-                            .Select(projectToUpdate => new ReleaseUpdate
+                    var projectsToUpdate = patchPackage
+                            .Select(packageToUpdate => new ReleaseUpdate
                             {
-                                Name = projectToUpdate.Name,
-                                Version = NuGetVersion.Parse(projectToUpdate.NewVersion).IncrementPatch().ToNormalizedString()
+                                Name = packageToUpdate.Name,
+                                Version = NuGetVersion.Parse(packageToUpdate.Version).IncrementPatch().ToNormalizedString()
                             });
                     // foreach (var project in projectsToUpdate)
                     // {
@@ -242,24 +255,24 @@ namespace RepoTasks
             {
                 Log.LogMessage(MessageImportance.High, $"Updates required: {packageToUpdate.Name}={packageToUpdate.Version}");
 
-                var packageElement = new XElement("PatchUpdate");
+                var packageElement = new XElement("ReleaseUpdate");
                 packageElement.Add(new XAttribute("Include", packageToUpdate.Name));
-                packageElement.Add(new XAttribute("CurrentVersion", packageToUpdate.Version));
+                packageElement.Add(new XAttribute("Version", packageToUpdate.Version));
                 root.Add(packageElement);
             }
 
-            using (var writer = XmlWriter.Create(PatchUpdatesPath, new XmlWriterSettings
+            using (var writer = XmlWriter.Create(ReleaseUpdatesPath, new XmlWriterSettings
             {
                 OmitXmlDeclaration = true,
                 Indent = true,
             }))
             {
-                Log.LogMessage(MessageImportance.Normal, $"Generate {PatchUpdatesPath}");
+                Log.LogMessage(MessageImportance.Normal, $"Generate {ReleaseUpdatesPath}");
                 doc.Save(writer);
             }
 
             // TODO: Update patch manifest
-            return true;
+            return !Log.HasLoggedErrors;
         }
     }
 }
