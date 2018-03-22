@@ -159,6 +159,8 @@
 
   <Target Name="GenerateReleaseManifest" DependsOnTargets="ResolveRepoInfo">
     <RepoTasks.GenerateReleaseManifest
+      BuildArtifacts="@(ArtifactInfo)"
+      PackageArtifacts="@(PackageArtifact)"
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
       ReleaseManifestPath="$(ReleaseManifestPath)" />
@@ -166,12 +168,13 @@
 
   <Target Name="ComputeUpdatesForRelease" DependsOnTargets="ResolveRepoInfo">
     <RepoTasks.ComputeUpdatesForRelease
-      Artifacts="@(ArtifactInfo)"
+      BuildArtifacts="@(ArtifactInfo)"
+      PackageArtifacts="@(PackageArtifact)"
       Solutions="@(Solution)"
       Properties="Configuration=$(Configuration)"
+      ExternalDependencies="@(ExternalDependency)"
       ReleasePackages="@(ReleasePackages)"
       SourceUpdates="@(SourceUpdates)"
-      DependencyUpdates="@(DependencyUpdates)"
       ReleaseUpdatesPath="$(ReleaseUpdatesPath)"
       ReleaseBuildConfigPath="$(ReleaseBuildConfigPath)" />
   </Target>

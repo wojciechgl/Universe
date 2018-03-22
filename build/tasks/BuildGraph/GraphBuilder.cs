@@ -34,7 +34,7 @@ namespace RepoTools.BuildGraph
 
                 foreach (var packageDependency in project.PackageReferences)
                 {
-                    if (primaryProjects.TryGetValue(packageDependency, out var dependencyProject))
+                    if (primaryProjects.TryGetValue(packageDependency.Id, out var dependencyProject))
                     {
                         var dependencyRepository = dependencyProject.Repository;
                         var dependencyNode = graphNodes[dependencyRepository];

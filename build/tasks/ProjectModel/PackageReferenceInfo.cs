@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RepoTasks.ProjectModel
 {
-    internal class PackageReferenceInfo
+    public class PackageReferenceInfo
     {
         public PackageReferenceInfo(string id, string version, bool isImplicitlyDefined, IReadOnlyList<string> noWarn)
         {
@@ -25,5 +25,18 @@ namespace RepoTasks.ProjectModel
         public string Version { get; }
         public bool IsImplicitlyDefined { get; }
         public IReadOnlyList<string> NoWarn { get; }
+    }
+
+    public class PackageReferenceInfoComparer : IEqualityComparer<PackageReferenceInfo>
+    {
+        public bool Equals(PackageReferenceInfo x, PackageReferenceInfo y)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(x.Id, y.Id);
+        }
+
+        public int GetHashCode(PackageReferenceInfo obj)
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(obj.Id);
+        }
     }
 }

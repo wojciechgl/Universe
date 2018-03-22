@@ -27,8 +27,12 @@ namespace RepoTasks
 
     public class ComputeUpdatesForRelease : Task
     {
+
         [Required]
-        public ITaskItem[] Artifacts { get; set; }
+        public ITaskItem[] BuildArtifacts { get; set; }
+
+        [Required]
+        public ITaskItem[] PackageArtifacts { get; set; }
 
         [Required]
         public ITaskItem[] ReleasePackages { get; set; }
@@ -37,7 +41,7 @@ namespace RepoTasks
         public ITaskItem[] SourceUpdates { get; set; }
 
         [Required]
-        public ITaskItem[] DependencyUpdates { get; set; }
+        public ITaskItem[] ExternalDependencies { get; set; }
 
         [Required]
         public string ReleaseBuildConfigPath { get; set; }
@@ -53,14 +57,15 @@ namespace RepoTasks
 
         public override bool Execute()
         {
-            var sourceUpdates = SourceUpdates.Select(ReleaseUpdate.Parse);
-            var dependencyUpdates = DependencyUpdates.Select(ReleaseUpdate.Parse);
+            var sourceUpdates = SourceUpdates.Select(Package.Parse);
             var releasePackages = ReleasePackages.Select(ReleasePackage.Parse);
+            var externalDependencies = ExternalDependencies.Where(item => item.GetMetadata("Private") != "true").Select(Package.Parse);
 
             var factory = new SolutionInfoFactory(Log, BuildEngine5);
             var props = MSBuildListSplitter.GetNamedProperties(Properties);
             var solutions = factory.Create(Solutions, props, CancellationToken.None);
-            var packageArtifacts = Artifacts.Select(ArtifactInfo.Parse)
+            var shippingPackages = PackageArtifacts.Where(p => p.GetMetadata("Category") != "noship").Select(p => p.ItemSpec);
+            var buildArtifact = BuildArtifacts.Select(ArtifactInfo.Parse)
                 .OfType<ArtifactInfo.Package>()
                 .Where(p => !p.IsSymbolsArtifact);
 
@@ -77,7 +82,7 @@ namespace RepoTasks
             //     Log.LogMessage(MessageImportance.High, $"ReleasePackage: {patchPackage.Name}");
             //     Log.LogMessage(MessageImportance.High, $"  Dependency: {patchPackage.Dependencies.Aggregate((a, b) => a + ";" + b)}");
             // }
-            // foreach (var packageArtifact in packageArtifacts)
+            // foreach (var packageArtifact in buildArtifact)
             // {
             //     Log.LogMessage(MessageImportance.High, $"Package Artifact: {packageArtifact.PackageInfo.Id} ");
             // }
@@ -91,7 +96,7 @@ namespace RepoTasks
                         RootDir = Path.GetDirectoryName(s.FullPath)
                     };
 
-                    var packages = packageArtifacts.Where(a => a.RepoName.Equals(repoName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    var packages = buildArtifact.Where(a => a.RepoName.Equals(repoName, StringComparison.OrdinalIgnoreCase)).ToList();
 
                     foreach (var proj in s.Projects)
                     {
@@ -102,10 +107,10 @@ namespace RepoTasks
                         projectGroup.Add(new Project(proj.PackageId)
                             {
                                 Repository = repo,
-                                PackageReferences = new HashSet<string>(proj
+                                PackageReferences = new HashSet<PackageReferenceInfo>(proj
                                     .Frameworks
-                                    .SelectMany(f => f.Dependencies.Keys)
-                                    .Concat(proj.Tools.Select(t => t.Id)), StringComparer.OrdinalIgnoreCase),
+                                    .SelectMany(f => f.Dependencies.Values)
+                                    .Concat(proj.Tools.Select(t => new PackageReferenceInfo(t.Id, t.Version, false, null))), new PackageReferenceInfoComparer())
                             });
                     }
 
@@ -139,21 +144,40 @@ namespace RepoTasks
             //     }
             // }
 
-            // Update initial packages and repos
-            var packagesToUpdate = new HashSet<ReleaseUpdate>(new ReleaseUpdateComparer());
+            var packageComparer = new IPackageComparer();
+            var packagesToUpdate = new HashSet<Package>(packageComparer);
+            var releasedDependencies = new HashSet<ReleasePackageDependency>(packageComparer);
 
-            foreach (var packageUpdate in dependencyUpdates)
+            // Gather release set of external dependencies
+            foreach (var releasePackage in releasePackages)
+            foreach (var dependency in releasePackage.Dependencies)
             {
-                if (!graph.Any(node =>
-                    node.Repository.AllProjects.Any(project =>
-                        project.PackageReferences.Any(dependency =>
-                            string.Equals(dependency, packageUpdate.Name, StringComparison.OrdinalIgnoreCase)))))
+                var duplicatedDependencies = releasedDependencies.Where(d =>
+                    string.Equals(dependency.Name, d.Name, StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(dependency.Version, d.Version, StringComparison.OrdinalIgnoreCase));
+                if (duplicatedDependencies.Any())
                 {
-                    Log.LogError($"The dependency to be updated, {packageUpdate.Name}, does not exist as a dependency of any projects in this patch.");
+                    Log.LogError($"Found dependency {dependency.Name} with multiple versions: {duplicatedDependencies.Select(d => d.Version).Aggregate((a, b) => a + ", " + b)}");
                 }
 
-                packagesToUpdate.Add(packageUpdate);
+                releasedDependencies.Add(dependency);
             }
+
+            if (Log.HasLoggedErrors)
+            {
+                return false;
+            }
+
+            foreach (var externalDependency in externalDependencies)
+            {
+                if (releasedDependencies.Any(releasedDependency =>
+                    string.Equals(releasedDependency.Name, externalDependency.Name, StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(releasedDependency.Version, externalDependency.Version, StringComparison.OrdinalIgnoreCase)))
+                {
+                    packagesToUpdate.Add(externalDependency);
+                }
+            }
+
             foreach (var sourceUpdate in sourceUpdates)
             {
                 // var repoProjects = graph
@@ -194,17 +218,45 @@ namespace RepoTasks
                 packagesToUpdate.Add(sourceUpdate);
             }
 
+            // foreach (var packageToUpdate in packagesToUpdate)
+            // {
+            //     Log.LogMessage(MessageImportance.High, $"Base changes required: {packageToUpdate.Name}={packageToUpdate.Version}");
+            // }
+
             // Cascade updates
             foreach (var repo in graph.OrderBy(n => TopologicalSort.GetOrder(n)).Select(n => n.Repository))
             {
                 // Log.LogMessage(MessageImportance.High, $"Cascading repo {repo.Name}");
+                // var projectUpdated = repo.Projects.Where(project =>
+                //     packagesToUpdate.Any(package =>
+                //         string.Equals(project.Name, package.Name, StringComparison.OrdinalIgnoreCase)));
+                // var dependencyUpdated = repo.Projects.Where(project =>
+                //     packagesToUpdate.Any(package =>
+                //         project.PackageReferences.Any(reference => {
+                //             if (reference.IsImplicitlyDefined)
+                //             {
+                //                 return false;
+                //             }
+                //             Log.LogMessage(MessageImportance.High, $"{repo.Name}-{package.Name}-{reference.Id} updated to {package.Version}");
+                //             return string.Equals(reference.Id, package.Name, StringComparison.OrdinalIgnoreCase);
+                //         })));
+
+                // foreach (var package in projectUpdated)
+                // {
+                //     Log.LogMessage(MessageImportance.High, $"{repo.Name}-{package.Name} project updated");
+                // }
+                // foreach (var package in dependencyUpdated)
+                // {
+                //     Log.LogMessage(MessageImportance.High, $"{repo.Name}-{package.Name} dependency updated");
+                // }
 
                 if (repo.Projects.Any(project =>
                     packagesToUpdate.Any(package =>
                         string.Equals(project.Name, package.Name, StringComparison.OrdinalIgnoreCase))
-                    || project.PackageReferences.Any(reference =>
-                        packagesToUpdate.Any(package =>
-                            string.Equals(reference, package.Name, StringComparison.OrdinalIgnoreCase)))))
+                        || project.PackageReferences.Any(reference =>
+                            !reference.IsImplicitlyDefined
+                            && packagesToUpdate.Any(package =>
+                                string.Equals(reference.Id, package.Name, StringComparison.OrdinalIgnoreCase)))))
                 {
                     // Log.LogMessage(MessageImportance.High, $"{repo.Name} requires cascaded update");
 
@@ -216,7 +268,7 @@ namespace RepoTasks
                     // {
                     //     Log.LogMessage(MessageImportance.High, $"  RepoProjects: {project.Name}");
                     // }
-                    var repoProjectArtifact = packageArtifacts.Where(packageArtifact =>
+                    var repoProjectArtifact = buildArtifact.Where(packageArtifact =>
                         repoProjects.Any(repoProject =>
                             string.Equals(repoProject.Name, packageArtifact.PackageInfo.Id, StringComparison.OrdinalIgnoreCase)));
                     // foreach (var projectArtifact in repoProjectArtifact)
@@ -232,7 +284,7 @@ namespace RepoTasks
                     //     Log.LogMessage(MessageImportance.High, $"  UnUpdatedPackage: {project.PackageInfo.Id}:{project.PackageInfo.Version.ToNormalizedString()}");
                     // }
                     var projectsToUpdate = releasePackage
-                            .Select(packageToUpdate => new ReleaseUpdate
+                            .Select(packageToUpdate => new Package
                             {
                                 Name = packageToUpdate.Name,
                                 Version = NuGetVersion.Parse(packageToUpdate.Version).IncrementPatch().ToNormalizedString()
@@ -277,17 +329,20 @@ namespace RepoTasks
                 var repoContainsUpdatedProjects = false;
                 foreach (var project in repo.Projects)
                 {
-                    var releasedVersion = releasePackages.Single(rp => string.Equals(rp.Name, project.Name, StringComparison.OrdinalIgnoreCase)).Version;
-                    var releaseUpdateVersion = packagesToUpdate.SingleOrDefault(p => string.Equals(p.Name, project.Name, StringComparison.OrdinalIgnoreCase))?.Version ??
-                        packageArtifacts.Single(p => string.Equals(p.PackageInfo.Id, project.Name, StringComparison.OrdinalIgnoreCase)).PackageInfo.Version.Version.ToString(3);
-
-                    if (!string.Equals(releasedVersion, releaseUpdateVersion, StringComparison.OrdinalIgnoreCase))
+                    if (shippingPackages.Any(package => string.Equals(project.Name, package, StringComparison.OrdinalIgnoreCase)))
                     {
-                        repoContainsUpdatedProjects = true;
-                        var packageElement = new XElement("UpdatedPackages");
-                        packageElement.Add(new XAttribute("Include", project.Name));
-                        packageElement.Add(new XAttribute("Version", releaseUpdateVersion));
-                        releaseBuildRoot.Add(packageElement);
+                        var releasedVersion = releasePackages.Single(rp => string.Equals(rp.Name, project.Name, StringComparison.OrdinalIgnoreCase)).Version;
+                        var releaseUpdateVersion = packagesToUpdate.SingleOrDefault(p => string.Equals(p.Name, project.Name, StringComparison.OrdinalIgnoreCase))?.Version ??
+                            buildArtifact.Single(p => string.Equals(p.PackageInfo.Id, project.Name, StringComparison.OrdinalIgnoreCase)).PackageInfo.Version.Version.ToString(3);
+
+                        if (!string.Equals(releasedVersion, releaseUpdateVersion, StringComparison.OrdinalIgnoreCase))
+                        {
+                            repoContainsUpdatedProjects = true;
+                            var packageElement = new XElement("UpdatedPackages");
+                            packageElement.Add(new XAttribute("Include", project.Name));
+                            packageElement.Add(new XAttribute("Version", releaseUpdateVersion));
+                            releaseBuildRoot.Add(packageElement);
+                        }
                     }
                 }
 

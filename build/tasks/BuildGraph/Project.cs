@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using RepoTasks.ProjectModel;
 
 namespace RepoTools.BuildGraph
 {
@@ -23,6 +24,6 @@ namespace RepoTools.BuildGraph
 
         public Repository Repository { get; set; }
 
-        public ISet<string> PackageReferences { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public ISet<PackageReferenceInfo> PackageReferences { get; set; } = new HashSet<PackageReferenceInfo>(new PackageReferenceInfoComparer());
     }
 }

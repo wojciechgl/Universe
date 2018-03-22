@@ -236,7 +236,7 @@
     <ExternalDependency Include="Serilog.Sinks.File" Version="3.2.0" Source="$(DefaultNuGetFeed)" />
     <ExternalDependency Include="SQLitePCLRaw.bundle_green" Version="1.1.7" Source="$(DefaultNuGetFeed)"/>
     <ExternalDependency Include="SQLitePCLRaw.core" Version="1.1.7" Source="$(DefaultNuGetFeed)" />
-    <ExternalDependency Include="StackExchange.Redis.StrongName" Version="1.2.4" Source="$(DefaultNuGetFeed)" />
+    <ExternalDependency Include="StackExchange.Redis.StrongName" Version="1.2.5" Source="$(DefaultNuGetFeed)" />
     <ExternalDependency Include="StreamJsonRpc" Version="1.1.92" Source="$(DefaultNuGetFeed)" Private="true"/>
     <ExternalDependency Include="StyleCop.Analyzers" Version="1.0.0" Source="$(DefaultNuGetFeed)" Private="true"/>
     <ExternalDependency Include="System.Buffers" Version="4.4.0" Source="$(DefaultNuGetFeed)" />

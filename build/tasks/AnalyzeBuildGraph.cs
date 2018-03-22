@@ -201,10 +201,10 @@ namespace RepoTasks
                         projectGroup.Add(new Project(proj.PackageId)
                             {
                                 Repository = repo,
-                                PackageReferences = new HashSet<string>(proj
+                                PackageReferences = new HashSet<PackageReferenceInfo>(proj
                                     .Frameworks
-                                    .SelectMany(f => f.Dependencies.Keys)
-                                    .Concat(proj.Tools.Select(t => t.Id)), StringComparer.OrdinalIgnoreCase),
+                                    .SelectMany(f => f.Dependencies.Values)
+                                    .Concat(proj.Tools.Select(t => new PackageReferenceInfo(t.Id, t.Version, false, null))), new PackageReferenceInfoComparer())
                             });
                     }
 

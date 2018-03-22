@@ -10,10 +10,16 @@ using RepoTasks.ProjectModel;
 
 namespace RepoTasks.Utilities
 {
-    internal class ReleaseUpdate
+    internal interface IPackage
     {
-        public static ReleaseUpdate Parse(ITaskItem item)
-            => new ReleaseUpdate
+        string Name { get; set; }
+        string Version { get; set; }
+    }
+
+    internal class Package : IPackage
+    {
+        public static Package Parse(ITaskItem item)
+            => new Package
             {
                 Name = item.GetMetadata("Identity"),
                 Version = item.GetMetadata("Version"),
@@ -25,14 +31,14 @@ namespace RepoTasks.Utilities
         public override int GetHashCode() => (Name + Version).GetHashCode();
     }
 
-    internal class ReleaseUpdateComparer : IEqualityComparer<ReleaseUpdate>
+    internal class IPackageComparer : IEqualityComparer<IPackage>
     {
-        public bool Equals(ReleaseUpdate x, ReleaseUpdate y)
+        public bool Equals(IPackage x, IPackage y)
         {
             return string.Equals(x.Name, y.Name, StringComparison.OrdinalIgnoreCase) && string.Equals(x.Version, y.Version, StringComparison.OrdinalIgnoreCase);
         }
 
-        public int GetHashCode(ReleaseUpdate obj)
+        public int GetHashCode(IPackage obj)
         {
             return (obj.Name + obj.Version).GetHashCode();
         }
@@ -45,11 +51,31 @@ namespace RepoTasks.Utilities
             {
                 Name = item.GetMetadata("Identity"),
                 Version = item.GetMetadata("Version"),
-                Dependencies = new HashSet<string>(item.GetMetadata("Dependency").Split(';')),
+                Dependencies = new HashSet<ReleasePackageDependency>(
+                    item.GetMetadata("Dependency").Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(d =>
+                        new ReleasePackageDependency(d))),
             };
 
         public string Name { get; private set; }
         public string Version { get; private set; }
-        public HashSet<string> Dependencies { get; private set; }
+        public HashSet<ReleasePackageDependency> Dependencies { get; private set; }
+    }
+
+    internal class ReleasePackageDependency : IPackage
+    {
+        internal ReleasePackageDependency(string dependencyString)
+        {
+            var dependencyComponents = dependencyString.Split(':');
+
+            if (dependencyComponents.Length != 2)
+            {
+                throw new ArgumentException($"Expected the dependency {dependencyString} to be parsed in the format <DependencyName>:<DependencyVersion>");
+            }
+
+            Name = dependencyComponents[0];
+            Version = dependencyComponents[1];
+        }
+        public string Name { get; set; }
+        public string Version { get; set; }
     }
 }
