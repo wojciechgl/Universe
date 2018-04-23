@@ -1,8 +1,8 @@
 
 [CmdletBinding()]
 param(
-    [string]$GitHubEmail,
-    [string]$GitHubUsername,
+    [string]$GithubEmail,
+    [string]$GithubUsername,
     [string]$GithubToken
 )
 
@@ -28,7 +28,7 @@ Invoke-WebRequest -OutFile $localCoreSetupVersions -Uri $coreSetupVersions
 $msNetCoreAppPackageVersion = $null
 $msNetCoreAppPackageName = "Microsoft.NETCore.App"
 
-Set-GitHubInfo $GithubToken $GitHubUsername $GitHubEmail
+Set-GitHubInfo $GithubToken $GithubUsername $GithubEmail
 
 $variables = @{}
 
