@@ -3,7 +3,7 @@
 param(
     [string]$GitHubEmail,
     [string]$GitHubUsername,
-    [string]$GitHubPassword
+    [string]$GithubToken
 )
 
 $ErrorActionPreference = 'Stop'
@@ -28,7 +28,7 @@ Invoke-WebRequest -OutFile $localCoreSetupVersions -Uri $coreSetupVersions
 $msNetCoreAppPackageVersion = $null
 $msNetCoreAppPackageName = "Microsoft.NETCore.App"
 
-Set-GitHubInfo $GitHubPassword $GitHubUsername $GitHubEmail
+Set-GitHubInfo $GithubToken $GitHubUsername $GitHubEmail
 
 $variables = @{}
 
@@ -114,7 +114,7 @@ try {
     $body = CommitUpdatedVersions $updatedVars $dependencies $depsPath
 
     if ($body) {
-        CreatePR $baseBranch $destinationBranch $body $GitHubPassword
+        CreatePR $baseBranch $destinationBranch $body $GithubToken
     }
 }
 finally {
