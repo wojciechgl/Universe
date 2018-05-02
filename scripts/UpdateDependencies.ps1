@@ -58,13 +58,7 @@ foreach ($package in $remoteDeps.SelectNodes('//Package')) {
 $tools = @{}
 
 $cliNode = $remoteDeps.SelectSingleNode("//Build[@Name='cli']")
-$cliVersion = $cliNode.ProductVersion
-
-$globalJsonFile = "$PSScriptRoot/../global.json"
-$globalObj = Get-Content $globalJsonFile -Raw | ConvertFrom-Json
-$tools["DotNetCliVersion"] = @($cliVersion)
-$globalObj.sdk.version = $cliVersion
-$globalObj | ConvertTo-Json | Out-File $globalJsonFile
+$cliVersion = $cliNode.BuildId
 
 $currentBranch = Invoke-Block { & git rev-parse --abbrev-ref HEAD }
 
@@ -73,6 +67,12 @@ Invoke-Block { & git checkout -tb $destinationBranch "origin/$GithubUpstreamBran
 
 $toolsPath = Resolve-Path "$PSScriptRoot/../build/tools.props"
 try {
+    $globalJsonFile = "$PSScriptRoot/../global.json"
+    $globalObj = Get-Content $globalJsonFile -Raw | ConvertFrom-Json
+    $tools["DotNetCliVersion"] = @($cliVersion)
+    $globalObj.sdk.version = $cliVersion
+    $globalObj | ConvertTo-Json | Out-File $globalJsonFile
+
     $updatedVars = UpdateVersions $variables $dependencies $depsPath
     $updatedTools = UpdateVersions $tools $existingTools $toolsPath
 
