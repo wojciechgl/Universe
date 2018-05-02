@@ -55,6 +55,8 @@ foreach ($package in $remoteDeps.SelectNodes('//Package')) {
     }
 }
 
+$globalObj = Get-Content "$PSScriptRoot/../global.json" -Raw | ConvertFrom-Json
+$variables["SdkPackageVersion"] = @($globalObj.sdk.version)
 
 $currentBranch = Invoke-Block { & git rev-parse --abbrev-ref HEAD }
 

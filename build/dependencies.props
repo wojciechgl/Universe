@@ -31,6 +31,7 @@
     <SystemThreadingTasksDataflowPackageVersion>4.9.0-preview3-26423-04</SystemThreadingTasksDataflowPackageVersion>
     <SystemThreadingTasksExtensionsPackageVersion>4.5.0-preview3-26423-04</SystemThreadingTasksExtensionsPackageVersion>
     <SystemValueTuplePackageVersion>4.5.0-preview3-26423-04</SystemValueTuplePackageVersion>
+    <SdkPackageVersion>2.1.300-preview2-008530</SdkPackageVersion>
   </PropertyGroup>
 
   <Import Project="$(DotNetPackageVersionPropsPath)" Condition="'$(DotNetPackageVersionPropsPath)' != ''" />
