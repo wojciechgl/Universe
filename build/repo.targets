@@ -107,7 +107,12 @@
       Packages="@(_LineupPackages)"
       OutputPath="$(GeneratedPackageVersionPropsPath)" />
 
+    <GeneratePackageVersionPropsFile
+      Packages="@(_LineupTools)"
+      OutputPath="$(GeneratedToolingPropsPath)" />
+
     <Copy SourceFiles="$(GeneratedPackageVersionPropsPath)" DestinationFolder="$(ArtifactsDir)" />
+    <Copy SourceFiles="$(GeneratedToolingPropsPath)" DestinationFolder="$(ArtifactsDir)" />
 
     <RepoTasks.GenerateRestoreSourcesPropsFile
       Sources="@(_RestoreSources)"
@@ -116,7 +121,7 @@
     <PackNuSpec NuSpecPath="$(MSBuildThisFileDirectory)lineups\Internal.AspNetCore.Universe.Lineup.nuspec"
                 DestinationFolder="$(BuildDir)"
                 Overwrite="true"
-                Properties="version=$(PackageVersion);dependenciesPropsFile=$(GeneratedPackageVersionPropsPath)">
+                Properties="version=$(PackageVersion);dependenciesPropsFile=$(GeneratedPackageVersionPropsPath);toolingPropsFile=$(GeneratedToolingPropsPath)">
       <Output TaskParameter="Packages" ItemName="LineupPackage" />
     </PackNuSpec>
   </Target>

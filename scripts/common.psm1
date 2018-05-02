@@ -168,6 +168,7 @@ function CommitUpdatedVersions(
     $count = $updatedVars.Count
     if ($count -gt 0) {
         & git add build\dependencies.props
+        & git add build\tools.props
 
         $subject = "Updating external dependencies"
 

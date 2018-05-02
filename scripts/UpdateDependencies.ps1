@@ -55,16 +55,26 @@ foreach ($package in $remoteDeps.SelectNodes('//Package')) {
     }
 }
 
-$globalObj = Get-Content "$PSScriptRoot/../global.json" -Raw | ConvertFrom-Json
-$variables["SdkPackageVersion"] = @($globalObj.sdk.version)
+$tools = @{}
+
+$cliNode = $remoteDeps.SelectSingleNode("//Build[@Name='cli']")
+$cliVersion = $cliNode.ProductVersion
+
+$globalJsonFile = "$PSScriptRoot/../global.json"
+$globalObj = Get-Content $globalJsonFile -Raw | ConvertFrom-Json
+$tools["DotNetCliVersion"] = @($cliVersion)
+$globalObj.sdk.version = $cliVersion
+$globalObj | ConvertTo-Json | Out-File $globalJsonFile
 
 $currentBranch = Invoke-Block { & git rev-parse --abbrev-ref HEAD }
 
 $destinationBranch = "dotnetbot/UpdateDeps"
 Invoke-Block { & git checkout -tb $destinationBranch "origin/$GithubUpstreamBranch" }
 
+$toolsPath = Resolve-Path "$PSScriptRoot/../build/tools.props"
 try {
     $updatedVars = UpdateVersions $variables $dependencies $depsPath
+    $updatedTools = UpdateVersions $tools $existingTools $toolsPath
 
     if (-not $NoCommit) {
         $body = CommitUpdatedVersions $updatedVars $dependencies $depsPath

@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup Label="Tools Versions: Auto" Condtion=" '$(DotNetToolsVersionPropsPath)' == ''">
+    <DotNetCliVersion>2.1.300-preview2-008530</DotNetCliVersion>
+  </PropertyGroup>
+</Project>
