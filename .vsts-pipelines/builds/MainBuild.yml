@@ -1,4 +1,3 @@
-name: MainBuild $(Build.BuildNumber)
 phases:
 - template: ../templates/phases/default.yml
   parameters:
