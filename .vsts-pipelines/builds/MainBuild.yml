@@ -3,7 +3,6 @@ phases:
   parameters:
     name: 'UniverseCoherence'
     buildArgs: >
-       -CI
        -PackageVersionPropsUrl '$(_PackageVersionPropsUrl)'
        -AssetRootUrl '$(_AssetRootUrl)'
        -AccessTokenSuffix '$(_AssetRootAccessTokenSuffix)'
