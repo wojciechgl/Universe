@@ -1,7 +1,7 @@
 phases:
 - template: ../templates/phases/default.yml
   parameters:
-    name: UniverseCoherence
+    name: 'UniverseCoherence'
     buildArgs: >
       --PackageVersionPropsUrl '$(parameters._PackageVersionPropsUrl)'
       --AssetRootUrl '$(parameters._AssetRootUrl)'
