@@ -9,7 +9,7 @@ phases:
       -RestoreSources '$(parameters._RestoreSource)'
       -ProductBuildId '$(parameters._ProductBuildId)'
       /p:SignType=$(parameters._SignType)
-      /p:BuildBranch=$(Build.SourceBranchName)"
+      /p:BuildBranch=$(Build.SourceBranchName)
       /p:SkipTests=true
       /p:Configuration=$(BuildConfiguration)
       /p:BuildNumber=$(Build.BuildNumber)
