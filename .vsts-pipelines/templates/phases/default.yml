@@ -28,13 +28,13 @@ phases:
     ${{ if and(eq(parameters.buildScript, ''), ne(parameters.agentOs, 'Windows')) }}:
       BuildScript: './build.ps1'
     ${{ if ne(parameters.buildScript, '') }}:
-      BuildScript: ${{ parameters.buildScript }}
+      BuildScript: ${{ parameters.buildScript }} ${{ parameters.buildArgs }}
   steps:
     - template: ../steps/script.yml
       parameters:
         agentOs: ${{ parameters.agentOs }}
-        buildScript: $(BuildScript)
         buildArgs: ${{ parameters.buildArgs }}
         beforeBuild: ${{ parameters.beforeBuild }}
+        buildScript: $(BuildScript)
         afterBuild: ${{ parameters.afterBuild }}
         hasTests: ${{ parameters.hasTests }}
