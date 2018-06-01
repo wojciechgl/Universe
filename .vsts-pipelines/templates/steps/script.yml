@@ -15,7 +15,7 @@ steps:
   - ${{ if eq(parameters.agentOs, 'Windows') }}:
     - task: Powershell@1
       displayName: ${{ parameters.buildScript }}
-      input:
+      inputs:
         scriptType: filePath
         scriptName: ${{ parameters.buildScript }}
         arugments: ${{ parameters.buildArgs }}
