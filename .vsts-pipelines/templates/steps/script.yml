@@ -3,14 +3,12 @@
 parameters:
   agentOs: 'Windows'
   buildScript: ''
-  buildArgs: []
+  buildArgs: ''
   beforeBuild: []
   afterBuild: []
   hasTests: false
 
 steps:
-  variables:
-    BuildScriptArgs:
   - checkout: self
     clean: true
   - ${{ parameters.beforeBuild }}

@@ -23,14 +23,18 @@ phases:
     ${{ if eq(parameters.agentOs, 'Windows') }}:
       name: Hosted VS2017
   variables:
-    ${{ if eq(parameters.buildScript, '') }}:
+    ${{ if eq(parameters.buildScript, ''):
       ${{ if eq(parameters.agentOs, 'Windows') }}:
         BuildScript: './build.cmd'
       ${{ if ne(parameters.agentOs, 'Windows') }}:
         BuildScript: './build.ps1'
-    ${{ if ne(parameters.buildScript, '') }}:
+    ${{ if ne(parameters.buildScript, ''):
       BuildScript: ${{ parameters.buildScript }}
     BuildScriptArgs: ${{ parameters.buildArgs }}
     HasScripts: ${{ parameters.hasScripts }}
   steps:
-
+    - template: ../steps/script.yml
+      parameters:
+        agentOs: ${{ parameters.agentOs }}
+        buildScript: ${{ variables.BuildScript }}
+        buildArgs: ${{ parameters.buildArgs }}
