@@ -13,7 +13,7 @@ steps:
     clean: true
   - ${{ parameters.beforeBuild }}
   - script: $(parameters.buildScript) $(parameters.buildArgs)
-    displayName: Run ${{ parameters.buildScript }}
+    displayName: Run $(parameters.buildScript)
     ${{ if eq(parameters.hasTests, true) }}:
       - task: PublishTestResults@2
         displayName: Publish test results
