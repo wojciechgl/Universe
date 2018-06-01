@@ -20,7 +20,7 @@ steps:
         scriptName: ${{ parameters.buildScript }}
         arugments: ${{ parameters.buildArgs }}
   - ${{ if ne(parameters.agentOs, 'Windows') }}:
-    - task: Bash@1
+    - task: Bash@3
       inputs:
         scriptType: filePath
         filePath: ${{ parameters.buildScript }}
