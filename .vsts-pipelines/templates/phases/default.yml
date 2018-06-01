@@ -35,6 +35,7 @@ phases:
         agentOs: ${{ parameters.agentOs }}
         buildArgs: ${{ parameters.buildArgs }}
         beforeBuild: ${{ parameters.beforeBuild }}
-        buildScript: $(BuildScript)
+        buildScript:
+        - $(BuildScript)
         afterBuild: ${{ parameters.afterBuild }}
         hasTests: ${{ parameters.hasTests }}

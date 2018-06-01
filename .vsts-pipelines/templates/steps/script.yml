@@ -2,8 +2,8 @@
 
 parameters:
   agentOs: 'Windows'
-  buildScript: []
   beforeBuild: []
+  buildScript: []
   afterBuild: []
   hasTests: false
 
