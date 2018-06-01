@@ -16,7 +16,9 @@ steps:
     - task: Powershell@1
       displayName: ${{ parameters.buildScript }}
       env:
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
         DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
+        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       inputs:
         scriptType: filePath
         scriptName: ${{ parameters.buildScript }}
@@ -25,7 +27,9 @@ steps:
     - task: Bash@3
       displayName: ${{ parameters.buildScript }}
       env:
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
         DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
+        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       inputs:
         scriptType: filePath
         filePath: ${{ parameters.buildScript }}
