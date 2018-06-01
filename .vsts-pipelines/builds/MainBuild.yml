@@ -1,18 +1,19 @@
+name: MainBuild
 phases:
 - template: ../templates/phases/default.yml
   parameters:
     name: 'UniverseCoherence'
     buildArgs: >
        -CI
-       -PackageVersionPropsUrl '$(parameters._PackageVersionPropsUrl)'
-       -AssetRootUrl '$(parameters._AssetRootUrl)'
-       -AccessTokenSuffix '$(parameters._AssetRootAccessTokenSuffix)'
-       -RestoreSources '$(parameters._RestoreSource)'
-       -ProductBuildId '$(parameters._ProductBuildId)'
-       /p:SignType=$(parameters._SignType)
+       -PackageVersionPropsUrl '$(_PackageVersionPropsUrl)'
+       -AssetRootUrl '$(_AssetRootUrl)'
+       -AccessTokenSuffix '$(_AssetRootAccessTokenSuffix)'
+       -RestoreSources '$(_RestoreSource)'
+       -ProductBuildId '$(_ProductBuildId)'
+       /p:SignType=$(_SignType)
        /p:BuildBranch=$(Build.SourceBranchName)
        /p:SkipTests=true
-       /p:Configuration=$(BuildConfiguration)
+       /p:Configuration=Release
        /p:BuildNumber=$(Build.BuildNumber)
 
 # - template: ../templates/phases/default.yml
