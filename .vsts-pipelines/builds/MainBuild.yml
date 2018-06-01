@@ -2,74 +2,75 @@ phases:
 - template: ../templates/phases/default.yml
   parameters:
     name: 'UniverseCoherence'
+
     buildArgs: "-PackageVersionPropsUrl '$(parameters._PackageVersionPropsUrl)' -AssetRootUrl '$(parameters._AssetRootUrl)' -AccessTokenSuffix '$(parameters._AssetRootAccessTokenSuffix)' -RestoreSources '$(parameters._RestoreSource)' -ProductBuildId '$(parameters._ProductBuildId)' /p:SignType=$(parameters._SignType) /p:BuildBranch=$(Build.SourceBranchName) /p:SkipTests=true /p:Configuration=$(BuildConfiguration) /p:BuildNumber=$(Build.BuildNumber)"
 
-- template: ../templates/phases/default.yml
-  parameters:
-    name: SharedFxWin64
-    dependsOn: UniverseCoherence
-    buildArgs: >
-      $(PipebuildArgs)
-      /t:Prepare
-      /t:Restore
-      /t:GeneratePropsFiles
-      /t:BuildSharedFx
-      /p:SharedFxRID=win-x64
-      /p:BuildNumber=$(Build.BuildNumber)
+# - template: ../templates/phases/default.yml
+#   parameters:
+#     name: SharedFxWin64
+#     dependsOn: UniverseCoherence
+#     buildArgs: >
+#       $(PipebuildArgs)
+#       /t:Prepare
+#       /t:Restore
+#       /t:GeneratePropsFiles
+#       /t:BuildSharedFx
+#       /p:SharedFxRID=win-x64
+#       /p:BuildNumber=$(Build.BuildNumber)
 
-- template: ../templates/phases/default.yml
-  parameters:
-    name: SharedFxOSx
-    agentOs: macOS
-    dependsOn: UniverseCoherence
-    buildArgs: >
-      $(PipebuildArgs)
-      /t:Prepare
-      /t:Restore
-      /t:GeneratePropsFiles
-      /t:BuildSharedFx
-      /p:SharedFxRID=osx-x64
-      /p:BuildNumber=$(Build.BuildNumber)
+# - template: ../templates/phases/default.yml
+#   parameters:
+#     name: SharedFxOSx
+#     agentOs: macOS
+#     dependsOn: UniverseCoherence
+#     buildArgs: >
+#       $(PipebuildArgs)
+#       /t:Prepare
+#       /t:Restore
+#       /t:GeneratePropsFiles
+#       /t:BuildSharedFx
+#       /p:SharedFxRID=osx-x64
+#       /p:BuildNumber=$(Build.BuildNumber)
 
-- template: ../templates/phases/default.yml
-  parameters:
-    name: SharedFxLinux
-    agentOs: Linux
-    dependsOn: UniverseCoherence
-    buildArgs: >
-      $(PipebuildArgs)
-      /t:Prepare
-      /t:Restore
-      /t:GeneratePropsFiles
-      /t:BuildSharedFx
-      /p:BuildNumber=$(Build.BuildNumber)
+# - template: ../templates/phases/default.yml
+#   parameters:
+#     name: SharedFxLinux
+#     agentOs: Linux
+#     dependsOn: UniverseCoherence
+#     buildArgs: >
+#       $(PipebuildArgs)
+#       /t:Prepare
+#       /t:Restore
+#       /t:GeneratePropsFiles
+#       /t:BuildSharedFx
+#       /p:BuildNumber=$(Build.BuildNumber)
 
-- template: ../templates/phases/default.yml
-  parameters:
-    name: SharedFxWin86
-    dependsOn: UniverseCoherence
-    buildArgs: >
-      $(PipebuildArgs)
-      /t:Prepare
-      /t:Restore
-      /t:GeneratePropsFiles
-      /t:BuildSharedFx
-      /p:SharedFxRID=win-x86
-      /p:BuildNumber=$(Build.BuildNumber)
+# - template: ../templates/phases/default.yml
+#   parameters:
+#     name: SharedFxWin86
+#     dependsOn: UniverseCoherence
+#     buildArgs: >
+#       $(PipebuildArgs)
+#       /t:Prepare
+#       /t:Restore
+#       /t:GeneratePropsFiles
+#       /t:BuildSharedFx
+#       /p:SharedFxRID=win-x86
+#       /p:BuildNumber=$(Build.BuildNumber)
 
-- template: ../templates/phases/default.yml
-  parameters:
-    name: SharedFxMusl
-    dependsOn: UniverseCoherence
-    agentOs: Linux
-    buildArgs: >
-      $(PipebuildArgs)
-      /t:Prepare
-      /t:Restore
-      /t:GeneratePropsFiles
-      /t:BuildSharedFx
-      /p:SharedFxRID=linux-musl-x64
-      /p:BuildNumber=$(Build.BuildNumber)
+# - template: ../templates/phases/default.yml
+#   parameters:
+#     name: SharedFxMusl
+#     dependsOn: UniverseCoherence
+#     agentOs: Linux
+#     buildArgs: >
+#       $(PipebuildArgs)
+#       /t:Prepare
+#       /t:Restore
+#       /t:GeneratePropsFiles
+#       /t:BuildSharedFx
+#       /p:SharedFxRID=linux-musl-x64
+#       /p:BuildNumber=$(Build.BuildNumber)
 
 # - template: ../templates/phases/default.yml
 #   parameters:

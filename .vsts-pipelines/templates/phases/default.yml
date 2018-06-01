@@ -5,7 +5,7 @@ parameters:
   name: 'DO NOT LEAVE DEFAULT'
   agentOs: 'Windows'
   dependsOn: ''
-  buildScript: ''
+  buildScript: 'build.cmd'
   buildArgs: ''
   beforeBuild: []
   afterBuild: []
