@@ -3,14 +3,14 @@
 parameters:
   agentOs: 'Windows'
   beforeBuild: []
-  buildScript: []
+  buildScript: ''
   afterBuild: []
   hasTests: false
 
 steps:
   - checkout: self
     clean: true
-  - ${{ parameters.beforeBuild }}
+#  - ${{ parameters.beforeBuild }}
   - ${{ parameters.buildScript }}
   - ${{ if eq(parameters.hasTests, true) }}:
     - task: PublishTestResults@2
