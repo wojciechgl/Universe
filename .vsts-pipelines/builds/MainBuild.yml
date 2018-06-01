@@ -1,7 +1,7 @@
 
 phases:
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: UniverseCoherence
     buildArgs:
@@ -10,7 +10,7 @@ phases:
       - /p:Configuration=$(BuildConfiguration)
       - /p:BuildNumber=$(Build.BuildNumber)
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: SharedFxWin64
     dependsOn: UniverseCoherence
@@ -23,7 +23,7 @@ phases:
     - /p:SharedFxRID=win-x64
     - /p:BuildNumber=$(Build.BuildNumber)
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: SharedFxOSx
     agentOs: macOS
@@ -37,7 +37,7 @@ phases:
     - /p:SharedFxRID=osx-x64
     - /p:BuildNumber=$(Build.BuildNumber)
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: SharedFxLinux
     agentOs: Linux
@@ -50,7 +50,7 @@ phases:
     - /t:BuildSharedFx
     - /p:BuildNumber=$(Build.BuildNumber)
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: SharedFxWin86
     dependsOn: UniverseCoherence
@@ -63,7 +63,7 @@ phases:
     - /p:SharedFxRID=win-x86
     - /p:BuildNumber=$(Build.BuildNumber)
 
-- template: templates/phases/default.yml
+- template: ../templates/phases/default.yml
   parameters:
     name: SharedFxMusl
     dependsOn: UniverseCoherence
@@ -77,7 +77,7 @@ phases:
     - /p:SharedFxRID=linux-musl-x64
     - /p:BuildNumber=$(Build.BuildNumber)
 
-# - template: templates/phases/default.yml
+# - template: ../templates/phases/default.yml
 #   parameters:
 #     name: CoherenceSigned
 #     dependsOn:
@@ -87,13 +87,13 @@ phases:
 #     - SharedFxWin86
 #     - SharedFxMusl
 
-# - template: templates/phases/default.yml
+# - template: ../templates/phases/default.yml
 #   parameters:
 #     name: SetupSharedFramework
 #     agentOs: Linux
 #     dependsOn: CoherenceSigned
 
-# - template: templates/phases/default.yml
+# - template: ../templates/phases/default.yml
 #   parameters:
 #     name: PachageArchive
 #     dependsOn: CoherenceSigned
