@@ -1,8 +1,10 @@
+
 phases:
+
+- template: templates/phases/default.yml
   variables:
     PipeBuildArgs: "-PackageVersionPropsUrl '$(parameters._PackageVersionPropsUrl)' -AssetRootUrl '$(parameters._AssetRootUrl)' -AccessTokenSuffix '$(parameters._AssetRootAccessTokenSuffix)' -RestoreSources '$(parameters._RestoreSource)' -ProductBuildId '$(parameters._ProductBuildId)' /p:SignType=$(parameters._SignType) /p:BuildBranch=$(Build.SourceBranchName)"
 
-- template: templates/phases/default.yml
   parameters:
     name: UniverseCoherence
     buildArgs:
