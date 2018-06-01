@@ -12,7 +12,7 @@ steps:
   - checkout: self
     clean: true
   - ${{ parameters.beforeBuild }}
-  - ${{ if eq(parameters.agentOs, 'Windows') }}:
+  - ${{ if endsWith(parameters.buildScript, '.ps1') }}:
     - task: Powershell@1
       displayName: ${{ parameters.buildScript }}
       env:
@@ -22,8 +22,8 @@ steps:
       inputs:
         scriptType: filePath
         scriptName: ${{ parameters.buildScript }}
-        arugments: ${{ parameters.buildArgs }}
-  - ${{ if ne(parameters.agentOs, 'Windows') }}:
+        arguments: ${{ parameters.buildArgs }}
+  - ${{ if endsWith(parameters.buildScript, '.sh') }}:
     - task: Bash@3
       displayName: ${{ parameters.buildScript }}
       env:
@@ -33,7 +33,18 @@ steps:
       inputs:
         scriptType: filePath
         filePath: ${{ parameters.buildScript }}
-        arugments: ${{ parameters.buildArgs }}
+        arguments: ${{ parameters.buildArgs }}
+  - ${{ if endsWith(parameters.buildScript, '.cmd') }}:
+    - task: BatchScript@1
+      displayName: ${{ parameters.buildScript }}
+      env:
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
+        DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
+        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+      inputs:
+        scriptType: filePath
+        filePath: ${{ parameters.buildScript }}
+        arguments: ${{ parameters.buildArgs }}
   - ${{ if eq(parameters.hasTests, true) }}:
     - task: PublishTestResults@2
       displayName: Publish test results
