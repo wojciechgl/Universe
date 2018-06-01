@@ -15,12 +15,17 @@ steps:
   - ${{ if eq(parameters.agentOs, 'Windows') }}:
     - task: Powershell@1
       displayName: ${{ parameters.buildScript }}
+      env:
+        DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
       inputs:
         scriptType: filePath
         scriptName: ${{ parameters.buildScript }}
         arugments: ${{ parameters.buildArgs }}
   - ${{ if ne(parameters.agentOs, 'Windows') }}:
     - task: Bash@3
+      displayName: ${{ parameters.buildScript }}
+      env:
+        DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
       inputs:
         scriptType: filePath
         filePath: ${{ parameters.buildScript }}
