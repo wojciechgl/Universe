@@ -1,0 +1,26 @@
+# File: templates/steps/script.yml
+
+parameters:
+  agentOs: 'Windows'
+  buildScript: ''
+  buildArgs: []
+  beforeBuild: []
+  afterBuild: []
+  hasTests: false
+
+steps:
+  variables:
+    BuildScriptArgs:
+  - checkout: self
+    clean: true
+  - ${{ parameters.beforeBuild }}
+  - script: ${{ parameters.buildScript }} ${{ parameters.buildArgs }}
+    displayName: Run ${{ parameters.buildScript }}
+  - ${{ if eq(parameters.hasTests), true }}:
+    - task: PublishTestResults@2
+      displayName: Publish test results
+      condition: always()
+      inputs:
+        testRunner: vstest
+        testResultsFiles: 'artifacts/logs/**/*.trx'
+  - ${{ parameters.afterBuild }}

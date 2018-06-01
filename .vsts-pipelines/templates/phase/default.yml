@@ -1,0 +1,36 @@
+# default.yml
+# Description: Defines a build phase for invoking scripts
+
+parameters:
+  name: 'DON'T LEAVE DEFAULT'
+  agentOs: 'Windows'
+  dependsOn: ''
+  buildScript: ''
+  buildArgs: []
+  beforeBuild: []
+  afterBuild: []
+  hasTests: false
+
+phases:
+- phase: ${{ parameters.name }}
+  ${{ if ne(parameters.dependsOn, '') }}:
+    dependsOn: ${{ parameters.dependsOn }}
+  queue:
+    ${{ if eq(parameters.agentOs, 'macOS') }}:
+      name: Hosted macOS Preview
+    ${{ if eq(parameters.agentOs, 'Linux') }}:
+      name: Hosted Linux Preview
+    ${{ if eq(parameters.agentOs, 'Windows') }}:
+      name: Hosted VS2017
+  variables:
+    ${{ if eq(parameters.buildScript, ''):
+      ${{ if eq(parameters.agentOs, 'Windows') }}:
+        BuildScript: './build.cmd'
+      ${{ if ne(parameters.agentOs, 'Windows') }}:
+        BuildScript: './build.ps1'
+    ${{ if ne(parameters.buildScript, ''):
+      BuildScript: ${{ parameters.buildScript }}
+    BuildScriptArgs: ${{ parameters.buildArgs }}
+    HasScripts: ${{ parameters.hasScripts }}
+  steps:
+

@@ -1,0 +1,144 @@
+phases:
+- variables:
+  PipeBuildArgs: "-PackageVersionPropsUrl '$(parameters._PackageVersionPropsUrl)' -AssetRootUrl '$(parameters._AssetRootUrl)' -AccessTokenSuffix '$(parameters._AssetRootAccessTokenSuffix)' -RestoreSources '$(parameters._RestoreSource)' -ProductBuildId '$(parameters._ProductBuildId)' /p:SignType=$(parameters._SignType) /p:BuildBranch=$(Build.SourceBranchName)"
+
+- template: templates/phases/default.yml
+  parameters:
+    name: UniverseCoherence
+    buildArgs:
+    - $(PipeBuildArgs)
+    - /p:SkipTests=true
+    - /p:Configuration=$(BuildConfiguration)
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+- template: templates/phases/default.yml
+  parameters:
+    name: SharedFxWin64
+    dependsOn: UniverseCoherence
+    buildArgs:
+    - $(PipebuildArgs)
+    - /t:Prepare
+    - /t:Restore
+    - /t:GeneratePropsFiles
+    - /t:BuildSharedFx
+    - /p:SharedFxRID=win-x64
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+- template: templates/phases/default.yml
+  parameters:
+    name: SharedFxOSx
+    agentOs: macOS
+    dependsOn: UniverseCoherence
+    buildArgs:
+    - $(PipebuildArgs)
+    - /t:Prepare
+    - /t:Restore
+    - /t:GeneratePropsFiles
+    - /t:BuildSharedFx
+    - /p:SharedFxRID=osx-x64
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+- template: templates/phases/default.yml
+  parameters:
+    name: SharedFxLinux
+    agentOs: Linux
+    dependsOn: UniverseCoherence
+    buildArgs:
+    - $(PipebuildArgs)
+    - /t:Prepare
+    - /t:Restore
+    - /t:GeneratePropsFiles
+    - /t:BuildSharedFx
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+- template: templates/phases/default.yml
+  parameters:
+    name: SharedFxWin86
+    dependsOn: UniverseCoherence
+    buildArgs:
+    - $(PipebuildArgs)
+    - /t:Prepare
+    - /t:Restore
+    - /t:GeneratePropsFiles
+    - /t:BuildSharedFx
+    - /p:SharedFxRID=win-x86
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+- template: templates/phases/default.yml
+  parameters:
+    name: SharedFxMusl
+    dependsOn: UniverseCoherence
+    agentOs: Linux
+    buildArgs:
+    - $(PipebuildArgs)
+    - /t:Prepare
+    - /t:Restore
+    - /t:GeneratePropsFiles
+    - /t:BuildSharedFx
+    - /p:SharedFxRID=linux-musl-x64
+    - /p:BuildNumber=$(Build.BuildNumber)
+
+# - template: templates/phases/default.yml
+#   parameters:
+#     name: CoherenceSigned
+#     dependsOn:
+#     - SharedFxWin64
+#     - SharedFxOSx
+#     - SharedFxLinux
+#     - SharedFxWin86
+#     - SharedFxMusl
+
+# - template: templates/phases/default.yml
+#   parameters:
+#     name: SetupSharedFramework
+#     agentOs: Linux
+#     dependsOn: CoherenceSigned
+
+# - template: templates/phases/default.yml
+#   parameters:
+#     name: PachageArchive
+#     dependsOn: CoherenceSigned
+
+# template: templates/phases/default.yml
+#   parameters:
+#     name: SharedFxInstallers
+#     dependsOn: CoherenceSigned
+
+
+# - phase: WindowsHostingBundle
+#   dependsOn: SetupSharedFramework
+#   queue:
+#     name: ${{ queues.Win }}
+
+# - phase: SiteExtension
+#   dependsOn: PackageArchive
+#   queue:
+#     name: ${{ queues.Win }}
+
+# - phase: Publish
+#   dependsOn:
+#   - PackageArchive
+#   - SharedFxInstallers
+#   - WindowsHostingBundle
+#   queue:
+#     name: ${{ queues.Win }}
+
+# - phase: TestWindows
+#   dependsOn: UniverseCoherence
+#   queue:
+#     name: ${{ queues.Win }}
+
+# - phase: TestLinux
+#   dependsOn: UniverseCoherence
+#   queue:
+#     name: ${{ queues.Linux }}
+
+# - phase: TestMac
+#   dependsOn: UniverseCoherence
+#   queue:
+#     name: ${{ queues.Mac }}
+
+# - phase: SetupCrossgen
+#   dependsOn: CoherenceSigned
+#   queue:
+#     name: ${{ queues.Win }}
