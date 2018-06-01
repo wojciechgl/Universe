@@ -42,8 +42,7 @@ steps:
         DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       inputs:
-        scriptType: filePath
-        filePath: ${{ parameters.buildScript }}
+        filename: ${{ parameters.buildScript }}
         arguments: ${{ parameters.buildArgs }}
   - ${{ if eq(parameters.hasTests, true) }}:
     - task: PublishTestResults@2
