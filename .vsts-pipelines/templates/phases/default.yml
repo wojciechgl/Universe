@@ -36,7 +36,7 @@ phases:
     - template: ../steps/script.yml
       parameters:
         agentOs: ${{ parameters.agentOs }}
-        buildScript: ${{ variables.BuildScript }}
+        buildScript: $(BuildScript)
         buildArgs: ${{ parameters.buildArgs }}
         beforeBuild: ${{ parameters.beforeBuild }}
         afterBuild: ${{ parameters.afterBuild }}
