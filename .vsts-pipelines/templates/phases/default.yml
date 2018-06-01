@@ -22,19 +22,12 @@ phases:
       name: Hosted Linux Preview
     ${{ if eq(parameters.agentOs, 'Windows') }}:
       name: Hosted VS2017
-  variables:
-    ${{ if and(eq(parameters.buildScript, ''), eq(parameters.agentOs, 'Windows')) }}:
-      BuildScript: './build.cmd'
-    ${{ if and(eq(parameters.buildScript, ''), ne(parameters.agentOs, 'Windows')) }}:
-      BuildScript: './build.ps1'
-    ${{ if ne(parameters.buildScript, '') }}:
-      BuildScript: ${{ parameters.buildScript }}
   steps:
     - template: ../steps/script.yml
       parameters:
         agentOs: ${{ parameters.agentOs }}
         beforeBuild: ${{ parameters.beforeBuild }}
-        buildScript: variables['BuildScript']
+        buildScript: ${{ parameters.buildScript }}
         buildArgs: ${{ parameters.buildArgs }}
         afterBuild: ${{ parameters.afterBuild }}
         hasTests: ${{ parameters.hasTests }}

@@ -11,8 +11,20 @@ parameters:
 steps:
   - checkout: self
     clean: true
-#  - ${{ parameters.beforeBuild }}
-  - ${{ parameters.buildScript }}
+  - ${{ parameters.beforeBuild }}
+  - ${{ if eq(parameters.agentOs, 'Windows') }}:
+    - task: Powershell@1
+      displayName: ${{ parameters.buildScript }}
+      input:
+        scriptType: filePath
+        scriptName: ${{ parameters.buildScript }}
+        arugments: ${{ parameters.buildArgs }}
+  - ${{ if ne(parameters.agentOs, 'Windows') }}:
+    - task: Bash@1
+      inputs:
+        scriptType: filePath
+        filePath: ${{ parameters.buildScript }}
+        arugments: ${{ parameters.buildArgs }}
   - ${{ if eq(parameters.hasTests, true) }}:
     - task: PublishTestResults@2
       displayName: Publish test results
@@ -21,3 +33,12 @@ steps:
         testRunner: vstest
         testResultsFiles: 'artifacts/logs/**/*.trx'
   - ${{ parameters.afterBuild }}
+
+
+
+    # ${{ if and(eq(parameters.buildScript, ''), eq(parameters.agentOs, 'Windows')) }}:
+    #   BuildScript: './build.cmd'
+    # ${{ if and(eq(parameters.buildScript, ''), ne(parameters.agentOs, 'Windows')) }}:
+    #   BuildScript: './build.ps1'
+    # ${{ if ne(parameters.buildScript, '') }}:
+    #   BuildScript: ${{ parameters.buildScript }}
