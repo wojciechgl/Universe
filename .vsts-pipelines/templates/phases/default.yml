@@ -30,8 +30,6 @@ phases:
         BuildScript: './build.ps1'
     ${{ if ne(parameters.buildScript, ''):
       BuildScript: ${{ parameters.buildScript }}
-    BuildScriptArgs: ${{ parameters.buildArgs }}
-    HasScripts: ${{ parameters.hasScripts }}
   steps:
     - template: ../steps/script.yml
       parameters:
