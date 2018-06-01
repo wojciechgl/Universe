@@ -2,11 +2,11 @@
 # Description: Defines a build phase for invoking scripts
 
 parameters:
-  name: 'DON'T LEAVE DEFAULT'
+  name: 'DO NOT LEAVE DEFAULT'
   agentOs: 'Windows'
   dependsOn: ''
   buildScript: ''
-  buildArgs: []
+  buildArgs: ''
   beforeBuild: []
   afterBuild: []
   hasTests: false
