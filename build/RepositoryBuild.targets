@@ -88,6 +88,7 @@
       <RepositoryBuildArguments>$(RepositoryBuildArguments) /noconsolelogger '/l:RepoTasks.FlowLogger,$(MSBuildThisFileDirectory)tasks\bin\publish\RepoTasks.dll;Summary;FlowId=$(RepositoryToBuild)'</RepositoryBuildArguments>
       <RepositoryBuildArguments>$(RepositoryBuildArguments) '/p:DotNetAssetRootAccessTokenSuffix=$(DotNetAssetRootAccessTokenSuffix)'</RepositoryBuildArguments>
       <RepositoryBuildArguments>$(RepositoryBuildArguments) '/p:DotNetAssetRootUrl=$(DotNetAssetRootUrl)'</RepositoryBuildArguments>
+      <RepositoryBuildArguments>$(RepositoryBuildArguments) /p:KoreBuildVersion=$(KoreBuildVersion)</RepositoryBuildArguments>
 
       <SourceLockFile>$(RepositoryRoot)korebuild-lock.txt</SourceLockFile>
       <RepoLockFile>$(BuildRepositoryRoot)korebuild-lock.txt</RepoLockFile>
