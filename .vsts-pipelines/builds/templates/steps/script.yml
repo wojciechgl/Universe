@@ -1,0 +1,64 @@
+# File: templates/steps/script.yml
+
+parameters:
+  agentOs: 'Windows'
+  beforeBuild: []
+  buildScript: ''
+  buildArgs: ''
+  afterBuild: []
+  hasTests: false
+  envVars:
+    BuildNumber: $(Build.BuildNumber)
+    CI: true
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    DOTNET_HOME: '$(Build.SourcesDirectory)/.dotnet'
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+
+steps:
+  - checkout: self
+    clean: true
+  - ${{ parameters.beforeBuild }}
+  - ${{ if endsWith(parameters.buildScript, '.ps1') }}:
+    - task: Powershell@1
+      displayName: ${{ parameters.buildScript }}
+      env:
+        ${{ parameters.envVars }}
+      inputs:
+        scriptType: filePath
+        scriptName: ${{ parameters.buildScript }}
+        arguments: ${{ parameters.buildArgs }}
+  - ${{ if endsWith(parameters.buildScript, '.sh') }}:
+    - task: Bash@3
+      displayName: ${{ parameters.buildScript }}
+      env:
+        ${{ parameters.envVars }}
+      inputs:
+        scriptType: filePath
+        filePath: ${{ parameters.buildScript }}
+        arguments: ${{ parameters.buildArgs }}
+  - ${{ if endsWith(parameters.buildScript, '.cmd') }}:
+    - task: BatchScript@1
+      displayName: ${{ parameters.buildScript }}
+      env:
+        ${{ parameters.envVars }}
+      inputs:
+        filename: ${{ parameters.buildScript }}
+        arguments: ${{ parameters.buildArgs }}
+  - ${{ if eq(parameters.hasTests, true) }}:
+    - task: PublishTestResults@2
+      displayName: Publish test results
+      condition: always()
+      inputs:
+        testRunner: vstest
+        testResultsFiles: 'artifacts/logs/**/*.trx'
+  - ${{ parameters.afterBuild }}
+
+
+
+    # ${{ if and(eq(parameters.buildScript, ''), eq(parameters.agentOs, 'Windows')) }}:
+    #   BuildScript: './build.cmd'
+    # ${{ if and(eq(parameters.buildScript, ''), ne(parameters.agentOs, 'Windows')) }}:
+    #   BuildScript: './build.ps1'
+    # ${{ if ne(parameters.buildScript, '') }}:
+    #   BuildScript: ${{ parameters.buildScript }}
